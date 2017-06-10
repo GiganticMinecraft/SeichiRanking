@@ -1,0 +1,25 @@
+.footer {
+    /*position: absolute;*/
+    bottom: 0;
+    width: 100%;
+    /* Set the fixed height of the footer here */
+    height: 40px;
+    background-color: #f5f5f5;
+    text-align: center;
+}
+/*body > .container {*/
+    /*padding: 60px 15px 0;*/
+/*}*/
+.container .footer-link {
+    margin: 10px 0;
+}
+
+.rank {
+    margin:20px;
+}
+
+.fixing-base .fixing-box.fixed {
+    position: fixed;
+    top: 0;
+    z-index: 9999;
+}
