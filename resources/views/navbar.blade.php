@@ -14,8 +14,12 @@
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 
             <ul class="nav navbar-nav">
-                <li class="active"><a href="#">累計</a></li>
-                <li><a href="#">デイリー</a></li>
+                <li @if (!empty($navbar_act) && $navbar_act == 'total')class="active"@endif>
+                    <a href="/ranking/total">累計</a>
+                </li>
+                <li @if (!empty($navbar_act) && $navbar_act == 'daily')class="active"@endif>
+                    <a href="/ranking/daily">デイリー</a>
+                </li>
             </ul>
 
             <!-- 左寄せメニュー -->

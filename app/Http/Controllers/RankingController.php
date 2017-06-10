@@ -12,9 +12,19 @@ class RankingController extends Controller
     {
         $this->model = new RankingModel();
     }
-    public function index()
+
+    /**
+     * ランキングTOP
+     * @param null $mode
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function index($mode=null)
     {
-        $ranking_data = $this->model->get_ranking_data();
+        // ランキングデータを取得
+        $ranking_data = $this->model->get_ranking_data($mode);
+
+        // ナビゲーションバーの判定
+        $navbar_act = $this->model->set_navbar_act($mode);
 
         // ページ独自CSSの設定
         $assetCss = [
@@ -25,7 +35,8 @@ class RankingController extends Controller
         return view(
             'index', [
                 'assetCss'     => $assetCss,
-                'ranking_data' => $ranking_data
+                'ranking_data' => $ranking_data,
+                'navbar_act'   => $navbar_act,
             ]
         );
     }

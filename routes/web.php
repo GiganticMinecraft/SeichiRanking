@@ -11,7 +11,12 @@
 |
 */
 
+// TOP
 Route::get('/', 'RankingController@index');
-//Route::get('/', function () {
-//    return view('welcome');
-//});
+Route::get('/ranking/{mode}', 'RankingController@index');
+
+// このページについて
+Route::get('/about', 'PagesController@about');
+
+// お問い合わせ
+Route::get('/contact', 'PagesController@contact');
