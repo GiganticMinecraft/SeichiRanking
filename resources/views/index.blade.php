@@ -72,13 +72,17 @@
 
             <div id="tab2" class="tab-pane">
                 <h3>◇ ログイン神ランキング</h3>
-                ※ 近日公開予定
+                <div class="rank">
+                    ※ 近日公開予定
+                </div>
             </div>
             {{-- 累計のみ表示する --}}
             @if ($navbar_act !== 'daily')
                 <div id="tab3" class="tab-pane">
                     <h3>◇ 投票神ランキング</h3>
-                    ※ 近日公開予定
+                    <div class="rank">
+                        ※ 近日公開予定
+                    </div>
                 </div>
             @endif
         </div>
