@@ -50,6 +50,9 @@ class RankingModel extends Model
         if ($mode == 'daily') {
             $navbar_act = 'daily';
         }
+        elseif($mode == 'weekly') {
+            $navbar_act = 'weekly';
+        }
         // mode指定なし、またはtotal
         else {
             $navbar_act = 'total';

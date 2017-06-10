@@ -12,9 +12,11 @@
             <li class="nav-item">
                 <a href="#tab2" class="nav-link bg-primary" data-toggle="tab">ログイン神ランキング</a>
             </li>
+            @if ($navbar_act !== 'daily')
             <li class="nav-item">
                 <a href="#tab3" class="nav-link bg-primary" data-toggle="tab">投票神ランキング</a>
             </li>
+            @endif
         </ul>
         <!--タブのコンテンツ部分-->
         <div class="tab-content">
@@ -48,8 +50,8 @@
                             </td>
                             <td>
                                 [二つ名] {{ $item->name }}<br>
-                                総整地量：{{ number_format($item->totalbreaknum) }}<br>
-                                Last loign: {{$item->lastquit}}
+                                <span class="num_break">総整地量：{{ number_format($item->totalbreaknum) }}</span><br>
+                                <span class="last_login">Last loign: {{$item->lastquit}}</span>
                             </td>
                         </tr>
                     @endforeach
@@ -61,12 +63,16 @@
             </div>
 
             </div>
-            <div id="tab2" class="tab-pane">
-                <h3>ログイン神ランキング</h3>
-            </div>
-            <div id="tab3" class="tab-pane">
-                <h3>投票神ランキング</h3>
-            </div>
+
+                <div id="tab2" class="tab-pane">
+                    <h3>ログイン神ランキング</h3>
+                </div>
+            {{-- 累計のみ表示する --}}
+            @if ($navbar_act !== 'daily')
+                <div id="tab3" class="tab-pane">
+                    <h3>投票神ランキング</h3>
+                </div>
+            @endif
         </div>
     </div>
 
