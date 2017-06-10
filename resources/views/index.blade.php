@@ -59,7 +59,7 @@
                 </table>
 
                 {{-- ページネーション --}}
-                {!! $ranking_data->appends(['kind' => 'total_break'])->render() !!}
+                {!! $ranking_data->appends(['kind' => 'break'])->render() !!}
 
             </div>
 
