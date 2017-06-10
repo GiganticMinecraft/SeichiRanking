@@ -17,6 +17,9 @@
                 <li @if (!empty($navbar_act) && $navbar_act == 'total')class="active"@endif>
                     <a href="/ranking/total">累計</a>
                 </li>
+                <li @if (!empty($navbar_act) && $navbar_act == 'weekly')class="active"@endif>
+                    <a href="/ranking/weekly">ウィークリー</a>
+                </li>
                 <li @if (!empty($navbar_act) && $navbar_act == 'daily')class="active"@endif>
                     <a href="/ranking/daily">デイリー</a>
                 </li>
