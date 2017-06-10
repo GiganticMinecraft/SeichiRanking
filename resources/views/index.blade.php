@@ -58,7 +58,8 @@
                     </tbody>
                 </table>
 
-                {!! $ranking_data->render() !!}
+                {{-- ページネーション --}}
+                {!! $ranking_data->appends(['kind' => 'total_break'])->render() !!}
 
             </div>
 
