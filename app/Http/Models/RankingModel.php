@@ -14,29 +14,47 @@ use App\Libs\MojangAPI;
 class RankingModel extends Model
 {
     /**
-     *
+     * ランキングデータ取得処理
+     * @param string $mode total or daily
      * @return mixed
      */
-    public function get_ranking_data()
+    public function get_ranking_data($mode)
     {
-        $rank_data = DB::table('playerdata')->orderBy('totalbreaknum', 'DESC')->paginate(20);
-        Log::debug($rank_data->total());
+        Log::debug('$mode -> '.$mode);
 
-        // uuidをもとに、mob head 画像を配列へ代入
-        foreach ($rank_data as $key => &$item) {
+//        if ($mode == 'total') {
+            // クエリ発行＋ページャ作成
+            $rank_data = DB::table('playerdata')->orderBy('totalbreaknum', 'DESC')->paginate(20);
+
+            foreach ($rank_data as $key => &$item) {
 //            $item->mob_head_img = MojangAPI::embedImage(MojangAPI::getPlayerHead($item->uuid));
-            $item->mob_head_img = 'https://mcapi.ca/avatar/' . $item->name . '/60';
+                // API経由でスキン画像を取得
+                $item->mob_head_img = 'https://mcapi.ca/avatar/' . $item->name . '/60';
 
-            // 順位計算
-            $item->rank = $rank_data->perPage() * ($rank_data->currentPage() - 1) + ($key + 1);
-        }
+                // 順位計算
+                $item->rank = $rank_data->perPage() * ($rank_data->currentPage() - 1) + ($key + 1);
+            }
 
-//        $paginator = new LengthAwarePaginator($items, $total, $limit, $page);
+//        }
+
         return $rank_data;
     }
 
-    public function get_mob_head_image()
+    /**
+     * ランキングモードを判定し、アクティブなランキングを判定
+     * @param string $mode ランキングのモード
+     * @return string $navbar_act アクティブなナビゲーションバーの名前
+     */
+    public function set_navbar_act($mode)
     {
+        if ($mode == 'daily') {
+            $navbar_act = 'daily';
+        }
+        // mode指定なし、またはtotal
+        else {
+            $navbar_act = 'total';
+        }
 
+        return $navbar_act;
     }
 }
