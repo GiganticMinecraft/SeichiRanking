@@ -23,3 +23,12 @@
     top: 0;
     z-index: 9999;
 }
+
+.last_login {
+    color: #A4A4A4;
+}
+
+.num_break {
+    font-weight: bold;
+    font-size: 16px;
+}
