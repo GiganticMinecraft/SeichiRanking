@@ -47,11 +47,17 @@ class RankingModel extends Model
      */
     public function set_navbar_act($mode)
     {
-        if ($mode == 'daily') {
-            $navbar_act = 'daily';
+        if ($mode == 'year') {
+            $navbar_act = 'year';
+        }
+        elseif($mode == 'monthly') {
+            $navbar_act = 'monthly';
         }
         elseif($mode == 'weekly') {
             $navbar_act = 'weekly';
+        }
+        elseif($mode == 'daily') {
+            $navbar_act = 'daily';
         }
         // mode指定なし、またはtotal
         else {
