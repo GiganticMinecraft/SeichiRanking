@@ -7,21 +7,24 @@
         <!--タブのボタン部分-->
         <ul class="nav nav-tabs">
             <li class="nav-item active">
-                <a href="#tab1" class="nav-link bg-primary" data-toggle="tab">整地神ランキング</a>
+                <a href="#tab1" class="nav-link bg-primary" data-toggle="tab">整地量ランキング</a>
             </li>
             <li class="nav-item">
-                <a href="#tab2" class="nav-link bg-primary" data-toggle="tab">ログイン神ランキング</a>
+                <a href="#tab2" class="nav-link bg-primary" data-toggle="tab">建築量ランキング</a>
+            </li>
+            <li class="nav-item">
+                <a href="#tab2" class="nav-link bg-primary" data-toggle="tab">接続時間ランキング</a>
             </li>
             @if ($navbar_act !== 'daily')
                 <li class="nav-item">
-                    <a href="#tab3" class="nav-link bg-primary" data-toggle="tab">投票神ランキング</a>
+                    <a href="#tab3" class="nav-link bg-primary" data-toggle="tab">投票数ランキング</a>
                 </li>
             @endif
         </ul>
         <!--タブのコンテンツ部分-->
         <div class="tab-content">
             <div id="tab1" class="tab-pane active">
-                <h3>◇ 整地神ランキング</h3>
+                <h3>◇ 整地量ランキング</h3>
 
 
                 {{--<div class="fixing-base">--}}
@@ -37,7 +40,7 @@
 
                 <div class="rank">
 
-                    @if (!empty($navbar_act) && $navbar_act == 'weekly' || $navbar_act == 'daily')
+                    @if (!empty($navbar_act) && $navbar_act == 'year' || $navbar_act == 'monthly' || $navbar_act == 'weekly' || $navbar_act == 'daily')
                         ※ 近日公開予定
                     @else
                         <table class="table table-striped table-hover">
@@ -67,11 +70,16 @@
                     @endif
 
                 </div>
-
             </div>
 
             <div id="tab2" class="tab-pane">
-                <h3>◇ ログイン神ランキング</h3>
+                <h3>◇ 建築量ランキング</h3>
+                <div class="rank">
+                    ※ 近日公開予定
+                </div>
+            </div>
+            <div id="tab2" class="tab-pane">
+                <h3>◇ 接続時間ランキング</h3>
                 <div class="rank">
                     ※ 近日公開予定
                 </div>
@@ -79,7 +87,7 @@
             {{-- 累計のみ表示する --}}
             @if ($navbar_act !== 'daily')
                 <div id="tab3" class="tab-pane">
-                    <h3>◇ 投票神ランキング</h3>
+                    <h3>◇ 投票数ランキング</h3>
                     <div class="rank">
                         ※ 近日公開予定
                     </div>
