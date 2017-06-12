@@ -41,6 +41,7 @@
                     <ul class="dropdown-menu" role="menu">
                         <li><a href="/about">このページについて</a></li>
                         <li><a href="/contact">お問い合わせ</a></li>
+                        <li><a href="#">公式Wiki</a></li>
                     </ul>
                 </li>
 
