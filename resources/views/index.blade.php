@@ -52,7 +52,7 @@
                                         <img src="{{$item->mob_head_img}}">
                                     </td>
                                     <td>
-                                        [二つ名] {{ $item->name }}<br>
+                                        {{ $item->name }}<br>
                                         <span class="num_break">総整地量：{{ number_format($item->totalbreaknum) }}</span><br>
                                         <span class="last_login">Last loign: {{$item->lastquit}}</span>
                                     </td>
