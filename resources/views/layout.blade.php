@@ -42,7 +42,17 @@
             <div class="alert alert-success">{{ Session::get('flash_message') }}</div>
         @endif
 
-        @yield('content')
+            <div class="row">
+                <div class="col-sm-2">
+                    Server稼働状況を載せる予定
+                </div>
+                <div class="col-sm-8">
+                    @yield('content')
+                </div>
+                <div class="col-sm-2">
+                    広告スペース(仮)
+                </div>
+            </div>
     </div>
 
     @include('footer')
