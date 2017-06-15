@@ -6,10 +6,10 @@
     <div class="m-t-1 m-l-1 m-r-1">
         <!--タブのボタン部分-->
         <ul class="nav nav-tabs">
+            {{--<li class="nav-item active">--}}
+                {{--<a href="#tab1" class="nav-link bg-primary" data-toggle="tab">総　合</a>--}}
+            {{--</li>--}}
             <li class="nav-item active">
-                <a href="#tab1" class="nav-link bg-primary" data-toggle="tab">総　合</a>
-            </li>
-            <li class="nav-item">
                 <a href="#tab2" class="nav-link bg-primary" data-toggle="tab">整 地 量</a>
             </li>
             <li class="nav-item">
@@ -26,15 +26,15 @@
         </ul>
         <!--タブのコンテンツ部分-->
         <div class="tab-content">
-            <div id="tab1" class="tab-pane active">
-                <h3>◇ 整地量</h3>
-                <canvas id="totalBreak" width="400" height="400"></canvas>
-                <h3>◇ 建築量</h3>
-                <h3>◇ 接続時間</h3>
-                <h3>◇ 投票数</h3>
-            </div>
+            {{--<div id="tab1" class="tab-pane active">--}}
+                {{--<h3>◇ 整地量</h3>--}}
+                {{--<canvas id="totalBreak" width="400" height="400"></canvas>--}}
+                {{--<h3>◇ 建築量</h3>--}}
+                {{--<h3>◇ 接続時間</h3>--}}
+                {{--<h3>◇ 投票数</h3>--}}
+            {{--</div>--}}
 
-            <div id="tab2" class="tab-pane">
+            <div id="tab2" class="tab-pane active">
                 <h3>◇ 整地量ランキング</h3>
 
                 {{--<div class="fixing-base">--}}
