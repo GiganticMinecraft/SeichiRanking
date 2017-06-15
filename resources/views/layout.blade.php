@@ -9,6 +9,9 @@
     <script src="{{asset('/js/base/jquery-3.1.1.min.js')}}"></script>
     <script src="{{asset('/js/base/bootstrap.min.js')}}"></script>
     <script src="{{asset('/js/base/jquery.bootgrid.min.js')}}"></script>
+    <script src="{{asset('/js/base/Chart.min.js')}}"></script>
+    <script src="{{asset('/js/base/Chart.bundle.min.js')}}"></script>
+    <script src="{{asset('/js/total.js')}}"></script>
     {{--<script src="{{asset('/js/index.js')}}"></script>--}}
 
     {{--<script src="http://fb.me/react-0.13.3.js"></script>--}}

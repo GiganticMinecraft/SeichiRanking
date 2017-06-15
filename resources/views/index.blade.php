@@ -29,7 +29,7 @@
             <div id="tab1" class="tab-pane active">
                 <h3>◇ 総合ランキング</h3>
                 <div class="rank">
-                    ※ 近日公開予定
+                    <canvas id="totalBreak" width="400" height="400"></canvas>
                 </div>
             </div>
 
