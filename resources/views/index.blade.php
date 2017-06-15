@@ -27,10 +27,11 @@
         <!--タブのコンテンツ部分-->
         <div class="tab-content">
             <div id="tab1" class="tab-pane active">
-                <h3>◇ 総合：整地量</h3>
-                <div class="rank">
-                    <canvas id="totalBreak" width="400" height="400"></canvas>
-                </div>
+                <h3>◇ 整地量</h3>
+                <canvas id="totalBreak" width="400" height="400"></canvas>
+                <h3>◇ 建築量</h3>
+                <h3>◇ 接続時間</h3>
+                <h3>◇ 投票数</h3>
             </div>
 
             <div id="tab2" class="tab-pane">
