@@ -47,7 +47,54 @@
 
             <div class="row">
                 <div class="col-sm-2">
-                    Server稼働状況を載せる予定
+                    <h4>サーバー稼働状況</h4>
+
+                    <p>☆ 合計接続人数：{{$server_status[0]['online'] or 0}}人</p>
+                    <table class="table table-responsive">
+                        <tr>
+                            <td class="warning">ロビー</td>
+                            <td class="warning text-right">{{$server_status[0]['lobby'] or 0}}人</td>
+                        <tr>
+                            <td class="success">第1:メイン</td>
+                            <td class="success text-right">{{$server_status[0]['s1'] or 0}}人</td>
+                        </tr>
+                        <tr>
+                            <td class="success">第2:メイン</td>
+                            <td class="success text-right">{{$server_status[0]['s2'] or 0}}人</td>
+                        </tr>
+                        <tr>
+                            <td class="success">第3:メイン</td>
+                            <td class="success text-right">{{$server_status[0]['s3'] or 0}}人</td>
+                        </tr>
+                        <tr>
+                            <td class="danger">第1:整地専用</td>
+                            <td class="danger text-right">{{$server_status[0]['s5'] or 0}}人</td>
+                        </tr>
+                        <tr>
+                            <td class="danger">第2:整地専用</td>
+                            <td class="danger text-right">{{$server_status[0]['s6'] or 0}}人</td>
+                        </tr>
+                        <tr>
+                            <td class="info">公共施設</td>
+                            <td class="info text-right">{{$server_status[0]['s7'] or 0}}人</td>
+                        </tr>
+                        <tr>
+                            <td class="">イベント</td>
+                            <td class="text-right">{{$server_status[0]['eve'] or 0}}人</td>
+                        </tr>
+                        <tr>
+                            <td class="">クリエイティブ</td>
+                            <td class="text-right">{{$server_status[0]['cre'] or 0}}人</td>
+                        </tr>
+                        <tr>
+                            <td class="active">第1:ベータ</td>
+                            <td class="active text-right">{{$server_status[0]['g1'] or 0}}人</td>
+                        </tr>
+                        <tr>
+                            <td class="active">第2:ベータ</td>
+                            <td class="active text-right">{{$server_status[0]['g2'] or 0}}人</td>
+                        </tr>
+                    </table>
                 </div>
                 <div class="col-sm-8">
                     @yield('content')
