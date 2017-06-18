@@ -46,7 +46,7 @@
         @endif
 
             <div class="row">
-                <div class="col-sm-2">
+                <div class="col-sm-2 top70">
                     <h4>サーバー稼働状況</h4>
 
                     <p>☆ 合計接続人数：{{$server_status[0]['online'] or 0}}人</p>
@@ -96,7 +96,7 @@
                         </tr>
                     </table>
                 </div>
-                <div class="col-sm-8">
+                <div class="col-sm-8 top70">
                     @yield('content')
                 </div>
                 <div class="col-sm-2">

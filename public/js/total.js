@@ -1,4 +1,5 @@
 $(function(){
+    /*
     var ctx = document.getElementById("totalBreak").getContext('2d');
     var myChart = new Chart(ctx, {
         type: 'pie',
@@ -27,4 +28,5 @@ $(function(){
             }]
         }
     });
+    */
 });
