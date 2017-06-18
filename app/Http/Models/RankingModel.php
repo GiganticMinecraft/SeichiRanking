@@ -11,6 +11,8 @@ use Illuminate\Pagination\LengthAwarePaginator;
 
 use App\Libs\MojangAPI;
 
+use Route;
+
 class RankingModel extends Model
 {
     /**
@@ -20,7 +22,7 @@ class RankingModel extends Model
      */
     public function get_ranking_data($mode)
     {
-        Log::debug('$mode -> '.$mode);
+//        Log::debug('$mode -> '.$mode);
 
 //        if ($mode == 'total') {
             // クエリ発行＋ページャ作成
@@ -65,5 +67,17 @@ class RankingModel extends Model
         }
 
         return $navbar_act;
+    }
+
+    public function get_server_status()
+    {
+        $server_status = null;
+
+        if ($json = @file_get_contents(env('SERVER_STATUS_URL'))) {
+            $server_status = json_decode($json, true);
+            Log::debug(print_r($server_status, 1));
+        }
+
+        return $server_status;
     }
 }
