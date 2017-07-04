@@ -41,7 +41,7 @@
     @endif
 
     <div>
-        アイディアの投稿ありがとうございました。
+        アイディアの投稿、ありがとうございました。
         <script>
             setTimeout("redirect()", 5);
             function redirect(){
