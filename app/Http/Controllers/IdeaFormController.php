@@ -40,7 +40,7 @@ class IdeaFormController extends Controller
         else {
             //
             $cookie = \Cookie::make('count', md5(uniqid(mt_rand(), true)), 1);
-            return Response::view('IdeaSubmitted')->withCookie($cookie);
+            return Response::view('ideaSubmitted')->withCookie($cookie);
         }
 
     }
