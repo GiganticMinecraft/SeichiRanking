@@ -20,3 +20,7 @@ Route::get('/about', 'PagesController@about');
 
 // お問い合わせ
 Route::get('/contact', 'PagesController@contact');
+
+// アイディア投稿フォーム
+Route::get('/ideaForm', 'IdeaFormController@index');
+Route::post('/ideaForm/submit', 'IdeaFormController@submit');
