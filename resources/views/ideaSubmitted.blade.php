@@ -40,10 +40,16 @@
         <div class="alert alert-success">{{ Session::get('flash_message') }}</div>
     @endif
 
-    <div>
+    <br>
+    <div class="alert alert-success mt-1">
         アイディアの投稿、ありがとうございました。
+    </div>
+
+    <div>
+        ※ ギガンティック☆整地鯖のランキングページへ移動します
+        <br>
         <script>
-            setTimeout("redirect()", 5);
+            setTimeout("redirect()", 3000);
             function redirect(){
                 location.href='/ideaForm';
             }
