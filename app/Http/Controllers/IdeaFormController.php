@@ -21,25 +21,19 @@ class IdeaFormController extends Controller
     {
         $message = null;
 
-        $minecraftjp = new MinecraftJP(array(
-            'clientId'     => env('JMS_CLIENT_ID'),
-            'clientSecret' => env('JMS_CLIENT_SECRET'),
-            'redirectUri'  => env('JMS_CALLBACK')
-        ));
-
-        $user = $minecraftjp->sessionStorage->read('user');
-
-        if (empty($user)) {
-            return redirect()->to('/login');
-        }
-        else {
+        try {
+            $minecraftjp = new MinecraftJP(array(
+                'clientId'     => env('JMS_CLIENT_ID'),
+                'clientSecret' => env('JMS_CLIENT_SECRET'),
+                'redirectUri'  => env('JMS_CALLBACK')
+            ));
             // Get Access Token
             $accessToken = $minecraftjp->getAccessToken();
-            Log::debug('$accessToken ->'.print_r($accessToken, 1));
+//            Log::debug('$accessToken ->'.print_r($accessToken, 1));
 
             // Get User
             $user = $minecraftjp->getUser();
-            Log::debug(print_r($user, 1));
+//            Log::debug(print_r($user, 1));
 
 
             return view(
@@ -48,6 +42,10 @@ class IdeaFormController extends Controller
                     'user'    => $user,
                 ]
             );
+        }
+        catch (\Exception $e) {
+            Log::debug(print_r($e->getMessage(), 1));
+            return redirect()->to('/login');
         }
     }
 
