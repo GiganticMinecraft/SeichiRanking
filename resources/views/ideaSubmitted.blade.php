@@ -46,12 +46,12 @@
     </div>
 
     <div>
-        ※ ギガンティック☆整地鯖のランキングページへ移動します
+        ※ 数秒後、ギガンティック☆整地鯖の公式ランキングページへ移動します。
         <br>
         <script>
             setTimeout("redirect()", 3000);
             function redirect(){
-                location.href='/ideaForm';
+                location.href='/';
             }
         </script>
     </div>
