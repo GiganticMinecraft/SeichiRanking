@@ -44,6 +44,18 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Exception $exception)
     {
+        if($this->isHttpException($exception)) {
+            // 403
+            if($exception->getStatusCode() == 403) {
+                return response()->view('errors', ['message' => '403 このページはアクセスが制限されています。']);
+            }
+            // 404
+            if($exception->getStatusCode() == 404) {
+                return response()->view('errors', ['message' => '404 該当のページは存在しません。']);
+            }
+            // 500
+            return response()->view('errors', ['message' => '500 internal server error']);
+        }
         return parent::render($request, $exception);
     }
 
