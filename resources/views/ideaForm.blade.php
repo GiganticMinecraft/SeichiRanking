@@ -4,21 +4,21 @@
 
 <div class="container">
 
-    <h1>アイディアの投稿</h1>
+    <h1>アイデアの投稿</h1>
 
     @if (Session::has('message'))
         <div class="alert alert-danger">{!! nl2br(e(Session::get('message'))) !!}</div>
     @endif
 
 
-    <p>こちらからアイディアを投稿できます。</p>
-        <p>投稿されたアイディアは公式DiscordグループやRedmine等にて一般公開されます。</p>
-        <p>投稿の際、現時点で考えつく限りで構いませんので、何故そのアイディアを提案するのか、根拠も併せてご記入頂くと、採用され易くなります。</p>
+    <p>こちらからアイデアを投稿できます。</p>
+        <p>投稿されたアイデアは公式DiscordグループやRedmine等にて一般公開されます。</p>
+        <p>投稿の際、現時点で考えつく限りで構いませんので、何故そのアイデアを提案するのか、根拠も併せてご記入頂くと、採用され易くなります。</p>
 
         <form method="post" action="/ideaForm/submit">
             <div class="form-group">
                 {{ csrf_field() }}
-                <label for="idea_text">アイディア <span class="text-danger">*</span></label>
+                <label for="idea_text">アイデア <span class="text-danger">*</span></label>
                 <textarea class="form-control" id="idea_text" rows="3"></textarea>
             </div>
             <button type="submit" class="btn btn-primary" style="margin-bottom: 10px;">送信</button>
