@@ -75,7 +75,7 @@ class RankingModel extends Model
 
         if ($json = @file_get_contents(env('SERVER_STATUS_URL'))) {
             $server_status = json_decode($json, true);
-            Log::debug(print_r($server_status, 1));
+//            Log::debug(print_r($server_status, 1));
         }
 
         return $server_status;
