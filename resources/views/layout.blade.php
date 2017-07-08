@@ -35,6 +35,7 @@
             <link rel="stylesheet" href="{{$css}}">
         @endforeach
     @endif
+    <link rel="shortcut icon" href="{{ asset('favicon.ico') }}">
 </head>
 <body>
     {{-- ナビゲーションバーの Partial を使用 --}}
