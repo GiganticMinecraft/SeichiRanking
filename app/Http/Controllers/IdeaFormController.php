@@ -63,6 +63,9 @@ class IdeaFormController extends Controller
         else {
             // クッキーをクライアント(ブラウザ)へ保存する
             $cookie = \Cookie::make('count', md5(uniqid(mt_rand(), true)), 1);
+
+
+
             return Response::view('ideaSubmitted')->withCookie($cookie);
         }
 
