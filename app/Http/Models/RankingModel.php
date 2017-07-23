@@ -11,6 +11,8 @@ use Illuminate\Pagination\LengthAwarePaginator;
 
 use App\Libs\MojangAPI;
 
+use Route;
+
 class RankingModel extends Model
 {
     /**
@@ -20,11 +22,11 @@ class RankingModel extends Model
      */
     public function get_ranking_data($mode)
     {
-        Log::debug('$mode -> '.$mode);
+//        Log::debug('$mode -> '.$mode);
 
 //        if ($mode == 'total') {
             // クエリ発行＋ページャ作成
-            $rank_data = DB::table('playerdata')->orderBy('totalbreaknum', 'DESC')->paginate(20);
+            $rank_data = DB::table('mineblock')->orderBy('allmineblock', 'DESC')->paginate(20);
 
             foreach ($rank_data as $key => &$item) {
 //            $item->mob_head_img = MojangAPI::embedImage(MojangAPI::getPlayerHead($item->uuid));
@@ -47,11 +49,17 @@ class RankingModel extends Model
      */
     public function set_navbar_act($mode)
     {
-        if ($mode == 'daily') {
-            $navbar_act = 'daily';
+        if ($mode == 'year') {
+            $navbar_act = 'year';
+        }
+        elseif($mode == 'monthly') {
+            $navbar_act = 'monthly';
         }
         elseif($mode == 'weekly') {
             $navbar_act = 'weekly';
+        }
+        elseif($mode == 'daily') {
+            $navbar_act = 'daily';
         }
         // mode指定なし、またはtotal
         else {
@@ -59,5 +67,17 @@ class RankingModel extends Model
         }
 
         return $navbar_act;
+    }
+
+    public function get_server_status()
+    {
+        $server_status = null;
+
+        if ($json = @file_get_contents(env('SERVER_STATUS_URL'))) {
+            $server_status = json_decode($json, true);
+//            Log::debug(print_r($server_status, 1));
+        }
+
+        return $server_status;
     }
 }
