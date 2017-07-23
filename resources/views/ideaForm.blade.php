@@ -19,7 +19,7 @@
             <div class="form-group">
                 {{ csrf_field() }}
                 <label for="idea_text">アイデア <span class="text-danger">*</span></label>
-                <textarea class="form-control" id="idea_text" rows="3" name="idea"></textarea>
+                <textarea class="form-control" id="idea_text" rows="3"></textarea>
             </div>
             <button type="submit" class="btn btn-primary" style="margin-bottom: 10px;">送信</button>
         </form>
