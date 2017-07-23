@@ -87,7 +87,7 @@ class IdeaFormController extends Controller
                     'tracker_id'  => env('IDEA_FORM_TRACKER_ID'),
                     'status_id'   => env('IDEA_FORM_STATUS_ID'),
                     'priority_id' => env('IDEA_FORM_PRIORITY_ID'),
-                    'subject'     => '['.$user['preferred_username'].'] '.mb_strimwidth($idea, 0, 20),
+                    'subject'     => '['.$user['preferred_username'].'] '.mb_strimwidth($idea, 0, 40),
                     'description' => $idea,
 //                    'assigned_to' => 'user1',
                 ]);
