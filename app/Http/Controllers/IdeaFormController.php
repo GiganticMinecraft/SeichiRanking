@@ -9,7 +9,7 @@ use Cookie;
 use Log;
 
 use Auth;
-use Input;
+use Illuminate\Support\Facades\Input;
 use Redmine;
 use MinecraftJP;
 
