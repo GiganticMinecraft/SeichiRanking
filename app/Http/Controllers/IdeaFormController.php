@@ -69,18 +69,28 @@ class IdeaFormController extends Controller
             }
             else {
 
+                // JMSのログイン情報を取得
+                $minecraftjp = new MinecraftJP(array(
+                    'clientId'     => env('JMS_CLIENT_ID'),
+                    'clientSecret' => env('JMS_CLIENT_SECRET'),
+                    'redirectUri'  => env('JMS_CALLBACK')
+                ));
+
+                // Get User
+                $user = $minecraftjp->getUser();
+                Log::debug(print_r($user, 1));
+
                 // Redmine連携
                 $client = new Redmine\Client(env('REDMINE_URL'), env('REDMINE_KEY'));
-//                $client->issue->create([
-//                    'project_id'  => 'admin',
-//                    'subject'     => 'テスト投稿です',
-//                    'description' => $idea,
-////                    'assigned_to' => 'user1',
-//                ]);
-                $client->issue->all([
-                    'limit' => 1000
+                $client->issue->create([
+                    'project_id'  => env('IDEA_FORM_PROJECT_ID'),
+                    'tracker_id'  => env('IDEA_FORM_TRACKER_ID'),
+                    'status_id'   => env('IDEA_FORM_STATUS_ID'),
+                    'priority_id' => env('IDEA_FORM_PRIORITY_ID'),
+                    'subject'     => '['.$user['preferred_username'].'] '.mb_strimwidth($idea, 0, 20),
+                    'description' => $idea,
+//                    'assigned_to' => 'user1',
                 ]);
-                Log::debug('test -> '.print_r($client, 1));
 
                 // クッキーをクライアント(ブラウザ)へ保存する
                 $cookie = \Cookie::make('count', md5(uniqid(mt_rand(), true)), 1);
