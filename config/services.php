@@ -35,4 +35,10 @@ return [
         'secret' => env('STRIPE_SECRET'),
     ],
 
+    'jms' => [
+        'client_id'     => env('JMS_CLIENT_ID'),
+        'client_secret' => env('JMS_CLIENT_SECRET'),
+        'redirect'      => env('JMS_CALLBACK'),
+    ],
+
 ];

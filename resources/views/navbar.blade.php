@@ -1,4 +1,4 @@
-<nav class="navbar navbar-default">
+<nav class="navbar navbar-default navbar-fixed-top">
     <div class="container">
         <div class="navbar-header">
             <!-- スマホやタブレットで表示した時のメニューボタン -->
@@ -15,13 +15,19 @@
 
             <ul class="nav navbar-nav">
                 <li @if (!empty($navbar_act) && $navbar_act == 'total')class="active"@endif>
-                    <a href="/ranking/total">累計</a>
-                </li>
-                <li @if (!empty($navbar_act) && $navbar_act == 'weekly')class="active"@endif>
-                    <a href="/ranking/weekly">ウィークリー</a>
+                    <a href="/ranking/total">総合</a>
                 </li>
                 <li @if (!empty($navbar_act) && $navbar_act == 'daily')class="active"@endif>
-                    <a href="/ranking/daily">デイリー</a>
+                    <a href="/ranking/daily">日間</a>
+                </li>
+                <li @if (!empty($navbar_act) && $navbar_act == 'weekly')class="active"@endif>
+                    <a href="/ranking/weekly">週間</a>
+                </li>
+                <li @if (!empty($navbar_act) && $navbar_act == 'monthly')class="active"@endif>
+                    <a href="/ranking/monthly">月間</a>
+                </li>
+                <li @if (!empty($navbar_act) && $navbar_act == 'year')class="active"@endif>
+                    <a href="/ranking/year">年間</a>
                 </li>
             </ul>
 
@@ -35,6 +41,7 @@
                     <ul class="dropdown-menu" role="menu">
                         <li><a href="/about">このページについて</a></li>
                         <li><a href="/contact">お問い合わせ</a></li>
+                        <li><a href="#">公式Wiki</a></li>
                     </ul>
                 </li>
 
