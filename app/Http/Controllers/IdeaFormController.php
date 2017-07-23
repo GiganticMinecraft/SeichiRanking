@@ -70,7 +70,7 @@ class IdeaFormController extends Controller
             else {
 
                 // Redmine連携
-                $client = new Redmine\Client(env('REDMINE_URL'), 'corosuke2s', 'yhxdfa23');
+                $client = new Redmine\Client(env('REDMINE_URL'), env('REDMINE_KEY'));
 //                $client->issue->create([
 //                    'project_id'  => 'admin',
 //                    'subject'     => 'テスト投稿です',
