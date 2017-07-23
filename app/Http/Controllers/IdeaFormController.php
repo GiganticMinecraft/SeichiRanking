@@ -9,6 +9,8 @@ use Cookie;
 use Log;
 
 use Auth;
+use Input;
+use Redmine;
 use MinecraftJP;
 
 class IdeaFormController extends Controller
@@ -19,8 +21,6 @@ class IdeaFormController extends Controller
      */
     public function index()
     {
-        $message = null;
-
         try {
             $minecraftjp = new MinecraftJP(array(
                 'clientId'     => env('JMS_CLIENT_ID'),
@@ -28,17 +28,15 @@ class IdeaFormController extends Controller
                 'redirectUri'  => env('JMS_CALLBACK')
             ));
             // Get Access Token
-            $accessToken = $minecraftjp->getAccessToken();
+//            $accessToken = $minecraftjp->getAccessToken();
 //            Log::debug('$accessToken ->'.print_r($accessToken, 1));
 
             // Get User
             $user = $minecraftjp->getUser();
-//            Log::debug(print_r($user, 1));
-
+            Log::debug(print_r($user, 1));
 
             return view(
                 'ideaForm', [
-                    'message' => $message,
                     'user'    => $user,
                 ]
             );
@@ -55,20 +53,40 @@ class IdeaFormController extends Controller
      */
     public function submit()
     {
-        // クッキーが生きて入れば
+        // クッキーが生きて入れば、投稿不可
         if (!empty($_COOKIE["count"])) {
             Log::debug('$count -> '.print_r($_COOKIE["count"], 1));
             return redirect('ideaForm')->with('message', "アイデアの連続投稿はご遠慮ください。\nしばらく時間を置いてから投稿をお願いします。");
         }
+        // 投稿処理
         else {
-            // クッキーをクライアント(ブラウザ)へ保存する
-            $cookie = \Cookie::make('count', md5(uniqid(mt_rand(), true)), 1);
+            // パラメータ取得
+            $idea =  Input::get('idea');
 
+            // 空欄チェック
+            if (empty($idea)) {
+                return redirect('ideaForm')->with('message', 'アイディアの項目が空欄です。');
+            }
+            else {
 
+                // Redmine連携
+                $client = new Redmine\Client(env('REDMINE_URL'), 'corosuke2s', 'yhxdfa23');
+//                $client->issue->create([
+//                    'project_id'  => 'admin',
+//                    'subject'     => 'テスト投稿です',
+//                    'description' => $idea,
+////                    'assigned_to' => 'user1',
+//                ]);
+                $client->issue->all([
+                    'limit' => 1000
+                ]);
+                Log::debug('test -> '.print_r($client, 1));
 
-            return Response::view('ideaSubmitted')->withCookie($cookie);
+                // クッキーをクライアント(ブラウザ)へ保存する
+                $cookie = \Cookie::make('count', md5(uniqid(mt_rand(), true)), 1);
+                return Response::view('ideaSubmitted')->withCookie($cookie);
+            }
         }
-
     }
 
 }
