@@ -26,7 +26,8 @@ class RankingModel extends Model
 
 //        if ($mode == 'total') {
             // クエリ発行＋ページャ作成
-            $rank_data = DB::table('mineblock')->orderBy('allmineblock', 'DESC')->paginate(20);
+//            $rank_data = DB::table('mineblock')->orderBy('allmineblock', 'DESC')->paginate(20);
+            $rank_data = DB::table('playerdata')->orderBy('totalbreaknum', 'DESC')->paginate(20);
 
             foreach ($rank_data as $key => &$item) {
 //            $item->mob_head_img = MojangAPI::embedImage(MojangAPI::getPlayerHead($item->uuid));
