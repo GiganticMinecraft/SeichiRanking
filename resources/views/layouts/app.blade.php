@@ -13,6 +13,10 @@
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     <link rel="shortcut icon" href="{{ asset('favicon.ico') }}">
+
+    <script src="{{asset('/js/base/jquery-3.1.1.min.js')}}"></script>
+    <script src="{{asset('/js/common.js')}}"></script>
+
 </head>
 <body>
     <div id="app">
