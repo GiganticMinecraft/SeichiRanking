@@ -20,7 +20,7 @@
             </li>
             @if ($navbar_act !== 'daily')
                 <li class="nav-item">
-                    <a href="#tab3" class="nav-link bg-primary" data-toggle="tab">投 票 数</a>
+                    <a href="#tab5" class="nav-link bg-primary" data-toggle="tab">投 票 数</a>
                 </li>
             @endif
         </ul>
