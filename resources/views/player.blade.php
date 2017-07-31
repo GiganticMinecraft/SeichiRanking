@@ -22,10 +22,10 @@
 
             <tr>
                 <td>
-                    {{$player_data->name}}
+                    {{$player_data->name or null}}
                 </td>
                 <td>
-                    {{$player_data->lastquit}}
+                    {{$player_data->lastquit or null}}
                 </td>
             </tr>
         </table>
