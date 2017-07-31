@@ -25,6 +25,9 @@ Route::get('/contact', 'PagesController@contact');
 Route::get('/ideaForm', 'IdeaFormController@index');
 Route::post('/ideaForm/submit', 'IdeaFormController@submit');
 
+// プレイヤー詳細
+Route::get('/player/{player}', 'PlayerController@index');
+
 // JMSログイン・ログアウト
 Route::get('login/{provider}',          'Auth\SocialAccountController@redirectToProvider');
 Route::get('login/{provider}/callback', 'Auth\SocialAccountController@handleProviderCallback');
