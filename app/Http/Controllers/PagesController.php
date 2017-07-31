@@ -7,13 +7,21 @@ use Illuminate\Http\Request;
 class PagesController extends Controller
 {
 
+    public function __construct()
+    {
+        // サーバーステータスの取得
+        $this->server_status = $this->get_server_status();
+    }
+
     /**
      * このページについて
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function about()
     {
-        return view('pages.about');
+        return view('pages.about', [
+            'server_status' => $this->server_status,
+        ]);
     }
 
     /**
@@ -22,6 +30,8 @@ class PagesController extends Controller
      */
     public function contact()
     {
-        return view('pages.contact');
+        return view('pages.contact', [
+            'server_status' => $this->server_status,
+        ]);
     }
 }
