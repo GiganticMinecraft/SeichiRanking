@@ -26,8 +26,8 @@ class RankingController extends Controller
         // ナビゲーションバーの判定
         $navbar_act = $this->model->set_navbar_act($mode);
 
-        // サーバーステータスの表示
-        $server_status = $this->model->get_server_status();
+        // サーバーステータスの取得
+        $server_status = $this->get_server_status();
 
         // ページ独自CSSの設定
         $assetCss = [
@@ -37,9 +37,9 @@ class RankingController extends Controller
         // viewをセット
         return view(
             'index', [
-                'assetCss'     => $assetCss,
-                'ranking_data' => $ranking_data,
-                'navbar_act'   => $navbar_act,
+                'assetCss'      => $assetCss,
+                'ranking_data'  => $ranking_data,
+                'navbar_act'    => $navbar_act,
                 'server_status' => $server_status,
             ]
         );
