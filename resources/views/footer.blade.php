@@ -9,7 +9,7 @@
                 {{--<span class="text-muted" >お問い合わせ</span>--}}
             {{--</a>--}}
 
-            <span class="small">Copyright ©2017 by Seichi.click. All rights reserved.</span>
+            <span class="small">Copyright &copy;2017 by Seichi.click. All rights reserved.</span>
         </p>
 
     </div>
