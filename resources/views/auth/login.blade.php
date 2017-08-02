@@ -61,7 +61,7 @@
                         {{--</div>--}}
                     {{--</form>--}}
 
-                    Japan Minecraft Serversアカウントでログインしてください。<br><br>a
+                    Japan Minecraft Serversアカウントでログインしてください。<br><br>
 
                     <a href="/login/jms"  class="btn btn-default btn-md">Log in with JMS</a>
                 </div>
