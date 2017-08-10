@@ -97,10 +97,10 @@ class RankingModel extends Model
                 // スキン画像をAPI経由で取得
                 DB::raw("(CONCAT('https://mcapi.ca/avatar/', name, '/60')) as mob_head_img"),
                 // 順位計算
-                DB::raw('(select count(*)+1 from playerdata as t2 where t2.playtime > t1.playtime) as rank')
+                DB::raw('(select count(*)+1 from playerdata as t2 where t2.playtick > t1.playtick) as rank')
             )
-            ->where('playtime', '>', 0)
-            ->orderBy('playtime', 'DESC')  // 第1ソート：総建築量 (降順)
+            ->where('playtick', '>', 0)
+            ->orderBy('playtick', 'DESC')  // 第1ソート：総建築量 (降順)
             ->orderBy('name')                 // 第2ソート：MCID (昇順)
             ->paginate(20);
 
