@@ -24,30 +24,20 @@ class RankingModel extends Model
     {
 //        Log::debug('$mode -> '.$mode);
 
-//        if ($mode == 'total') {
-            // クエリ発行＋ページャ作成
-            $rank_data = DB::table('playerdata as t1')
-                ->select(
-                    'name',             // MCID
-                    'totalbreaknum',    // 総合整地量
-                    'lastquit',
-                    // 順位計算
-                    DB::raw('(select count(*)+1 from playerdata as t2 where t2.totalbreaknum > t1.totalbreaknum) as rank')
-                )
-                ->where('totalbreaknum', '>', 0)
-                ->orderBy('totalbreaknum', 'DESC')
-                ->paginate(20);
-
-            foreach ($rank_data as $key => &$item) {
-                // API経由でスキン画像を取得
-//            $item->mob_head_img = MojangAPI::embedImage(MojangAPI::getPlayerHead($item->uuid));
-                $item->mob_head_img = 'https://mcapi.ca/avatar/' . $item->name . '/60';
-
+        // クエリ発行＋ページャ作成
+        $rank_data = DB::table('playerdata as t1')
+            ->select(
+                'name',             // MCID
+                'totalbreaknum',    // 総合整地量
+                'lastquit',         // 最終ログイン時間
+                // スキン画像をAPI経由で取得
+                DB::raw("(CONCAT('https://mcapi.ca/avatar/', name, '/60')) as mob_head_img"),
                 // 順位計算
-//                $item->rank = DB::table('playerdata')->where('totalbreaknum', 'John')->first();
-            }
-
-//        }
+                DB::raw('(select count(*)+1 from playerdata as t2 where t2.totalbreaknum > t1.totalbreaknum) as rank')
+            )
+            ->where('totalbreaknum', '>', 0)
+            ->orderBy('totalbreaknum', 'DESC')
+            ->paginate(20);
 
         return $rank_data;
     }
