@@ -26,16 +26,24 @@ class RankingModel extends Model
 
 //        if ($mode == 'total') {
             // クエリ発行＋ページャ作成
-//            $rank_data = DB::table('mineblock')->orderBy('allmineblock', 'DESC')->paginate(20);
-            $rank_data = DB::table('playerdata')->where('totalbreaknum', '>', 0)->orderBy('totalbreaknum', 'DESC')->paginate(20);
+            $rank_data = DB::table('playerdata as t1')
+                ->select(
+                    'name',             // MCID
+                    'totalbreaknum',    // 総合整地量
+                    // 順位計算
+                    DB::raw('(select count(*)+1 from playerdata as t2 where t2.totalbreaknum > t1.totalbreaknum) as rank')
+                )
+                ->where('totalbreaknum', '>', 0)
+                ->orderBy('totalbreaknum', 'DESC')
+                ->paginate(20);
 
             foreach ($rank_data as $key => &$item) {
-//            $item->mob_head_img = MojangAPI::embedImage(MojangAPI::getPlayerHead($item->uuid));
                 // API経由でスキン画像を取得
+//            $item->mob_head_img = MojangAPI::embedImage(MojangAPI::getPlayerHead($item->uuid));
                 $item->mob_head_img = 'https://mcapi.ca/avatar/' . $item->name . '/60';
 
                 // 順位計算
-                $item->rank = $rank_data->perPage() * ($rank_data->currentPage() - 1) + ($key + 1);
+//                $item->rank = DB::table('playerdata')->where('totalbreaknum', 'John')->first();
             }
 
 //        }
