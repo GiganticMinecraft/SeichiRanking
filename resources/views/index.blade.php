@@ -138,7 +138,7 @@
             </div>
             {{-- 累計のみ表示する --}}
             @if ($navbar_act !== 'daily')
-                <div id="tab5" class="tab-pane">
+                <div id="tab5" class="tab-pane @if (app('request')->input('kind') == 'vote')active @endif">
                     <h3>◇ 投票数ランキング</h3>
                     <div class="rank">
                         @if (!empty($navbar_act) && $navbar_act == 'year' || $navbar_act == 'monthly' || $navbar_act == 'weekly' || $navbar_act == 'daily')
