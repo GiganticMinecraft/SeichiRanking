@@ -108,6 +108,36 @@ class RankingModel extends Model
     }
 
     /**
+     * 投票数ランキングデータ取得
+     * @param string $mode total / year / monthly / weekly / daily
+     * @return mixed
+     */
+    public function get_vote_ranking($mode)
+    {
+        // to-do: 総合ランキング以外にも対応する
+        Log::debug('$mode -> '.$mode);
+
+        // クエリ発行＋ページャ作成
+        $this->set_current_page('vote');
+        $rank_data = DB::table('playerdata as t1')
+            ->select(
+                'name',     // MCID
+                'p_vote',   // 総投票数
+                'lastquit', // 最終ログイン時間
+                // スキン画像をAPI経由で取得
+                DB::raw("(CONCAT('https://mcapi.ca/avatar/', name, '/60')) as mob_head_img"),
+                // 順位計算
+                DB::raw('(select count(*)+1 from playerdata as t2 where t2.p_vote > t1.p_vote) as rank')
+            )
+            ->where('p_vote', '>', 0)
+            ->orderBy('p_vote', 'DESC')  // 第1ソート：総投票数 (降順)
+            ->orderBy('name')            // 第2ソート：MCID (昇順)
+            ->paginate(20);
+
+        return $rank_data;
+    }
+
+    /**
      * ランキングモードを判定し、アクティブなランキングを判定
      * @param string $mode ランキングのモード
      * @return string $navbar_act アクティブなナビゲーションバーの名前
