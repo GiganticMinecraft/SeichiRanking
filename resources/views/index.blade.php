@@ -51,7 +51,7 @@
                                         {{ $item->name }}<br>
                                         {{--<span class="num_break">総整地量：{{ number_format($item->allmineblock) }}</span><br>--}}
                                         <span class="num_break">整地量：{{ number_format($item->totalbreaknum) }}</span><br>
-                                        <span class="last_login">Last loign: {{$item->lastquit}}</span>
+                                        <span class="last_login">Last login: {{$item->lastquit}}</span>
                                     </td>
                                 </tr>
                             @endforeach
@@ -88,7 +88,7 @@
                                         {{ $item->name }}<br>
                                         {{--<span class="num_break">総整地量：{{ number_format($item->allmineblock) }}</span><br>--}}
                                         <span class="num_break">建築量：{{ number_format($item->build_count) }}</span><br>
-                                        <span class="last_login">Last loign: {{$item->lastquit}}</span>
+                                        <span class="last_login">Last login: {{$item->lastquit}}</span>
                                     </td>
                                 </tr>
                             @endforeach
@@ -122,7 +122,7 @@
                                         {{ $item->name }}<br>
                                         {{--<span class="num_break">総整地量：{{ number_format($item->allmineblock) }}</span><br>--}}
                                         <span class="num_break">接続時間：{{ $item->playtime }}</span><br>
-                                        <span class="last_login">Last loign: {{$item->lastquit}}</span>
+                                        <span class="last_login">Last login: {{$item->lastquit}}</span>
                                     </td>
                                 </tr>
                             @endforeach
@@ -138,7 +138,7 @@
             </div>
             {{-- 累計のみ表示する --}}
             @if ($navbar_act !== 'daily')
-                <div id="tab5" class="tab-pane">
+                <div id="tab5" class="tab-pane @if (app('request')->input('kind') == 'vote')active @endif">
                     <h3>◇ 投票数ランキング</h3>
                     <div class="rank">
                         @if (!empty($navbar_act) && $navbar_act == 'year' || $navbar_act == 'monthly' || $navbar_act == 'weekly' || $navbar_act == 'daily')
@@ -159,7 +159,7 @@
                                             {{ $item->name }}<br>
                                             {{--<span class="num_break">総整地量：{{ number_format($item->allmineblock) }}</span><br>--}}
                                             <span class="num_break">投票数：{{ $item->p_vote }}</span><br>
-                                            <span class="last_login">Last loign: {{$item->lastquit}}</span>
+                                            <span class="last_login">Last login: {{$item->lastquit}}</span>
                                         </td>
                                     </tr>
                                 @endforeach

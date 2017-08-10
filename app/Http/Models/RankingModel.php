@@ -91,9 +91,9 @@ class RankingModel extends Model
         $this->set_current_page('playtime');
         $rank_data = DB::table('playerdata as t1')
             ->select(
-                'name', // MCID
-                DB::raw('(SEC_TO_TIME(playtick/20)) as playtime'),  // プレイ時間
-                'lastquit', // 最終ログイン時間
+                'name',                                 // MCID
+                DB::raw('truncate(playtick/20, 0) as play_sec'),   // プレイ秒数
+                'lastquit',                             // 最終ログイン時間
                 // スキン画像をAPI経由で取得
                 DB::raw("(CONCAT('https://mcapi.ca/avatar/', name, '/60')) as mob_head_img"),
                 // 順位計算
@@ -103,6 +103,17 @@ class RankingModel extends Model
             ->orderBy('playtick', 'DESC')  // 第1ソート：総建築量 (降順)
             ->orderBy('name')                 // 第2ソート：MCID (昇順)
             ->paginate(20);
+
+        // 秒を時:分:秒に変換する
+        foreach ($rank_data as &$rank_datum) {
+//            Log::debug('$rank_datum -> '.print_r($rank_datum, 1));
+
+            $hours = floor($rank_datum->play_sec / 3600);
+            $minutes = floor(($rank_datum->play_sec / 60) % 60);
+            $seconds = $rank_datum->play_sec % 60;
+
+            $rank_datum->playtime = sprintf("%2d時間%02d分%02d秒", $hours, $minutes, $seconds);
+        }
 
         return $rank_data;
     }
