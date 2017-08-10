@@ -34,7 +34,7 @@
                 {{--<h3>◇ 投票数</h3>--}}
             {{--</div>--}}
 
-            <div id="tab2" class="tab-pane active">
+            <div id="tab2" class="tab-pane @if (app('request')->input('kind') == 'break' || is_null(app('request')->input('kind')))active @endif">
                 <h3>◇ 整地量ランキング</h3>
 
                 <div class="rank">
@@ -73,7 +73,7 @@
                 </div>
             </div>
 
-            <div id="tab3" class="tab-pane">
+            <div id="tab3" class="tab-pane @if (app('request')->input('kind') == 'build')active @endif">
                 <h3>◇ 建築量ランキング</h3>
                 <div class="rank">
                     @if (!empty($navbar_act) && $navbar_act == 'year' || $navbar_act == 'monthly' || $navbar_act == 'weekly' || $navbar_act == 'daily')
@@ -108,7 +108,7 @@
                     @endif
                 </div>
             </div>
-            <div id="tab4" class="tab-pane">
+            <div id="tab4" class="tab-pane @if (app('request')->input('kind') == 'playtime')active @endif">
                 <h3>◇ 接続時間ランキング</h3>
                 <div class="rank">
                     @if (!empty($navbar_act) && $navbar_act == 'year' || $navbar_act == 'monthly' || $navbar_act == 'weekly' || $navbar_act == 'daily')
