@@ -18,7 +18,7 @@ class RankingController extends Controller
      * @param string $mode
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function index($mode=null)
+    public function index($mode='break')
     {
         // 整地ランキングの取得
         $break_ranking = $this->model->get_break_ranking($mode);

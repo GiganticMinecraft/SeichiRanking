@@ -10,6 +10,8 @@ use Log;
 use Illuminate\Pagination\LengthAwarePaginator;
 
 use App\Libs\MojangAPI;
+use Illuminate\Pagination\Paginator;
+use Input;
 
 use Route;
 
@@ -26,6 +28,7 @@ class RankingModel extends Model
         Log::debug('$mode -> '.$mode);
 
         // クエリ発行＋ページャ作成
+        $this->set_current_page('break');
         $rank_data = DB::table('playerdata as t1')
             ->select(
                 'name',             // MCID
@@ -55,6 +58,7 @@ class RankingModel extends Model
         Log::debug('$mode -> '.$mode);
 
         // クエリ発行＋ページャ作成
+        $this->set_current_page('build');
         $rank_data = DB::table('playerdata as t1')
             ->select(
                 'name',             // MCID
@@ -84,6 +88,7 @@ class RankingModel extends Model
         Log::debug('$mode -> '.$mode);
 
         // クエリ発行＋ページャ作成
+        $this->set_current_page('playtime');
         $rank_data = DB::table('playerdata as t1')
             ->select(
                 'name', // MCID
@@ -127,6 +132,31 @@ class RankingModel extends Model
         }
 
         return $navbar_act;
+    }
+
+    /**
+     * ページャに対してランキング毎のページ番号をセットする
+     * @param string $rank_kind ランキングの種類
+     * @return void
+     */
+    public function set_current_page($rank_kind)
+    {
+        // ランキング種別のGETパラメータを取得
+        $param_kind = Input::get('kind');
+
+        // GETパラメータで指定されたランキングの場合
+        if ($rank_kind == $param_kind) {
+            // ページ番号をセット
+            $current_page = Input::get('page');
+        }
+        else {
+            $current_page = 1;
+        }
+
+        // ページネータにページ番号をセット
+        Paginator::currentPageResolver(function() use ($current_page) {
+            return $current_page;
+        });
     }
 
 }
