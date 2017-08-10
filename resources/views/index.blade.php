@@ -37,26 +37,16 @@
             <div id="tab2" class="tab-pane active">
                 <h3>◇ 整地量ランキング</h3>
 
-                {{--<div class="fixing-base">--}}
-                {{--<div class="fixing-box">--}}
-                {{--<form class="navbar-form navbar-right" role="search">--}}
-                {{--<div class="form-group">--}}
-                {{--<input type="text" class="form-control" placeholder="ユーザー名を検索">--}}
-                {{--</div>--}}
-                {{--<button type="submit" class="btn btn-default">検索</button>--}}
-                {{--</form>--}}
-                {{--</div>--}}
-                {{--</div>--}}
-
                 <div class="rank">
 
                     @if (!empty($navbar_act) && $navbar_act == 'year' || $navbar_act == 'monthly' || $navbar_act == 'weekly' || $navbar_act == 'daily')
                         ※ 近日公開予定
                     @else
+
                         <table class="table table-striped table-hover">
                             <tbody>
 
-                            @foreach ($ranking_data as $key => $item)
+                            @foreach ($break_ranking as $key => $item)
                                 <tr>
                                     <th scope="row">
                                         <big>{{$item->rank}}位</big>
@@ -76,7 +66,7 @@
                         </table>
 
                         {{-- ページネーション --}}
-                        {!! $ranking_data->appends(['kind' => 'break'])->links() !!}
+                        {!! $break_ranking->appends(['kind' => 'break'])->links() !!}
 
                     @endif
 
@@ -86,7 +76,36 @@
             <div id="tab3" class="tab-pane">
                 <h3>◇ 建築量ランキング</h3>
                 <div class="rank">
-                    ※ 近日公開予定
+                    @if (!empty($navbar_act) && $navbar_act == 'year' || $navbar_act == 'monthly' || $navbar_act == 'weekly' || $navbar_act == 'daily')
+                        ※ 近日公開予定
+                    @else
+
+                        <table class="table table-striped table-hover">
+                            <tbody>
+
+                            @foreach ($build_ranking as $key => $item)
+                                <tr>
+                                    <th scope="row">
+                                        <big>{{$item->rank}}位</big>
+                                    </th>
+                                    <td>
+                                        <img src="{{$item->mob_head_img}}">
+                                    </td>
+                                    <td>
+                                        {{ $item->name }}<br>
+                                        {{--<span class="num_break">総整地量：{{ number_format($item->allmineblock) }}</span><br>--}}
+                                        <span class="num_break">総整地量：{{ number_format($item->build_count) }}</span><br>
+                                        <span class="last_login">Last loign: {{$item->lastquit}}</span>
+                                    </td>
+                                </tr>
+                            @endforeach
+                            </tbody>
+                        </table>
+
+                        {{-- ページネーション --}}
+                        {!! $build_ranking->appends(['kind' => 'break'])->links() !!}
+
+                    @endif
                 </div>
             </div>
             <div id="tab4" class="tab-pane">
