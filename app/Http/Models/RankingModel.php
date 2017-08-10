@@ -16,19 +16,19 @@ use Route;
 class RankingModel extends Model
 {
     /**
-     * ランキングデータ取得処理
-     * @param string $mode total or daily
+     * 整地量ランキングデータ取得
+     * @param string $mode total / year / monthly / weekly / daily
      * @return mixed
      */
-    public function get_ranking_data($mode)
+    public function get_break_ranking($mode)
     {
-//        Log::debug('$mode -> '.$mode);
+        Log::debug('$mode -> '.$mode);
 
         // クエリ発行＋ページャ作成
         $rank_data = DB::table('playerdata as t1')
             ->select(
                 'name',             // MCID
-                'totalbreaknum',    // 総合整地量
+                'totalbreaknum',    // 総整地量
                 'lastquit',         // 最終ログイン時間
                 // スキン画像をAPI経由で取得
                 DB::raw("(CONCAT('https://mcapi.ca/avatar/', name, '/60')) as mob_head_img"),
@@ -36,7 +36,36 @@ class RankingModel extends Model
                 DB::raw('(select count(*)+1 from playerdata as t2 where t2.totalbreaknum > t1.totalbreaknum) as rank')
             )
             ->where('totalbreaknum', '>', 0)
-            ->orderBy('totalbreaknum', 'DESC')
+            ->orderBy('totalbreaknum', 'DESC')  // 第1ソート：総整地量 (降順)
+            ->orderBy('name')                   // 第2ソート：MCID (昇順)
+            ->paginate(20);
+
+        return $rank_data;
+    }
+
+    /**
+     * 建築量ランキングデータ取得
+     * @param string $mode total / year / monthly / weekly / daily
+     * @return mixed
+     */
+    public function get_build_ranking($mode)
+    {
+        Log::debug('$mode -> '.$mode);
+
+        // クエリ発行＋ページャ作成
+        $rank_data = DB::table('playerdata as t1')
+            ->select(
+                'name',             // MCID
+                'build_count',      // 総建築量
+                'lastquit',         // 最終ログイン時間
+                // スキン画像をAPI経由で取得
+                DB::raw("(CONCAT('https://mcapi.ca/avatar/', name, '/60')) as mob_head_img"),
+                // 順位計算
+                DB::raw('(select count(*)+1 from playerdata as t2 where t2.build_count > t1.build_count) as rank')
+            )
+            ->where('build_count', '>', 0)
+            ->orderBy('build_count', 'DESC')  // 第1ソート：総建築量 (降順)
+            ->orderBy('name')                 // 第2ソート：MCID (昇順)
             ->paginate(20);
 
         return $rank_data;
