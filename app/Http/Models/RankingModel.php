@@ -30,6 +30,7 @@ class RankingModel extends Model
                 ->select(
                     'name',             // MCID
                     'totalbreaknum',    // 総合整地量
+                    'lastquit',
                     // 順位計算
                     DB::raw('(select count(*)+1 from playerdata as t2 where t2.totalbreaknum > t1.totalbreaknum) as rank')
                 )
