@@ -26,14 +26,14 @@ class RankingController extends Controller
         // 建築ランキングの取得
         $build_ranking = $this->model->get_build_ranking($mode);
 
+        // 接続時間ランキングの取得
+        $playtime_ranking = $this->model->get_playtime_ranking($mode);
+
         // ナビゲーションバーの判定
         $navbar_act = $this->model->set_navbar_act($mode);
 
         // サーバーステータスの取得
         $server_status = $this->get_server_status();
-
-        // 未公開メニューのフラグセット (仮)
-
 
         // ページ独自CSSの設定
         $assetCss = [
@@ -43,11 +43,12 @@ class RankingController extends Controller
         // viewをセット
         return view(
             'index', [
-                'assetCss'      => $assetCss,       // 独自CSS
-                'break_ranking' => $break_ranking,  // 整地ランキング
-                'build_ranking' => $build_ranking,  // 建築量ランキング
-                'navbar_act'    => $navbar_act,
-                'server_status' => $server_status,
+                'assetCss'         => $assetCss,            // 独自CSS
+                'break_ranking'    => $break_ranking,       // 整地ランキング
+                'build_ranking'    => $build_ranking,       // 建築量ランキング
+                'playtime_ranking' => $playtime_ranking,    // 接続時間ランキング
+                'navbar_act'       => $navbar_act,          // ナビゲーションバーの判定
+                'server_status'    => $server_status,
             ]
         );
     }
