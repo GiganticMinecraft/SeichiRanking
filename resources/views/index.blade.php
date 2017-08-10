@@ -68,7 +68,7 @@
                                         {{ $item->name }}<br>
                                         {{--<span class="num_break">総整地量：{{ number_format($item->allmineblock) }}</span><br>--}}
                                         <span class="num_break">総整地量：{{ number_format($item->totalbreaknum) }}</span><br>
-                                        {{--<span class="last_login">Last loign: {{$item->lastquit}}</span>--}}
+                                        <span class="last_login">Last loign: {{$item->lastquit}}</span>
                                     </td>
                                 </tr>
                             @endforeach
