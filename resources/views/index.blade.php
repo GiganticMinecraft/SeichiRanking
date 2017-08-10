@@ -51,7 +51,7 @@
                                         {{ $item->name }}<br>
                                         {{--<span class="num_break">総整地量：{{ number_format($item->allmineblock) }}</span><br>--}}
                                         <span class="num_break">整地量：{{ number_format($item->totalbreaknum) }}</span><br>
-                                        <span class="last_login">Last loign: {{$item->lastquit}}</span>
+                                        <span class="last_login">Last login: {{$item->lastquit}}</span>
                                     </td>
                                 </tr>
                             @endforeach
@@ -88,7 +88,7 @@
                                         {{ $item->name }}<br>
                                         {{--<span class="num_break">総整地量：{{ number_format($item->allmineblock) }}</span><br>--}}
                                         <span class="num_break">建築量：{{ number_format($item->build_count) }}</span><br>
-                                        <span class="last_login">Last loign: {{$item->lastquit}}</span>
+                                        <span class="last_login">Last login: {{$item->lastquit}}</span>
                                     </td>
                                 </tr>
                             @endforeach
@@ -122,7 +122,7 @@
                                         {{ $item->name }}<br>
                                         {{--<span class="num_break">総整地量：{{ number_format($item->allmineblock) }}</span><br>--}}
                                         <span class="num_break">接続時間：{{ $item->playtime }}</span><br>
-                                        <span class="last_login">Last loign: {{$item->lastquit}}</span>
+                                        <span class="last_login">Last login: {{$item->lastquit}}</span>
                                     </td>
                                 </tr>
                             @endforeach
@@ -159,7 +159,7 @@
                                             {{ $item->name }}<br>
                                             {{--<span class="num_break">総整地量：{{ number_format($item->allmineblock) }}</span><br>--}}
                                             <span class="num_break">投票数：{{ $item->p_vote }}</span><br>
-                                            <span class="last_login">Last loign: {{$item->lastquit}}</span>
+                                            <span class="last_login">Last login: {{$item->lastquit}}</span>
                                         </td>
                                     </tr>
                                 @endforeach
