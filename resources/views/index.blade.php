@@ -9,10 +9,10 @@
             {{--<li class="nav-item active">--}}
                 {{--<a href="#tab1" class="nav-link bg-primary" data-toggle="tab">総　合</a>--}}
             {{--</li>--}}
-            <li class="nav-item active">
+            <li class="nav-item @if (app('request')->input('kind') == 'break' || is_null(app('request')->input('kind')))active @endif">
                 <a href="#tab2" class="nav-link bg-primary" data-toggle="tab">整 地 量</a>
             </li>
-            <li class="nav-item">
+            <li class="nav-item @if (app('request')->input('kind') == 'build')active @endif">
                 <a href="#tab3" class="nav-link bg-primary" data-toggle="tab">建 築 量</a>
             </li>
             <li class="nav-item">
@@ -94,7 +94,7 @@
                                     <td>
                                         {{ $item->name }}<br>
                                         {{--<span class="num_break">総整地量：{{ number_format($item->allmineblock) }}</span><br>--}}
-                                        <span class="num_break">総整地量：{{ number_format($item->build_count) }}</span><br>
+                                        <span class="num_break">総建築量：{{ number_format($item->build_count) }}</span><br>
                                         <span class="last_login">Last loign: {{$item->lastquit}}</span>
                                     </td>
                                 </tr>
@@ -103,7 +103,7 @@
                         </table>
 
                         {{-- ページネーション --}}
-                        {!! $build_ranking->appends(['kind' => 'break'])->links() !!}
+                        {!! $build_ranking->appends(['kind' => 'build'])->links() !!}
 
                     @endif
                 </div>
