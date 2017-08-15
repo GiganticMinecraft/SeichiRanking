@@ -21,7 +21,6 @@ class IdeaFormController extends Controller
     public function index()
     {
         try {
-
             // ユーザ情報を取得
             $user = $this->jms_login_auth()->getUser();
             Log::debug(__FUNCTION__.' : login user ->'.print_r($user, 1));
@@ -59,21 +58,22 @@ class IdeaFormController extends Controller
             if (empty($idea)) {
                 return redirect('ideaForm')->with('message', 'アイディアの項目が空欄です。');
             }
-            else {
 
+            // 投稿処理
+            try {
                 // ユーザ情報を取得
                 $user = $this->jms_login_auth()->getUser();
-                Log::debug(__FUNCTION__.' : login user -> '.print_r($user, 1));
+                Log::debug(__FUNCTION__ . ' : login user -> ' . print_r($user, 1));
 
                 // Redmine連携
                 $client = new Redmine\Client(env('REDMINE_URL'), env('REDMINE_KEY'));
                 // チケット起票
                 $client->issue->create([
-                    'project_id'  => env('IDEA_FORM_PROJECT_ID'),
-                    'tracker_id'  => env('IDEA_FORM_TRACKER_ID'),
-                    'status_id'   => env('IDEA_FORM_STATUS_ID'),
+                    'project_id' => env('IDEA_FORM_PROJECT_ID'),
+                    'tracker_id' => env('IDEA_FORM_TRACKER_ID'),
+                    'status_id' => env('IDEA_FORM_STATUS_ID'),
                     'priority_id' => env('IDEA_FORM_PRIORITY_ID'),
-                    'subject'     => '['.$user['preferred_username'].'] '.mb_strimwidth($idea, 0, 40),
+                    'subject' => '[' . $user['preferred_username'] . '] ' . mb_strimwidth($idea, 0, 40),
                     'description' => $idea,
 //                    'assigned_to' => 'user1',
                 ]);
@@ -81,6 +81,11 @@ class IdeaFormController extends Controller
                 // クッキーをクライアント(ブラウザ)へ保存+投稿完了画面を表示
                 $cookie = \Cookie::make('count', md5(uniqid(mt_rand(), true)), 1);
                 return Response::view('ideaSubmitted')->withCookie($cookie);
+            }
+                // 未ログインの場合、例外としてキャッチする
+            catch (\Exception $e) {
+                Log::debug(print_r($e->getMessage(), 1));
+                return redirect()->to('/login');
             }
         }
     }
