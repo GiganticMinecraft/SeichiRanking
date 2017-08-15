@@ -11,7 +11,6 @@ use Log;
 use Auth;
 use Input;
 use Redmine;
-use MinecraftJP;
 
 class IdeaFormController extends Controller
 {
@@ -22,18 +21,10 @@ class IdeaFormController extends Controller
     public function index()
     {
         try {
-            $minecraftjp = new MinecraftJP(array(
-                'clientId'     => env('JMS_CLIENT_ID'),
-                'clientSecret' => env('JMS_CLIENT_SECRET'),
-                'redirectUri'  => env('JMS_CALLBACK')
-            ));
-            // Get Access Token
-//            $accessToken = $minecraftjp->getAccessToken();
-//            Log::debug('$accessToken ->'.print_r($accessToken, 1));
 
-            // Get User
-            $user = $minecraftjp->getUser();
-            Log::debug(print_r($user, 1));
+            // ユーザ情報を取得
+            $user = $this->jms_login_auth()->getUser();
+            Log::debug(__FUNCTION__.' : login user ->'.print_r($user, 1));
 
             return view(
                 'ideaForm', [
@@ -41,6 +32,7 @@ class IdeaFormController extends Controller
                 ]
             );
         }
+        // 未ログインの場合、例外としてキャッチする
         catch (\Exception $e) {
             Log::debug(print_r($e->getMessage(), 1));
             return redirect()->to('/login');
@@ -69,19 +61,13 @@ class IdeaFormController extends Controller
             }
             else {
 
-                // JMSのログイン情報を取得
-                $minecraftjp = new MinecraftJP(array(
-                    'clientId'     => env('JMS_CLIENT_ID'),
-                    'clientSecret' => env('JMS_CLIENT_SECRET'),
-                    'redirectUri'  => env('JMS_CALLBACK')
-                ));
-
-                // Get User
-                $user = $minecraftjp->getUser();
-                Log::debug(print_r($user, 1));
+                // ユーザ情報を取得
+                $user = $this->jms_login_auth()->getUser();
+                Log::debug(__FUNCTION__.' : login user -> '.print_r($user, 1));
 
                 // Redmine連携
                 $client = new Redmine\Client(env('REDMINE_URL'), env('REDMINE_KEY'));
+                // チケット起票
                 $client->issue->create([
                     'project_id'  => env('IDEA_FORM_PROJECT_ID'),
                     'tracker_id'  => env('IDEA_FORM_TRACKER_ID'),
@@ -92,7 +78,7 @@ class IdeaFormController extends Controller
 //                    'assigned_to' => 'user1',
                 ]);
 
-                // クッキーをクライアント(ブラウザ)へ保存する
+                // クッキーをクライアント(ブラウザ)へ保存+投稿完了画面を表示
                 $cookie = \Cookie::make('count', md5(uniqid(mt_rand(), true)), 1);
                 return Response::view('ideaSubmitted')->withCookie($cookie);
             }
