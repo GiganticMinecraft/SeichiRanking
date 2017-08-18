@@ -36,14 +36,41 @@
 
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button">
-                        整地鯖ランキングとは？ <span class="caret"></span>
+                        お問い合わせ <span class="caret"></span>
+                    </a>
+                    <ul class="dropdown-menu" role="menu">
+                        <li><a target="_blank" href="https://docs.google.com/forms/d/e/1FAIpQLSctLrByNvAiQop2lha9Mxn-D5p1OUaOf8JKQJCyAdggGBbzpg/viewform?c=0&w=1">
+                                ご意見・ご感想・リクエスト
+                            </a>
+                        </li>
+
+                        <li><a href="/ideaForm">アイディアの投稿</a></li>
+                        <li><a href="/inquiryForm">お問い合わせ</a></li>
+                        <li><a target="_blank" href="https://docs.google.com/forms/d/e/1FAIpQLSfK9DQkUCD2qs8zATUuYIC3JuV3MyXRVCYjMb5g4g_hBUusSA/viewform?c=0&w=1">
+                                通報フォーム
+                            </a>
+                        </li>
+                        <li><a target="_blank" href="https://docs.google.com/forms/d/e/1FAIpQLSdn9fTTs55c-oGLT3c68KVTGvfUjTK-W_cdataU7_XyzqcBRg/viewform?c=0&w=1">
+                                不具合報告フォーム
+                            </a>
+                        </li>
+                        <li><a target="_blank" href="https://docs.google.com/forms/d/e/1FAIpQLSezwur20tx0JCQ0KMY0JiThYy7oEQDykFRiic96KxK17WOBwA/viewform?c=0&w=1">
+                                寄付受付フォーム
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button">
+                        その他メニュー <span class="caret"></span>
                     </a>
                     <ul class="dropdown-menu" role="menu">
                         <li><a href="/about">このページについて</a></li>
-                        <li><a href="/contact">お問い合わせ</a></li>
                         <li><a href="http://seichi.click/" target="_blank">公式Wiki</a></li>
                     </ul>
                 </li>
+
 
             </ul>
 

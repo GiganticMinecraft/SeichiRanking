@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 
 use MinecraftJP;
 use Log;
+use Session;
 
 
 class SocialAccountController extends Controller
@@ -56,14 +57,16 @@ class SocialAccountController extends Controller
             return redirect('/login');
         }
 
-//        $authUser = $accountService->findOrCreate(
-//            $user,
-//            $provider
-//        );
-//
-//        auth()->login($authUser, true);
+        // 戻り先URLを取得
+        $callback_url = Session::get('callback_url');
+        if (empty($callback_url)) {
+            $callback_url = '/';
+        }
+        else {
+            Session::forget('callback_url');
+        }
 
-        return redirect()->to('/ideaForm');
+        return redirect()->to($callback_url);
     }
 
     public function logout()
