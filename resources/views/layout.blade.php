@@ -22,7 +22,7 @@
     {{-- ページ独自JSの組み込み --}}
     @if(!empty($assetJs))
         @foreach($assetJs as $js)
-            <script type="text/javascript" src="{{$js}}"></script>
+            <script type="text/javascript" src="{{asset($js)}}"></script>
         @endforeach
     @endif
 
@@ -32,7 +32,7 @@
     {{-- ページ独自CSSの組み込み --}}
     @if(!empty($assetCss))
         @foreach($assetCss as $css)
-            <link rel="stylesheet" href="{{$css}}">
+            <link rel="stylesheet" href="{{asset($css)}}">
         @endforeach
     @endif
     <link rel="shortcut icon" href="{{ asset('favicon.ico') }}">
