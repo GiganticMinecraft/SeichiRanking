@@ -12,7 +12,8 @@
         "laravel/framework": "5.4.*",
         "laravel/socialite": "^3.0",
         "laravel/tinker": "~1.0",
-        "minecraftjp/minecraftjp-php-sdk": "^1.1"
+        "minecraftjp/minecraftjp-php-sdk": "^1.1",
+        "nesbot/carbon": "^1.22"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",

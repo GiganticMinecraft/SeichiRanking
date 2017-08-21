@@ -15,7 +15,7 @@
     <link rel="shortcut icon" href="{{ asset('favicon.ico') }}">
 
     <script src="{{asset('/js/base/jquery-3.1.1.min.js')}}"></script>
-    <script src="{{asset('/js/common.js')}}"></script>
+    <script src="{{asset('/js/form.js')}}"></script>
 
     {{-- ページ独自JSの組み込み --}}
     @if(!empty($assetJs))
