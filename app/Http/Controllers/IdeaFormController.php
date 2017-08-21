@@ -39,7 +39,7 @@ class IdeaFormController extends Controller
             Session::put('callback_url', '/ideaForm');
 
             Log::debug(print_r($e->getMessage(), 1));
-            return redirect()->to('/login');
+            return redirect()->to('/login/jms');
         }
     }
 
@@ -95,7 +95,7 @@ class IdeaFormController extends Controller
                 Session::put('callback_url', '/ideaForm');
 
                 Log::debug(print_r($e->getMessage(), 1));
-                return redirect()->to('/login');
+                return redirect()->to('/login/jms');
             }
         }
     }
