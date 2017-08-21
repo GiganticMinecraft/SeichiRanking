@@ -11,6 +11,9 @@
 |
 */
 
+/**
+ * サイト表示
+ */
 // TOP
 Route::get('/', 'RankingController@index');
 Route::get('/ranking/{mode}', 'RankingController@index');
@@ -36,6 +39,21 @@ Route::get('login/{provider}',          'Auth\SocialAccountController@redirectTo
 Route::get('login/{provider}/callback', 'Auth\SocialAccountController@handleProviderCallback');
 Route::get('logout/{provider}',         'Auth\SocialAccountController@logout');
 
-Auth::routes();
+/**
+ * 管理用ページ
+ */
+// TOP
+Route::get('/admin', 'AdminController@index');
 
-Route::get('/home', 'HomeController@index')->name('home');
+// お問い合わせ管理
+Route::get('/admin/inquiry', 'AdminController@inquiry');
+Route::get('/admin/inquiry/detail', 'AdminController@inquiry_detail');
+Route::post('/admin/inquiry/submit', 'AdminController@inquiry_submit');
+
+// アカウント管理
+Route::get('/admin/account', 'AdminController@account');
+// ログイン/ログアウト
+Route::get('/admin/login', 'AdminController@login');
+Route::get('/admin/logout', 'AdminController@logout');
+
+Auth::routes();

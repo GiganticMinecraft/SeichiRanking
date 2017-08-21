@@ -11,10 +11,10 @@ use Response;
 use Cookie;
 use Log;
 use Validator;
-
 use Auth;
 use Session;
-
+use DB;
+use Carbon\Carbon;
 use GuzzleHttp;
 
 class inquiryFormController extends Controller
@@ -48,7 +48,7 @@ class inquiryFormController extends Controller
             Session::put('callback_url', '/inquiryForm');
 
             Log::debug(print_r($e->getMessage(), 1));
-            return redirect()->to('/login');
+            return redirect()->to('/login/jms');
         }
     }
 
@@ -59,21 +59,24 @@ class inquiryFormController extends Controller
      */
     public function submit(Request $request)
     {
-        Log::debug('$request -> '.print_r($request->input('inquiry_text'), 1));
+        Log::debug('$request -> '.print_r($request->input(), 1));
 
         // パラメータ取得
         $inquiry_text = $request->input('inquiry_text');
         $reply_type   = $request->input('reply_type');
 
-
+        // 返信タイプのセット
         if ($reply_type == 'twitter') {
             $contact_id_label = 'Twitter ID';
+            $type = 1;
         }
         elseif ($reply_type == 'discord') {
             $contact_id_label = 'Discord ID';
+            $type = 2;
         }
         else {
             $contact_id_label = 'ID';
+            $type = 9;
         }
 
         // バリデーションエラー時のメッセージをセット
@@ -105,29 +108,40 @@ class inquiryFormController extends Controller
                 $user = $this->jms_login_auth()->getUser();
                 Log::debug(__FUNCTION__ . ' : login user -> ' . print_r($user, 1));
 
-                // Web hook
-                $discord_content = "[".$user['preferred_username']."]\n".$inquiry_text;
-
                 // Discord Botにpostリクエスト
+                $discord_content = "[".$user['preferred_username']."]\n".$inquiry_text;
                 $client = new GuzzleHttp\Client();
                 $client->post(
                     env('DISCORD_INQUIRY_BOT_URL'),
                     ['json' => ['content' => $discord_content]]
                 );
 
-                // クッキーを生成
+                // 問い合わせデータ保存
+                DB::table('inquiry')->insert([
+                    'name' => $user['preferred_username'],
+                    'inquiry_text' => $inquiry_text,
+                    'inquiry_date' => Carbon::now(),
+                    'reply_type'   => $type,
+                    'contact_id'   => $request->input('contact_id'),
+                    'solved_flg'   => 0,
+                    'delete_flg'   => 0,
+                    'created_at'   => Carbon::now(),
+                    'updated_at'   => Carbon::now(),
+                ]);
+
+                // 二重投稿防止のcookieを生成
                 $cookie = \Cookie::make('inquiry', md5(uniqid(mt_rand(), true)), 1);
 
                 // cookieをクライアント(ブラウザ)へ保存 + 投稿完了画面へ遷移
                 return redirect('/thanks')->withCookie($cookie)->with('message', 'お問い合わせありがとうございました。');
             }
-            // 未ログインの場合、例外としてキャッチする
+            // 例外キャッチ
             catch (\Exception $e) {
                 // セッションに戻り先URLをセット
                 Session::put('callback_url', '/inquiryForm');
 
                 Log::debug(print_r($e->getMessage(), 1));
-                return redirect()->to('/login');
+                return redirect()->to('/login/jms');
             }
         }
     }
