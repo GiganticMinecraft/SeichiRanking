@@ -28,6 +28,7 @@ class PlayerSearch extends Controller
 
         return response()->json([
             'result_count' => count($players),
+            'query' => $query,
             'players' => $players
         ]);
     }
