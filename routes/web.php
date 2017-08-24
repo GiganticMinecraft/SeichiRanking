@@ -39,6 +39,9 @@ Route::get('login/{provider}',          'Auth\SocialAccountController@redirectTo
 Route::get('login/{provider}/callback', 'Auth\SocialAccountController@handleProviderCallback');
 Route::get('logout/{provider}',         'Auth\SocialAccountController@logout');
 
+// プレーヤー検索
+Route::get('api/search/player', 'Api\PlayerSearch@get');
+
 /**
  * 管理用ページ
  */
