@@ -3,6 +3,8 @@ $(document).ready(() => {
     const inputBox = $("#player-search-box");
     const suggestion_container = $("#player-search-suggestions");
 
+    let search_result_cache = null;
+
     function displaySearchResults(result) {
         suggestion_container.empty();
         result.players.forEach(player => {
@@ -22,7 +24,7 @@ $(document).ready(() => {
         });
 
         // if result not found
-        if (inputBox.val().length > 0 && result.result_count == 0) {
+        if (inputBox.val().length > 0 && result.result_count === 0) {
             $("<li>")
                 .addClass("list-group-item")
                 .width(form.width())
@@ -40,6 +42,18 @@ $(document).ready(() => {
                 q : event.target.value,
                 lim : 5
             }
-        }).then(search_result => displaySearchResults(search_result));
+        }).then(search_result => {
+            displaySearchResults(search_result);
+            search_result_cache = search_result;
+        })
+    });
+
+    inputBox.focusin(() => {
+        if (search_result_cache !== null) {
+            displaySearchResults(search_result_cache);
+        }
+    });
+    inputBox.focusout(() => {
+        suggestion_container.empty();
     });
 });
