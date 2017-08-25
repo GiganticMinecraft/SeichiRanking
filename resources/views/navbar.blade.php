@@ -74,10 +74,11 @@
 
             </ul>
 
-            <form id="player-search-form" class="navbar-form navbar-left">
+            <form id="player-search-form" class="navbar-form navbar-left" role="search">
                 <div class="form-group">
                     <input id="player-search-box" class="form-control" autocomplete="off" placeholder="ユーザー名を検索">
                 </div>
+                <ul id="player-search-suggestions" class="list-group" style="position: absolute;"></ul>
             </form>
             <!-- 右寄せメニュー -->
             <ul class="nav navbar-nav navbar-right">
