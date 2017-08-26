@@ -47,3 +47,7 @@
 .pt-5 {
     padding-top: 5px;
 }
+
+.player-search-suggestion:hover {
+    background-color: #e3f0f9;
+}
