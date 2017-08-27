@@ -16,11 +16,11 @@ $(document).ready(() => {
                 .css({
                     cursor: "pointer"
                 });
-            suggestion_container
-                .append(element)
-                .on("click", () => {
-                    window.location.href = "/player/" + player.name
-                });
+            element.on("click", () => {
+                window.location.href = "/player/" + player.name;
+            });
+
+            suggestion_container.append(element);
         });
 
         // if result not found

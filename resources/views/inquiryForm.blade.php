@@ -75,14 +75,14 @@
                     <span class="text-danger">※</span>
                 </label>
                 <div class="col-sm-10">
-                    <input type="text" name="contact_id" class="form-control" id="contact_id" placeholder="Discord ID">
+                    <input type="text" name="contact_id" class="form-control" id="contact_id" value="{!! Input::old('contact_id') !!}" placeholder="Discord ID(#の数字もつけてください)">
                 </div>
             </div>
 
             <div class="form-group">
                 <label for="inputPassword3" class="col-sm-2 control-label">お問い合わせ内容 <span class="text-danger">※</span></label>
                 <div class="col-sm-10">
-                    <textarea class="form-control" id="inquiry_text" rows="3" name="inquiry_text" placeholder="お問い合わせ内容"></textarea>
+                    <textarea class="form-control" id="inquiry_text" rows="3" name="inquiry_text" placeholder="お問い合わせ内容">{!! Input::old('inquiry_text') !!}</textarea>
                 </div>
             </div>
             <div class="form-group">
