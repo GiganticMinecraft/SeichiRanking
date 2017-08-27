@@ -19,7 +19,7 @@ function change_contact_id_param() {
     if (reply_type === 'discord') {
         $('#contact_id_form').show();
         $('#contact_id_label').text('Discord ID');
-        $('#contact_id').attr('placeholder', 'Discord ID');
+        $('#contact_id').attr('placeholder', 'Discord ID(#の数字もつけてください)');
     }
     else if (reply_type === 'twitter') {
         $('#contact_id_form').show();

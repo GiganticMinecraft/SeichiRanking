@@ -179,6 +179,9 @@ return [
 
         Laravel\Socialite\SocialiteServiceProvider::class,
 
+        App\Providers\ValidatorServiceProvider::class,
+
+        Thujohn\Twitter\TwitterServiceProvider::class,
 
     ],
 
@@ -230,6 +233,7 @@ return [
         'View' => Illuminate\Support\Facades\View::class,
         'Socialite' => Laravel\Socialite\Facades\Socialite::class,
         'Input' => Illuminate\Support\Facades\Input::class,
+        'Twitter' => Thujohn\Twitter\Facades\Twitter::class,
     ],
 
 ];
