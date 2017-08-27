@@ -12,6 +12,7 @@
     <script src="{{asset('/js/base/Chart.min.js')}}"></script>
     <script src="{{asset('/js/base/Chart.bundle.min.js')}}"></script>
     <script src="{{asset('/js/total.js')}}"></script>
+    <script src="{{asset('/js/player-search.js?2017-08-27')}}"></script>
     {{--<script src="{{asset('/js/index.js')}}"></script>--}}
 
     {{--<script src="http://fb.me/react-0.13.3.js"></script>--}}
@@ -22,7 +23,7 @@
     {{-- ページ独自JSの組み込み --}}
     @if(!empty($assetJs))
         @foreach($assetJs as $js)
-            <script type="text/javascript" src="{{$js}}"></script>
+            <script type="text/javascript" src="{{asset($js)}}"></script>
         @endforeach
     @endif
 
@@ -32,7 +33,7 @@
     {{-- ページ独自CSSの組み込み --}}
     @if(!empty($assetCss))
         @foreach($assetCss as $css)
-            <link rel="stylesheet" href="{{$css}}">
+            <link rel="stylesheet" href="{{asset($css)}}">
         @endforeach
     @endif
     <link rel="shortcut icon" href="{{ asset('favicon.ico') }}">

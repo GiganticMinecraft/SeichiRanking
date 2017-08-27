@@ -34,4 +34,10 @@ class PagesController extends Controller
             'server_status' => $this->server_status,
         ]);
     }
+
+    public function thanks()
+    {
+        // フォームの各投稿完了画面を表示
+        return view('ideaSubmitted');
+    }
 }
