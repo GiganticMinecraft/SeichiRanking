@@ -76,8 +76,8 @@
 
                                 <div class="col-md-7">
 
-                                    <label class="radio-inline"><input type="radio" name="discord_notice" checked>通知する</label>
-                                    <label class="radio-inline"><input type="radio" name="discord_notice">通知しない</label>
+                                    <label class="radio-inline"><input type="radio" name="discord_notice" value="true" checked>通知する</label>
+                                    <label class="radio-inline"><input type="radio" name="discord_notice" value="false">通知しない</label>
 
                                     @if ($errors->has('discord_notice'))
                                         <span class="help-block">

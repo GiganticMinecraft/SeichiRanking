@@ -9,6 +9,7 @@ use Carbon\Carbon;
 use GuzzleHttp;
 use Auth;
 use Mockery\Exception;
+use Twitter;
 
 class AdminModel extends Model
 {
@@ -83,13 +84,20 @@ class AdminModel extends Model
         try {
             // パラメータ取得
             $params = $request->input();
+            Log::debug('$params -> '.print_r($params, 1));
+
+            // 通知先IDを取得
+            $inquiry_data = DB::table('inquiry')->select('contact_id')
+                ->where('inquiry_id', (int)$params['inquiry_id'])
+                ->first();
+            $contact_id = $inquiry_data->contact_id;
 
             // Discordの#supportへの通知
-            if ($params['discord_notice']) {
-                $discord_content = '['.$params['name'].']さんへの回答 (by '.Auth::user()->name.")\n".$params['answer'];
+            if ($params['discord_notice'] === 'true') {
+                $discord_content = "<\@".$contact_id."> **さんへの回答** *(by ".Auth::user()->name.")*\n".$params['answer'];
                 $client = new GuzzleHttp\Client();
                 $client->post(
-                    env('DISCORD_INQUIRY_BOT_URL'),
+                    env('DISCORD_INQUIRY_ANSWER_URL'),
                     ['json' => ['content' => $discord_content]]
                 );
             }
@@ -98,10 +106,23 @@ class AdminModel extends Model
             if (!empty($params['twitter_notice'])) {
                 Log::debug('twitter_notice -> '.print_r($params['twitter_notice'], 1));
 
+                // メンションの「@」記号チェック
+                if (!preg_match('/^@.+$/', $contact_id)) {
+                    $contact_id = '@'.$contact_id;
+                }
+
+                // Tweet
+                Twitter::postTweet(['status' => $contact_id." \n".$params['answer'], 'format' => 'json']);
             }
 
-            // 回答データ保存
-            if (true) { // データが存在しない場合のみ
+            // 回答データ存在チェック
+            $inquiry_answer_data = DB::table('inquiry_answer')
+                ->select('inquiry_answer_id')
+                ->where('inquiry_id', (int)$params['inquiry_id'])->first();
+//            Log::debug('$inquiry_data -> ' .print_r($inquiry_data, 1));
+
+            // 回答データ登録
+            if (empty($inquiry_answer_data->inquiry_answer_id)) { // データが存在しない場合のみ
                 DB::table('inquiry_answer')->insert([
                     'inquiry_id'  => $params['inquiry_id'],
                     'name'        => $params['name'],
@@ -114,7 +135,9 @@ class AdminModel extends Model
                 ]);
             }
             else {
-                DB::table('inquiry_answer')->update([
+                DB::table('inquiry_answer')
+                    ->where('inquiry_answer_id', $inquiry_answer_data->inquiry_answer_id)
+                    ->update([
                     'inquiry_id'  => $params['inquiry_id'],
                     'name'        => $params['name'],
                     'admin_id'    => Auth::user()->id,   // ログイン中の管理ユーザID
@@ -122,8 +145,16 @@ class AdminModel extends Model
                     'answer_date' => Carbon::now(),
                     'delete_flg'  => 0,
                     'updated_at'  => Carbon::now(),
-                ])->where('inquiry_answer_id', ''); // to-do
+                ]);
             }
+
+            // 問い合わせデータの「回答フラグ」を折る
+            DB::table('inquiry')
+                ->where('inquiry_id', $params['inquiry_id'])
+                ->update([
+                'solved_flg' => 1,  // 回答済
+                'updated_at' => Carbon::now(),
+            ]);
 
             return true;
         }
