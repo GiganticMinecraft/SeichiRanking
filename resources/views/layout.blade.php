@@ -11,7 +11,6 @@
     <script src="{{asset('/js/base/jquery.bootgrid.min.js')}}"></script>
     <script src="{{asset('/js/base/Chart.min.js')}}"></script>
     <script src="{{asset('/js/base/Chart.bundle.min.js')}}"></script>
-    <script src="{{asset('/js/total.js')}}"></script>
     <script src="{{asset('/js/player-search.js?2017-08-27')}}"></script>
     {{--<script src="{{asset('/js/index.js')}}"></script>--}}
 

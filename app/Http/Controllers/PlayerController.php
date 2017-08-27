@@ -19,8 +19,15 @@ class PlayerController extends Controller
         // プレイヤーデータを取得
         $player_data = DB::table('playerdata')->where('name', $player_nm)->first();
 
+        // ページ独自JSの設定
+        $assetJs = [
+            asset('/js/total.js?new'),
+            asset('js/base/Chart.min.js')
+        ];
+
         return view('player', [
             'player_data' => $player_data,
+            'assetJs'     => $assetJs,
         ]);
 
     }
