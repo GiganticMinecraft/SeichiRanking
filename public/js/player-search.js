@@ -5,6 +5,7 @@ $(document).ready(() => {
 
     const suggestion_class = "player-search-suggestion";
     const suggestion_selected_class = "player-search-suggestion-selected";
+    const playerNameDataKey = "player-data";
 
     let search_result_cache = null;
     let selected_suggestion = null;
@@ -20,7 +21,7 @@ $(document).ready(() => {
                 .css({
                     cursor: "pointer"
                 })
-                .data("player-name", player.name)
+                .data(playerNameDataKey, player.name)
                 .appendTo(suggestion_container);
         });
 
@@ -47,6 +48,8 @@ $(document).ready(() => {
 
         suggestion_element.addClass(suggestion_selected_class);
         selected_suggestion = suggestion_element;
+
+        inputBox.val(selected_suggestion.data(playerNameDataKey));
     }
 
     function moveSuggestion(is_movement_down) {
@@ -62,6 +65,8 @@ $(document).ready(() => {
         const next_selection = selected_suggestion[is_movement_down ? "next" : "prev"]();
         if (next_selection.length !== 0) {
             selectSuggestion(next_selection);
+        } else {
+            deselectSuggestion(selected_suggestion);
         }
     }
 
@@ -74,7 +79,7 @@ $(document).ready(() => {
     }
 
     function redirect(suggestion_element) {
-        const playerName = suggestion_element.data("player-name");
+        const playerName = suggestion_element.data(playerNameDataKey);
         window.location.href = `/player/${playerName}`;
     }
 
@@ -112,7 +117,7 @@ $(document).ready(() => {
         }
     });
 
-    form.on("keyup", event => {
+    form.on("keydown", event => {
         if (event.keyCode === 38) {
             event.preventDefault();
             moveSuggestionSelectionUp();
