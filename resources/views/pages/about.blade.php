@@ -15,11 +15,12 @@
             本サイトでは、以下のブラウザを推奨しております。記載以外のブラウザ(Internet Explorer等)での動作は保障致しません。
         </li>
 
-        <ul>
-            <li>Google Chrome</li>
-            <li>Firefox</li>
-            <li>Safari</li>
-        </ul>
+            <ul>
+                <li>Google Chrome</li>
+                <li>Firefox</li>
+                <li>Safari</li>
+            </ul>
+        
         </li>
     </ul>
 
