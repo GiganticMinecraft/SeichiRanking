@@ -3,24 +3,24 @@ $(document).ready(() => {
     const inputBox = $("#player-search-box");
     const suggestion_container = $("#player-search-suggestions");
 
+    const suggestion_class = "player-search-suggestion";
+
     let search_result_cache = null;
+    let is_mouse_in_form = false;
 
     function displaySearchResults(result) {
         suggestion_container.empty();
         result.players.forEach(player => {
-            const element = $("<li>")
+            $("<li>")
                 .addClass("list-group-item")
-                .addClass("player-search-suggestion")
+                .addClass(suggestion_class)
                 .width(form.width())
                 .text(player.name)
                 .css({
                     cursor: "pointer"
-                });
-            element.on("click", () => {
-                window.location.href = "/player/" + player.name;
-            });
-
-            suggestion_container.append(element);
+                })
+                .data("player-name", player.name)
+                .appendTo(suggestion_container);
         });
 
         // if result not found
@@ -35,6 +35,7 @@ $(document).ready(() => {
     }
 
     form.submit(event => event.preventDefault());
+
     inputBox.on("input", event => {
         $.ajax({
             url : "/api/search/player",
@@ -53,7 +54,20 @@ $(document).ready(() => {
             displaySearchResults(search_result_cache);
         }
     });
+
     inputBox.focusout(() => {
-        suggestion_container.empty();
+        if (!is_mouse_in_form) {
+            suggestion_container.empty();
+        }
     });
+
+    form.mouseover(() => {
+        is_mouse_in_form = true;
+    }).mouseleave(() => {
+        is_mouse_in_form = false;
+    });
+
+    suggestion_container.on("click", "li", (e) => {
+        window.location.href = `/player/${$(e.target).data("player-name")}`
+    })
 });
