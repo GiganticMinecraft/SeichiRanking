@@ -48,6 +48,6 @@
     padding-top: 5px;
 }
 
-.player-search-suggestion:hover {
+.player-search-suggestion-selected {
     background-color: #e3f0f9;
 }
