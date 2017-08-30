@@ -103,11 +103,7 @@ $(document).ready(() => {
         }
     });
 
-    inputBox.on("focusout", () => {
-        if (selected_suggestion === null) {
-            suggestion_container.empty();
-        }
-    });
+    inputBox.on("focusout", () => suggestion_container.empty());
 
     form.on("submit", event => {
         event.preventDefault();
@@ -125,6 +121,9 @@ $(document).ready(() => {
             moveSuggestionSelectionDown();
         }
     });
+
+    // prevent mousedown from stealing focus
+    suggestion_container.on("mousedown", `.${suggestion_class}`, event => event.preventDefault());
 
     suggestion_container.on("mouseover", `.${suggestion_class}`, event => selectSuggestion($(event.target)));
 
