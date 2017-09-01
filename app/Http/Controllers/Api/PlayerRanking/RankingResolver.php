@@ -10,12 +10,14 @@ abstract class RankingResolver
 
     abstract function getRankingType();
 
-    private function toPlayerRank($player, $rank)
+    private function toPlayerRank($player)
     {
+        $player_rank = $player->rank;
+        unset($player->rank);
         return [
             "player" => $player,
             "type" => $this->getRankingType(),
-            "rank" => $rank + 1
+            "rank" => $player_rank
         ];
     }
 
@@ -25,18 +27,22 @@ abstract class RankingResolver
 
         // TODO this result should be cached for better response time
         $sorted_players = DB::table('playerdata as t1')
-            ->select('name', 'uuid')
+            ->select(
+                'name',
+                'uuid',
+                DB::raw('(select count(*)+1 from playerdata as t2 where t2.' . $comparator . ' > t1.' . $comparator . ') as rank')
+            )
             ->where($comparator, '>', 0)
-            ->orderBy($comparator, 'DESC')
+            ->orderBy('rank', 'ASC')
             ->orderBy('name')
             ->get();
 
-        $playerRanks = [];
+        $ranked_players = [];
 
-        foreach ($sorted_players as $rank=>$player) {
-            $playerRanks[] = $this->toPlayerRank($player, $rank);
+        foreach ($sorted_players as $player) {
+            $ranked_players[] = $this->toPlayerRank($player);
         }
 
-        return array_slice($playerRanks, $offset - 1, $limit);
+        return array_slice($ranked_players, $offset - 1, $limit);
     }
 }
