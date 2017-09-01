@@ -16,30 +16,33 @@ class PlayerRanking extends Controller
 
     const DEFAULT_OFFSET_VALUE = 1;
 
+    const DEFAULT_RANKING_TYPES = "break,build,playtime,vote";
+
     private $resolvers;
 
     public function __construct()
     {
         $this->resolvers = [
-            "default" => new BreakRankingResolver(),
+            "break" => new BreakRankingResolver(),
             "build" => new BuildRankingResolver(),
             "playtime" => new PlaytimeRankingResolver(),
             "vote" => new VoteRankingResolver()
         ];
     }
 
-    private function toJsonResult($ranks_result = [])
+    private function isValidRankingType($ranking_type)
     {
-        return response()->json([
-            'result_count' => count($ranks_result),
-            'ranks' => $ranks_result
-        ]);
+        return isset($this->resolvers[$ranking_type]);
     }
 
-    private function fetch_ranking($ranking_type, $limit, $offset)
+    private function fetchRankingResolver($ranking_type)
     {
-        $resolver = isset($this->resolvers[$ranking_type]) ? $this->resolvers[$ranking_type] : $this->resolvers["default"];
-        return $resolver->getRanking($limit, $offset);
+        if($this->isValidRankingType($ranking_type)) {
+            return $this->resolvers[$ranking_type];
+        }
+
+        // デフォルトで破壊量ランキングのリゾルバを使用する
+        return $this->resolvers["break"];
     }
 
     public function get(Request $request)
@@ -52,7 +55,30 @@ class PlayerRanking extends Controller
         $offset = (int) $request->input("offset") ?: self::DEFAULT_OFFSET_VALUE;
         $offset = max(1, $offset);
 
-        $ranks = $this->fetch_ranking($ranking_type, $limit, $offset);
-        return $this->toJsonResult($ranks);
+        $ranks = $this->fetchRankingResolver($ranking_type)->getRanking($limit, $offset);
+
+        return response()->json([
+            'result_count' => count($ranks),
+            'ranks' => $ranks
+        ]);
+    }
+
+    public function getPlayerRank(Request $request, $player_name)
+    {
+        $ranking_resolvers = array();
+        $ranking_types = $request->input("types") ?: self::DEFAULT_RANKING_TYPES;
+
+        foreach (explode(",", $ranking_types) as $ranking_type) {
+            if ($this->isValidRankingType($ranking_type)) {
+                $ranking_resolvers[$ranking_type] = $this->fetchRankingResolver($ranking_type);
+            }
+        }
+
+        $ranks = array();
+        foreach ($ranking_resolvers as $resolver) {
+            $ranks[] = $resolver->getPlayerRank($player_name);
+        }
+
+        return response()->json($ranks);
     }
 }
