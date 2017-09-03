@@ -6,12 +6,12 @@
     <meta charset="UTF-8">
     <meta name="csrf-token" content="{{ csrf_token() }}" />
 
-    <script src="{{asset('/js/base/jquery-3.1.1.min.js', true)}}"></script>
-    <script src="{{asset('/js/base/bootstrap.min.js', true)}}"></script>
-    <script src="{{asset('/js/base/jquery.bootgrid.min.js', true)}}"></script>
-    <script src="{{asset('/js/base/Chart.min.js', true)}}"></script>
-    <script src="{{asset('/js/base/Chart.bundle.min.js', true)}}"></script>
-    <script src="{{asset('/js/player-search.js?2017-08-28', true)}}"></script>
+    <script src="{{asset('/js/base/jquery-3.1.1.min.js')}}"></script>
+    <script src="{{asset('/js/base/bootstrap.min.js')}}"></script>
+    <script src="{{asset('/js/base/jquery.bootgrid.min.js')}}"></script>
+    <script src="{{asset('/js/base/Chart.min.js')}}"></script>
+    <script src="{{asset('/js/base/Chart.bundle.min.js')}}"></script>
+    <script src="{{asset('/js/player-search.js?2017-08-28')}}"></script>
     {{--<script src="{{asset('/js/index.js')}}"></script>--}}
 
     {{--<script src="http://fb.me/react-0.13.3.js"></script>--}}
