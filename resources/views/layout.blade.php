@@ -6,12 +6,12 @@
     <meta charset="UTF-8">
     <meta name="csrf-token" content="{{ csrf_token() }}" />
 
-    <script src="{{asset('/js/base/jquery-3.1.1.min.js')}}"></script>
-    <script src="{{asset('/js/base/bootstrap.min.js')}}"></script>
-    <script src="{{asset('/js/base/jquery.bootgrid.min.js')}}"></script>
-    <script src="{{asset('/js/base/Chart.min.js')}}"></script>
-    <script src="{{asset('/js/base/Chart.bundle.min.js')}}"></script>
-    <script src="{{asset('/js/player-search.js?2017-08-28')}}"></script>
+    <script src="{{asset('/js/base/jquery-3.1.1.min.js?'.date('Ymd'))}}"></script>
+    <script src="{{asset('/js/base/bootstrap.min.js?'.date('Ymd'))}}"></script>
+    <script src="{{asset('/js/base/jquery.bootgrid.min.js?'.date('Ymd'))}}"></script>
+    <script src="{{asset('/js/base/Chart.min.js?'.date('Ymd'))}}"></script>
+    <script src="{{asset('/js/base/Chart.bundle.min.js?'.date('Ymd'))}}"></script>
+    <script src="{{asset('/js/player-search.js?'.date('Ymd'))}}"></script>
     {{--<script src="{{asset('/js/index.js')}}"></script>--}}
 
     {{--<script src="http://fb.me/react-0.13.3.js"></script>--}}
@@ -22,7 +22,7 @@
     {{-- ページ独自JSの組み込み --}}
     @if(!empty($assetJs))
         @foreach($assetJs as $js)
-            <script type="text/javascript" src="{{asset($js)}}"></script>
+            <script type="text/javascript" src="{{asset($js.'?'.date('Ymd'))}}"></script>
         @endforeach
     @endif
 
@@ -115,10 +115,11 @@
                 <div class="col-sm-2">
                     {{--広告スペース--}}
                     <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+                    <!-- 整地鯖ランキング -->
                     <ins class="adsbygoogle"
                          style="display:inline-block;width:160px;height:600px"
                          data-ad-client="ca-pub-1577125384876056"
-                         data-ad-slot="3172761120"></ins>
+                         data-ad-slot="9718464504"></ins>
                     <script>
                         (adsbygoogle = window.adsbygoogle || []).push({});
                     </script>
