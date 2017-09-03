@@ -114,14 +114,15 @@
                 </div>
                 <div class="col-sm-2">
                     {{--広告スペース--}}
-                    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+                    <script type="text/javascript">
+                        google_ad_client = "ca-pub-1577125384876056";
+                        google_ad_slot = "9718464504";
+                        google_ad_width = 160;
+                        google_ad_height = 600;
+                    </script>
                     <!-- 整地鯖ランキング -->
-                    <ins class="adsbygoogle"
-                         style="display:inline-block;width:160px;height:600px"
-                         data-ad-client="ca-pub-1577125384876056"
-                         data-ad-slot="9718464504"></ins>
-                    <script>
-                        (adsbygoogle = window.adsbygoogle || []).push({});
+                    <script type="text/javascript"
+                            src="//pagead2.googlesyndication.com/pagead/show_ads.js">
                     </script>
                 </div>
             </div>
