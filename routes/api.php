@@ -19,3 +19,7 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 // プレーヤー検索API
 Route::get('/search/player', 'Api\PlayerSearch@get');
+
+Route::get('/ranking', 'Api\PlayerRanking@get');
+
+Route::get('/ranking/player/{player_name}', 'Api\PlayerRanking@getPlayerRank');
