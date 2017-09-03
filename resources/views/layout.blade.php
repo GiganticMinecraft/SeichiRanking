@@ -26,9 +26,9 @@
         @endforeach
     @endif
 
-    <link rel="stylesheet" href="{{asset('/css/base/bootstrap.min.css')}}">
-    <link rel="stylesheet" href="{{asset('/css/base/jquery.bootgrid.min.css')}}">
-    <link rel="stylesheet" href="{{asset('/css/common.css')}}">
+    <link rel="stylesheet" href="{{asset('/css/base/bootstrap.min.css', true)}}">
+    <link rel="stylesheet" href="{{asset('/css/base/jquery.bootgrid.min.css', true)}}">
+    <link rel="stylesheet" href="{{asset('/css/common.css', true)}}">
     {{-- ページ独自CSSの組み込み --}}
     @if(!empty($assetCss))
         @foreach($assetCss as $css)
