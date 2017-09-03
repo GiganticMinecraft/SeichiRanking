@@ -26,8 +26,8 @@ Route::get('/ideaForm', 'IdeaFormController@index');
 Route::post('/ideaForm/submit', 'IdeaFormController@submit');
 
 // お問い合わせフォーム
-Route::get('/inquiryForm', 'inquiryFormController@index');
-Route::post('/inquiryForm/submit', 'InquiryFormController@submit');
+//Route::get('/inquiryForm', 'inquiryFormController@index');
+//Route::post('/inquiryForm/submit', 'InquiryFormController@submit');
 
 Route::get('/thanks', 'PagesController@thanks');
 
@@ -46,9 +46,9 @@ Route::get('logout/{provider}',         'Auth\SocialAccountController@logout');
 Route::get('/admin', 'AdminController@index');
 
 // お問い合わせ管理
-Route::get('/admin/inquiry', 'AdminController@inquiry');
-Route::get('/admin/inquiry/detail', 'AdminController@inquiry_detail');
-Route::post('/admin/inquiry/submit', 'AdminController@inquiry_submit');
+//Route::get('/admin/inquiry', 'AdminController@inquiry');
+//Route::get('/admin/inquiry/detail', 'AdminController@inquiry_detail');
+//Route::post('/admin/inquiry/submit', 'AdminController@inquiry_submit');
 
 // アカウント管理
 Route::get('/admin/account', 'AdminController@account');
