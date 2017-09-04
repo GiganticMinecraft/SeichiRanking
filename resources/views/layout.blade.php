@@ -120,7 +120,7 @@
                 <div class="col-sm-8 top70">
                     @yield('content')
                 </div>
-                <div class="col-sm-2">
+                <div class="col-sm-2 top70">
                     {{--広告スペース--}}
                     <script type="text/javascript">
                         google_ad_client = "ca-pub-1577125384876056";
