@@ -63,7 +63,7 @@ class PlayerRanking extends Controller
         ]);
     }
 
-    public function getPlayerRank(Request $request, $player_name)
+    public function getPlayerRank(Request $request, $player_uuid)
     {
         $ranking_resolvers = array();
         $ranking_types = $request->input("types") ?: self::DEFAULT_RANKING_TYPES;
@@ -76,7 +76,7 @@ class PlayerRanking extends Controller
 
         $ranks = array();
         foreach ($ranking_resolvers as $resolver) {
-            $rank = $resolver->getPlayerRank($player_name);
+            $rank = $resolver->getPlayerRank($player_uuid);
 
             if ($rank == null) {
                 return response()->json(["message" => "requested data does not exist."], 404);
