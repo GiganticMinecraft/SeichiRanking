@@ -12,6 +12,10 @@ abstract class RankingResolver
 
     private function toPlayerRank($ranked_player)
     {
+        if ($ranked_player == null) {
+            return null;
+        }
+
         $player_rank = $ranked_player->rank;
         unset($ranked_player->rank);
         return [

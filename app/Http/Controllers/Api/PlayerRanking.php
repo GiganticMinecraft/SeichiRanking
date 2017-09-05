@@ -76,7 +76,13 @@ class PlayerRanking extends Controller
 
         $ranks = array();
         foreach ($ranking_resolvers as $resolver) {
-            $ranks[] = $resolver->getPlayerRank($player_name);
+            $rank = $resolver->getPlayerRank($player_name);
+
+            if ($rank == null) {
+                return response()->json(["message" => "requested data does not exist."], 404);
+            }
+
+            $ranks[] = $rank;
         }
 
         return response()->json($ranks);
