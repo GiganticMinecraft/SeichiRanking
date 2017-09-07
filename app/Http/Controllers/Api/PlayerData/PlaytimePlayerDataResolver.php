@@ -40,7 +40,7 @@ class PlaytimePlayerDataResolver extends PlayerDataResolver
         }
 
         return [
-            "raw_data" => $raw_data,
+            "raw_data" => (string) $raw_data,
             "data" => $this->toPlayTimeObject($raw_data)
         ];
     }
