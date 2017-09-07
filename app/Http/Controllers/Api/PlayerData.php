@@ -37,14 +37,12 @@ class PlayerData extends Controller
      */
     public function getPlayerData($player_uuid, $data_type)
     {
-        $resolver = $this->resolvers[$data_type];
-
         // データタイプが未定義の場合
-        if ($resolver == null) {
+        if (!isset($this->resolvers[$data_type])) {
             return response()->json(["message" => "requested data type does not exist."], 404);
         }
 
-        $data = $resolver->resolveData($player_uuid);
+        $data = $this->resolvers[$data_type]->resolveData($player_uuid);
 
         // データが見つからなかった場合
         if ($data == null) {
