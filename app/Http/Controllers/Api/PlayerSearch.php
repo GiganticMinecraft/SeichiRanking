@@ -33,7 +33,7 @@ class PlayerSearch extends Controller
 
         $players = DB::table('playerdata')
             ->select('name', 'uuid')
-            ->where('name',  'like',  $query . '%')
+            ->where('name',  'like', str_replace(array('\\', '%', '_'), array('\\\\', '\%', '\_'), $query)  . '%')
             ->orderBy('name')
             ->limit($limit)
             ->get();

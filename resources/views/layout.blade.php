@@ -6,12 +6,12 @@
     <meta charset="UTF-8">
     <meta name="csrf-token" content="{{ csrf_token() }}" />
 
-    <script src="{{asset('/js/base/jquery-3.1.1.min.js')}}"></script>
-    <script src="{{asset('/js/base/bootstrap.min.js')}}"></script>
-    <script src="{{asset('/js/base/jquery.bootgrid.min.js')}}"></script>
-    <script src="{{asset('/js/base/Chart.min.js')}}"></script>
-    <script src="{{asset('/js/base/Chart.bundle.min.js')}}"></script>
-    <script src="{{asset('/js/player-search.js?2017-08-27')}}"></script>
+    <script src="{{asset('/js/base/jquery-3.1.1.min.js?'.date('Ymd'))}}"></script>
+    <script src="{{asset('/js/base/bootstrap.min.js?'.date('Ymd'))}}"></script>
+    <script src="{{asset('/js/base/jquery.bootgrid.min.js?'.date('Ymd'))}}"></script>
+    <script src="{{asset('/js/base/Chart.min.js?'.date('Ymd'))}}"></script>
+    <script src="{{asset('/js/base/Chart.bundle.min.js?'.date('Ymd'))}}"></script>
+    <script src="{{asset('/js/player-search.js?'.date('Ymd'))}}"></script>
     {{--<script src="{{asset('/js/index.js')}}"></script>--}}
 
     {{--<script src="http://fb.me/react-0.13.3.js"></script>--}}
@@ -22,13 +22,13 @@
     {{-- ページ独自JSの組み込み --}}
     @if(!empty($assetJs))
         @foreach($assetJs as $js)
-            <script type="text/javascript" src="{{asset($js)}}"></script>
+            <script type="text/javascript" src="{{asset($js.'?'.date('Ymd'))}}"></script>
         @endforeach
     @endif
 
-    <link rel="stylesheet" href="{{asset('/css/base/bootstrap.min.css')}}">
-    <link rel="stylesheet" href="{{asset('/css/base/jquery.bootgrid.min.css')}}">
-    <link rel="stylesheet" href="{{asset('/css/common.css')}}">
+    <link rel="stylesheet" href="{{asset('/css/base/bootstrap.min.css?'.date('Ymd'))}}">
+    <link rel="stylesheet" href="{{asset('/css/base/jquery.bootgrid.min.css?'.date('Ymd'))}}">
+    <link rel="stylesheet" href="{{asset('/css/common.css?'.date('Ymd'))}}">
     {{-- ページ独自CSSの組み込み --}}
     @if(!empty($assetCss))
         @foreach($assetCss as $css)
@@ -47,6 +47,14 @@
         ga('create', 'UA-60578176-4', 'auto');
         ga('send', 'pageview');
 
+    </script>
+
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <script>
+        (adsbygoogle = window.adsbygoogle || []).push({
+            google_ad_client: "ca-pub-1577125384876056",
+            enable_page_level_ads: true
+        });
     </script>
 </head>
 <body>
@@ -112,15 +120,17 @@
                 <div class="col-sm-8 top70">
                     @yield('content')
                 </div>
-                <div class="col-sm-2">
+                <div class="col-sm-2 top70">
                     {{--広告スペース--}}
-                    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-                    <ins class="adsbygoogle"
-                         style="display:inline-block;width:160px;height:600px"
-                         data-ad-client="ca-pub-1577125384876056"
-                         data-ad-slot="3172761120"></ins>
-                    <script>
-                        (adsbygoogle = window.adsbygoogle || []).push({});
+                    <script type="text/javascript">
+                        google_ad_client = "ca-pub-1577125384876056";
+                        google_ad_slot = "9718464504";
+                        google_ad_width = 160;
+                        google_ad_height = 600;
+                    </script>
+                    <!-- 整地鯖ランキング -->
+                    <script type="text/javascript"
+                            src="//pagead2.googlesyndication.com/pagead/show_ads.js">
                     </script>
                 </div>
             </div>
