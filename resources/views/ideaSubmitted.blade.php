@@ -9,7 +9,7 @@
 
     <br>
     <div class="alert alert-success mt-1">
-        アイディアの投稿、ありがとうございました。
+        {{ session('message') }}
     </div>
 
     <div>

@@ -34,25 +34,56 @@
             <!-- 左寄せメニュー -->
             <ul class="nav navbar-nav small">
 
+                {{--<li class="dropdown">--}}
+                    {{--<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button">--}}
+                        {{--お問い合わせ <span class="caret"></span>--}}
+                    {{--</a>--}}
+                    {{--<ul class="dropdown-menu" role="menu">--}}
+                        {{--<li><a target="_blank" href="https://docs.google.com/forms/d/e/1FAIpQLSctLrByNvAiQop2lha9Mxn-D5p1OUaOf8JKQJCyAdggGBbzpg/viewform?c=0&w=1">--}}
+                                {{--ご意見・ご感想・リクエスト--}}
+                            {{--</a>--}}
+                        {{--</li>--}}
+
+                        {{--<li><a href="/ideaForm">アイディアの投稿</a></li>--}}
+                        {{--<li>--}}
+                            {{--<a href="https://docs.google.com/forms/d/e/1FAIpQLSfqQLbeUQo1DxlL0Wy3A0129PerNrQHJB3Ner3ZEv62WGJywg/viewform?c=0&w=1">--}}
+                                {{--お問い合わせ--}}
+                            {{--</a>--}}
+                        {{--</li>--}}
+                        {{--<li><a target="_blank" href="https://docs.google.com/forms/d/e/1FAIpQLSfK9DQkUCD2qs8zATUuYIC3JuV3MyXRVCYjMb5g4g_hBUusSA/viewform?c=0&w=1">--}}
+                                {{--通報フォーム--}}
+                            {{--</a>--}}
+                        {{--</li>--}}
+                        {{--<li><a target="_blank" href="https://docs.google.com/forms/d/e/1FAIpQLSdn9fTTs55c-oGLT3c68KVTGvfUjTK-W_cdataU7_XyzqcBRg/viewform?c=0&w=1">--}}
+                                {{--不具合報告フォーム--}}
+                            {{--</a>--}}
+                        {{--</li>--}}
+                        {{--<li><a target="_blank" href="https://docs.google.com/forms/d/e/1FAIpQLSezwur20tx0JCQ0KMY0JiThYy7oEQDykFRiic96KxK17WOBwA/viewform?c=0&w=1">--}}
+                                {{--寄付受付フォーム--}}
+                            {{--</a>--}}
+                        {{--</li>--}}
+                    {{--</ul>--}}
+                {{--</li>--}}
+
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button">
-                        整地鯖ランキングとは？ <span class="caret"></span>
+                        その他メニュー <span class="caret"></span>
                     </a>
                     <ul class="dropdown-menu" role="menu">
                         <li><a href="/about">このページについて</a></li>
-                        <li><a href="/contact">お問い合わせ</a></li>
                         <li><a href="http://seichi.click/" target="_blank">公式Wiki</a></li>
                     </ul>
                 </li>
 
+
             </ul>
 
-            {{--<form class="navbar-form navbar-left" role="search">--}}
-                {{--<div class="form-group">--}}
-                    {{--<input type="text" class="form-control" placeholder="ユーザー名を検索">--}}
-                {{--</div>--}}
-                {{--<button type="submit" class="btn btn-default">検索</button>--}}
-            {{--</form>--}}
+            <form id="player-search-form" class="navbar-form navbar-left" role="search">
+                <div class="form-group">
+                    <input id="player-search-box" class="form-control" autocomplete="off" placeholder="ユーザー名を検索">
+                </div>
+                <ul id="player-search-suggestions" class="list-group" style="position: absolute;"></ul>
+            </form>
             <!-- 右寄せメニュー -->
             <ul class="nav navbar-nav navbar-right">
 

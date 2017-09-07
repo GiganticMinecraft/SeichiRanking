@@ -7,6 +7,8 @@ use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 
+use MinecraftJP;
+
 class Controller extends BaseController
 {
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
@@ -25,6 +27,26 @@ class Controller extends BaseController
         }
 
         return $server_status;
+    }
+
+    /**
+     * JMSへのログイン認証
+     * @return $auth_info
+     */
+    public function jms_login_auth()
+    {
+        // JMSへAuth認証
+        $auth_info = new MinecraftJP(array(
+            'clientId'     => env('JMS_CLIENT_ID'),
+            'clientSecret' => env('JMS_CLIENT_SECRET'),
+            'redirectUri'  => env('JMS_CALLBACK')
+        ));
+
+        // Get Access Token
+//            $accessToken = $minecraftjp->getAccessToken();
+//            Log::debug('$accessToken ->'.print_r($accessToken, 1));
+
+        return $auth_info;
     }
 
 }

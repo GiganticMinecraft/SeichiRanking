@@ -7,11 +7,14 @@
     "require": {
         "php": ">=5.6.4",
         "doctrine/dbal": "^2.5",
+        "guzzlehttp/guzzle": "^6.3",
         "kbsali/redmine-api": "^1.5",
         "laravel/framework": "5.4.*",
         "laravel/socialite": "^3.0",
         "laravel/tinker": "~1.0",
-        "minecraftjp/minecraftjp-php-sdk": "^1.1"
+        "minecraftjp/minecraftjp-php-sdk": "^1.1",
+        "nesbot/carbon": "^1.22",
+        "thujohn/twitter": "~2.0"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",
@@ -23,7 +26,8 @@
             "database"
         ],
         "psr-4": {
-            "App\\": "app/"
+            "App\\": "app/",
+            "Services\\": "services/"
         }
     },
     "autoload-dev": {
