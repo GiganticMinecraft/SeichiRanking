@@ -7,6 +7,6 @@ class BuildPlayerDataResolver extends RawPlayerDataResolver
 {
     function getDataColumnName()
     {
-        return "resolve";
+        return "build_count";
     }
 }
