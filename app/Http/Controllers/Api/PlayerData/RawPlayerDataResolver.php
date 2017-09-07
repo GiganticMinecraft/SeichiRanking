@@ -2,6 +2,10 @@
 
 namespace App\Http\Controllers\Api\PlayerData;
 
+/**
+ * 生のデータを返却するのみのリゾルバクラス
+ * @package App\Http\Controllers\Api\PlayerData
+ */
 abstract class RawPlayerDataResolver extends PlayerDataResolver
 {
     function resolveData($player_uuid)
