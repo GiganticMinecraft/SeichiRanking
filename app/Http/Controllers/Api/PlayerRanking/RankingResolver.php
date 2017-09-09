@@ -12,6 +12,10 @@ abstract class RankingResolver
 
     private function toPlayerRank($ranked_player)
     {
+        if ($ranked_player == null) {
+            return null;
+        }
+
         $player_rank = $ranked_player->rank;
         unset($ranked_player->rank);
         return [
@@ -46,7 +50,7 @@ abstract class RankingResolver
         return array_slice($ranked_players, $offset - 1, $limit);
     }
 
-    public function getPlayerRank($player_name)
+    public function getPlayerRank($player_uuid)
     {
         $comparator = $this->getRankComparator();
 
@@ -57,7 +61,7 @@ abstract class RankingResolver
                 'uuid',
                 DB::raw('(select count(*)+1 from playerdata as t2 where t2.' . $comparator . ' > t1.' . $comparator . ') as rank')
             )
-            ->where('name', $player_name)
+            ->where('uuid', $player_uuid)
             ->first();
 
         return $this->toPlayerRank($ranked_player);
