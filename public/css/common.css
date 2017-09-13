@@ -15,8 +15,12 @@
     margin: 10px 0;
 }
 
-.rank {
+.ranking-table {
     margin:20px;
+}
+
+.rank {
+    font-size: larger;
 }
 
 .fixing-base .fixing-box.fixed {
@@ -29,7 +33,7 @@
     color: #A4A4A4;
 }
 
-.num_break {
+.ranked-data {
     font-weight: bold;
     font-size: 16px;
 }
