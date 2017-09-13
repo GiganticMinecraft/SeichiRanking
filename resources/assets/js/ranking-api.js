@@ -8,7 +8,7 @@ export default class RankingApi {
     }
 
     static getRanking(type = "break", offset = 1, lim = 100) {
-        return fetch(`${endpoint_root}/ranking?type=${type}&offset=${ofset}&lim=${lim}`);
+        return fetch(`${endpoint_root}/ranking?type=${type}&offset=${offset}&lim=${lim}`);
     }
 
     static getPlayerRanking(player_uuid, types="break,build,playtime,vote") {
