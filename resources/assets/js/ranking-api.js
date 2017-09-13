@@ -14,4 +14,8 @@ export default class RankingApi {
     static getPlayerRanking(player_uuid, types="break,build,playtime,vote") {
         return fetch(`${endpoint_root}/ranking/player/${player_uuid}&types=${types}`)
     }
+
+    static getPlayerData(player_uuid, datatype) {
+        return fetch(`${endpoint_root}/players/${player_uuid}/${datatype}`);
+    }
 }
