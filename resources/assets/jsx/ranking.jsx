@@ -20,6 +20,35 @@ class RankingItem extends Component {
         };
     }
 
+    _formatRankedData(json_data) {
+        if (this.type === "playtime") {
+            const {data} = json_data;
+            return `${data.hours}時間${data.minutes}分${data.seconds}秒`;
+        }
+
+        // 生のデータを下から3桁ずつカンマで区切っていく
+        const data = json_data["raw_data"];
+        let result = "";
+        for(let backward_index = 1; backward_index <= data.length; backward_index++) {
+            const index = data.length - backward_index;
+            result = data[index] + result;
+            if (index !== 0 && backward_index % 3 === 0) {
+                result = "," + result;
+            }
+        }
+
+        return result;
+    }
+
+    async componentDidMount() {
+        const ranked_data_json = await RankingApi.getPlayerData(this.player.uuid, this.type).then(r => r.json());
+        const formatted_data = this._formatRankedData(ranked_data_json);
+
+        this.setState({
+            "ranked_data" : formatted_data
+        });
+    }
+
     render() {
         return (
             <tr>
@@ -56,14 +85,10 @@ class Ranking extends Component {
         };
     }
 
-    setStateAsync(state) {
-        return new Promise(res => this.setState(state, res));
-    }
-
     async componentDidMount() {
         const response = await RankingApi.getRanking(this.type, this.item_per_page * (this.page - 1) + 1, this.item_per_page);
 
-        await this.setStateAsync({
+        this.setState({
             "ranking" : await response.json()
         });
     }
