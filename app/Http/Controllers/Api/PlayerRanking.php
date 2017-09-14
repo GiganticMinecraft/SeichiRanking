@@ -55,11 +55,13 @@ class PlayerRanking extends Controller
         $offset = (int) $request->input("offset") ?: self::DEFAULT_OFFSET_VALUE;
         $offset = max(0, $offset);
 
-        $ranks = $this->fetchRankingResolver($ranking_type)->getRanking($limit, $offset);
+        $entire_ranking = $this->fetchRankingResolver($ranking_type)->getRanking();
+        $sub_ranking = array_slice($entire_ranking, $offset, $limit);
 
         return response()->json([
-            'result_count' => count($ranks),
-            'ranks' => $ranks
+            'result_count' => count($sub_ranking),
+            'ranks' => $sub_ranking,
+            'total-ranked-player' => count($entire_ranking)
         ]);
     }
 
