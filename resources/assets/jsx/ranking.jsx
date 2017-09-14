@@ -20,6 +20,12 @@ class RankingItem extends Component {
         };
     }
 
+    /**
+     * プレーヤーデータAPIの戻り値を表示できる形式に変換する
+     * @param json_data APIの戻り値
+     * @returns string
+     * @private
+     */
     _formatRankedData(json_data) {
         if (this.type === "playtime") {
             const {data} = json_data;
