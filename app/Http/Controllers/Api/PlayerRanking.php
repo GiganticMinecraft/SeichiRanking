@@ -14,7 +14,7 @@ class PlayerRanking extends Controller
     const DEFAULT_LIMIT_VALUE = 100;
     const LIMIT_MAX = 100;
 
-    const DEFAULT_OFFSET_VALUE = 1;
+    const DEFAULT_OFFSET_VALUE = 0;
 
     const DEFAULT_RANKING_TYPES = "break,build,playtime,vote";
 
@@ -53,7 +53,7 @@ class PlayerRanking extends Controller
         $limit = max(1, min($limit, self::LIMIT_MAX));
 
         $offset = (int) $request->input("offset") ?: self::DEFAULT_OFFSET_VALUE;
-        $offset = max(1, $offset);
+        $offset = max(0, $offset);
 
         $ranks = $this->fetchRankingResolver($ranking_type)->getRanking($limit, $offset);
 

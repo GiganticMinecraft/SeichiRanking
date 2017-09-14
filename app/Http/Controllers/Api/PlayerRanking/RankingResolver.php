@@ -47,7 +47,7 @@ abstract class RankingResolver
             $ranked_players[] = $this->toPlayerRank($player);
         }
 
-        return array_slice($ranked_players, $offset - 1, $limit);
+        return array_slice($ranked_players, $offset, $limit);
     }
 
     public function getPlayerRank($player_uuid)
