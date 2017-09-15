@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Api\PlayerData\BreakPlayerDataResolver;
 use App\Http\Controllers\Api\PlayerData\BuildPlayerDataResolver;
+use App\Http\Controllers\Api\PlayerData\LastQuitPlayerDataResolver;
 use App\Http\Controllers\Api\PlayerData\PlaytimePlayerDataResolver;
 use App\Http\Controllers\Api\PlayerData\VotePlayerDataResolver;
 use App\Http\Controllers\Controller;
@@ -24,7 +25,8 @@ class PlayerData extends Controller
             "break" => new BreakPlayerDataResolver(),
             "build" => new BuildPlayerDataResolver(),
             "playtime" => new PlaytimePlayerDataResolver(),
-            "vote" => new VotePlayerDataResolver()
+            "vote" => new VotePlayerDataResolver(),
+            "lastquit" => new LastQuitPlayerDataResolver()
         ];
     }
 
