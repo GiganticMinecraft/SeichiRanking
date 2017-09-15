@@ -92,7 +92,7 @@ class Ranking extends Component {
     }
 
     async componentDidMount() {
-        const response = await RankingApi.getRanking(this.type, this.item_per_page * (this.page - 1) + 1, this.item_per_page);
+        const response = await RankingApi.getRanking(this.type, this.item_per_page * (this.page - 1), this.item_per_page);
 
         this.setState({
             "ranking" : await response.json()
@@ -105,7 +105,7 @@ class Ranking extends Component {
      * @private
      */
     _getRankingBody() {
-        if (duration !== "total") {
+        if (this.duration !== "total") {
             return <div>"※ 近日公開予定"</div>;
         }
 

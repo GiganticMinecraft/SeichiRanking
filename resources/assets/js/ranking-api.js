@@ -7,7 +7,7 @@ export default class RankingApi {
         return fetch(`${endpoint_root}/search/player?q=${query}&lim=${lim}`);
     }
 
-    static getRanking(type = "break", offset = 1, lim = 100) {
+    static getRanking(type = "break", offset = 0, lim = 100) {
         return fetch(`${endpoint_root}/ranking?type=${type}&offset=${offset}&lim=${lim}`);
     }
 
