@@ -13,19 +13,21 @@ use Illuminate\Http\Request;
 |
 */
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
-});
+Route::group(['middleware' => 'throttle:60,1'], function () {
 
-// プレーヤー検索API
-Route::get('/search/player', 'Api\PlayerSearch@get');
+    Route::middleware('auth:api')->get('/user', function (Request $request) {
+        return $request->user();
+    });
 
-// ランキングAPI
-Route::get('/ranking', 'Api\PlayerRanking@get');
-//Route::get('/ranking/player/{player_uuid}', 'Api\PlayerRanking@getPlayerRank');
-Route::group(['prefix' => 'api', 'middleware' => 'throttle:180'], function () {
+    // プレーヤー検索API
+    Route::get('/search/player', 'Api\PlayerSearch@get');
+
+    // ランキングAPI
+    Route::get('/ranking', 'Api\PlayerRanking@get');
     Route::get('/ranking/player/{player_uuid}', 'Api\PlayerRanking@getPlayerRank');
 });
 
 // プレーヤーデータAPI
-Route::get('/players/{player_uuid}/{data_type}', 'Api\PlayerData@getPlayerData');
+Route::group(['middleware' => 'throttle:600,1'], function () {
+    Route::get('/players/{player_uuid}/{data_type}', 'Api\PlayerData@getPlayerData');
+});
