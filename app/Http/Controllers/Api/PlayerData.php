@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Api\PlayerData\BreakPlayerDataResolver;
 use App\Http\Controllers\Api\PlayerData\BuildPlayerDataResolver;
+use App\Http\Controllers\Api\PlayerData\LastQuitPlayerDataResolver;
 use App\Http\Controllers\Api\PlayerData\PlaytimePlayerDataResolver;
 use App\Http\Controllers\Api\PlayerData\VotePlayerDataResolver;
 use App\Http\Controllers\Controller;
@@ -24,7 +25,8 @@ class PlayerData extends Controller
             "break" => new BreakPlayerDataResolver(),
             "build" => new BuildPlayerDataResolver(),
             "playtime" => new PlaytimePlayerDataResolver(),
-            "vote" => new VotePlayerDataResolver()
+            "vote" => new VotePlayerDataResolver(),
+            "lastquit" => new LastQuitPlayerDataResolver()
         ];
     }
 
@@ -45,7 +47,7 @@ class PlayerData extends Controller
         $data = $this->resolvers[$data_type]->resolveData($player_uuid);
 
         // データが見つからなかった場合
-        if ($data == null) {
+        if ($data === null) {
             return response()->json(["message" => "requested record does not exist."], 404);
         }
 

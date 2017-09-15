@@ -12,7 +12,7 @@ abstract class RawPlayerDataResolver extends PlayerDataResolver
     {
         $raw_data = $this->fetchRawData($player_uuid);
 
-        if ($raw_data == null) {
+        if ($raw_data === null) {
             return null;
         }
 

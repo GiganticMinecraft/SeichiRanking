@@ -25,7 +25,11 @@ abstract class RankingResolver
         ];
     }
 
-    public function getRanking($limit, $offset)
+    /**
+     * ランキング全体を取得する。
+     * @return array IPlayerRankの配列
+     */
+    public function getRanking()
     {
         $comparator = $this->getRankComparator();
 
@@ -47,9 +51,14 @@ abstract class RankingResolver
             $ranked_players[] = $this->toPlayerRank($player);
         }
 
-        return array_slice($ranked_players, $offset - 1, $limit);
+        return $ranked_players;
     }
 
+    /**
+     * 指定プレーヤーの順位を取得する
+     * @param $player_uuid string プレーヤーのUUID
+     * @return array|null IPlayerRankの配列/プレーヤーの順位が存在しない場合はnull
+     */
     public function getPlayerRank($player_uuid)
     {
         $comparator = $this->getRankComparator();
