@@ -2,11 +2,6 @@
 
 
 @section('content')
-    <script>
-        // TODO: 本来、この変数はURLのハッシュにて与えられるべき。
-        const duration = "{{$navbar_act}}";
-        const type = "break";
-    </script>
     <div class="m-t-1 m-l-1 m-r-1">
         <!--タブのボタン部分-->
         <!--TODO: タブは動的に管理されるべき-->
