@@ -1,13 +1,11 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Kory
- * Date: 9/15/2017
- * Time: 12:15 PM
- */
 
 namespace App\Http\Controllers\Api\PlayerData;
 
+/**
+ * 最終ログアウト時間のリゾルバクラス
+ * @package App\Http\Controllers\Api\PlayerData
+ */
 class LastQuitPlayerDataResolver extends RawPlayerDataResolver
 {
     /**
