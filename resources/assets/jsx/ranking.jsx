@@ -4,6 +4,40 @@ import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import RankingApi from '../js/ranking-api';
 
+class RankingTypes {
+    static get TYPE_MAP () {
+        return {
+            "break": "整地量",
+            "build": "建築量",
+            "playtime": "接続時間",
+            "vote": "投票数"
+        };
+    }
+
+    /**
+     * ランキングタイプを日本語に解決する
+     * @param type
+     * @returns string
+     */
+    static resolveRaw(type) {
+        return RankingTypes.TYPE_MAP[type];
+    }
+
+    /**
+     * 期間パラメータに対して有効な型の配列を返す
+     * @param duration
+     * @returns {[string]}
+     */
+    static getAvailableTypes(duration) {
+        const types = ["break", "build", "playtime"];
+        if (duration === "daily") {
+            return types;
+        }
+        types.push("vote");
+        return types;
+    }
+}
+
 class RankingItem extends Component {
     constructor(props) {
         super(props);
@@ -68,7 +102,9 @@ class RankingItem extends Component {
                 </td>
                 <td>
                     {this.player.name}<br />
-                    <span className="ranked-data">整地量：{this.state.ranked_data || ""}</span><br />
+                    <span className="ranked-data">
+                        {RankingTypes.resolveRaw(this.type)}：{this.state.ranked_data || ""}
+                    </span><br />
                     <span className="last_login">Last quit：{this.state.last_quit || ""}</span>
                 </td>
             </tr>
@@ -105,6 +141,7 @@ class Ranking extends Component {
      * @private
      */
     _getRankingBody() {
+        // TODO 期間ランキングのAPIが実装され次第このブロックを消すこと
         if (this.duration !== "total") {
             return <div>"※ 近日公開予定"</div>;
         }
@@ -117,7 +154,7 @@ class Ranking extends Component {
             );
         }
 
-        // TODO ページ切り替えバーを追加
+        // TODO ページ切り替えバーを追加する
         return (
             <div className="ranking-table">
                 <table className="table table-striped table-hover">
@@ -132,7 +169,7 @@ class Ranking extends Component {
     render() {
         return (
             <div>
-                <h3>◇ 整地量ランキング</h3>
+                <h3>◇ {RankingTypes.resolveRaw(this.type)}ランキング</h3>
                 {this._getRankingBody()}
             </div>
         );
@@ -167,7 +204,8 @@ class Ranking extends Component {
     function getRankingPageParams() {
         let {duration, type, page} = getQueryObject(window.location.hash);
 
-        page = page || 1;
+        // パラメータに不足又は異常があった場合デフォルト値を設定する
+        page = Math.max(page || 1, 1);
 
         if (!valid_durations.includes(duration)) {
             duration = "total";
