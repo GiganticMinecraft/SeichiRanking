@@ -76,15 +76,15 @@ class RankingItem extends Component {
     }
 }
 
-export default class RankingBody extends Component {
+class RankingBody extends Component {
     constructor(props) {
         super(props);
 
         this.item_per_page = 20;
 
-        this.page = props.page || 1;
-        this.duration = props.duration || "total";
-        this.type = props.type || "break";
+        this.page = props.page;
+        this.duration = props.duration;
+        this.type = props.type;
 
         this.state = {
             ranking : undefined
@@ -139,3 +139,47 @@ export default class RankingBody extends Component {
         );
     }
 }
+
+class RankingTypeNavigator extends Component {
+    constructor(props) {
+        super(props);
+
+        this.type = props.type;
+        this.duration = props.duration;
+
+        this._getTab = this._getTab.bind(this);
+    }
+
+    _getTab(type) {
+        let item_class_name = "nav-item ranking-type-item";
+        if (this.type === type) {
+            item_class_name += " active";
+        }
+
+        let tab_title = RankingTypes.resolveRaw(type);
+
+        // 長さが不足していれば空白を挿入する
+        if (tab_title.length < 4) {
+            tab_title = tab_title.split("").join(" ");
+        }
+
+        return (
+            <li className={item_class_name} data-ranking-type={type}>
+                <a className="nav-link bg-primary" data-toggle="tab">{tab_title}</a>
+            </li>
+        );
+    }
+
+    render() {
+        return (
+            <ul className="nav nav-tabs" id="ranking-type-nav">
+                {RankingTypes.getAvailableTypes(this.duration).map(this._getTab)}
+            </ul>
+        );
+    }
+}
+
+export {
+    RankingBody,
+    RankingTypeNavigator
+};

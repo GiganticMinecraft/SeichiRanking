@@ -2,7 +2,7 @@
 
 import React from "react";
 import ReactDOM from 'react-dom';
-import RankingBody from "./ranking-components.jsx";
+import { RankingBody, RankingTypeNavigator } from "./ranking-components.jsx";
 
 (() => {
     /**
@@ -50,17 +50,16 @@ import RankingBody from "./ranking-components.jsx";
         }
     }
 
-    function renderRanking(duration, type, page) {
+    function renderRanking({duration, type, page}) {
         ReactDOM.render(<RankingBody duration={duration} type={type} page={page}/>, document.getElementById('ranking-container'));
+        ReactDOM.render(<RankingTypeNavigator duration={duration} type={type}/>, document.getElementById('ranking-type-nav'));
     }
 
-    const {duration, type, page} = getRankingPageParams();
-    renderRanking(duration, type, page);
+    /**
+     * パラメータオブジェクトを保持する
+     * ページの再描画を行う際は、まずこちらを更新してからレンダリング関数を呼び出すようにする
+     */
+    let parameters = getRankingPageParams();
 
-    // ランキングタイプのタブを選択状態にする
-    const target_tab = Array.prototype.find.call(
-        document.getElementsByClassName("ranking-type-item"),
-        tab => tab.getAttribute("data-ranking-type") === type
-    );
-    target_tab.classList.add("active");
+    renderRanking(parameters);
 })();
