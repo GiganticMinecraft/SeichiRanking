@@ -164,7 +164,7 @@ class RankingTypeNavigator extends Component {
         }
 
         return (
-            <li className={item_class_name} data-ranking-type={type}>
+            <li className={item_class_name} key={type}>
                 <a className="nav-link bg-primary" data-toggle="tab">{tab_title}</a>
             </li>
         );
