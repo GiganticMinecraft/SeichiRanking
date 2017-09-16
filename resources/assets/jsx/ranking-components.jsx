@@ -45,11 +45,15 @@ class RankingItem extends Component {
     }
 
     async componentDidMount() {
-        const ranked_data_json = await RankingApi.getPlayerData(this.player.uuid, this.type).then(r => r.json());
+        const [ranked_data_json, last_quit_raw] = await Promise.all([
+            RankingApi.getPlayerData(this.player.uuid, this.type).then(r => r.json()),
+            RankingApi.getPlayerData(this.player.uuid, "lastquit").then(r => r.json()).then(r => r.raw_data)
+        ]);
         const formatted_data = this._formatRankedData(ranked_data_json);
 
         this.setState({
-            "ranked_data" : formatted_data
+            "ranked_data" : formatted_data,
+            "last_quit" : last_quit_raw
         });
     }
 
