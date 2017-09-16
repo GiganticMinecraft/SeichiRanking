@@ -4,6 +4,31 @@ import React from "react";
 import ReactDOM from 'react-dom';
 import { RankingBody, RankingTypeNavigator } from "./ranking-components.jsx";
 
+class RankingStore {
+    static isDurationValid(duration) {
+        return ["total", "daily", "weekly", "monthly"].includes(duration);
+    }
+
+    static isTypeValid(type) {
+        return ["break", "build", "playtime", "vote"].includes(type);
+    }
+
+    constructor({duration, type, page}) {
+        [this.duration, this.type, this.page] = [duration, type, page];
+
+        // パラメータに不足又は異常があった場合デフォルト値を設定する
+        this.page = Math.max(this.page || 1, 1);
+
+        if (!RankingStore.isDurationValid(this.duration)) {
+            this.duration = "total";
+        }
+
+        if (!RankingStore.isTypeValid(this.type) || (this.type === "vote" && this.duration === "daily")) {
+            this.type = "break";
+        }
+    }
+}
+
 (() => {
     /**
      * ハッシュ以降のクエリをオブジェクトとして取得する
@@ -23,25 +48,12 @@ import { RankingBody, RankingTypeNavigator } from "./ranking-components.jsx";
             .reduce((previous, current) => Object.assign(previous, current));
     }
 
-    const valid_durations = ["total", "daily", "weekly", "monthly"];
-    const valid_types = ["break", "build", "playtime", "vote"];
     /**
      * ランキングページの構成に必要なパラメータをURLから取得する
      * @returns {{duration, type, page}}
      */
     function getRankingPageParams() {
         let {duration, type, page} = getQueryObject(window.location.hash);
-
-        // パラメータに不足又は異常があった場合デフォルト値を設定する
-        page = Math.max(page || 1, 1);
-
-        if (!valid_durations.includes(duration)) {
-            duration = "total";
-        }
-
-        if (!valid_types.includes(type) || (type === "vote" && duration === "daily")) {
-            type = "break";
-        }
 
         return {
             duration : duration,
@@ -50,16 +62,11 @@ import { RankingBody, RankingTypeNavigator } from "./ranking-components.jsx";
         }
     }
 
-    function renderRanking({duration, type, page}) {
-        ReactDOM.render(<RankingBody duration={duration} type={type} page={page}/>, document.getElementById('ranking-container'));
-        ReactDOM.render(<RankingTypeNavigator duration={duration} type={type}/>, document.getElementById('ranking-type-nav'));
+    function renderRanking(store) {
+        ReactDOM.render(<RankingBody duration={store.duration} type={store.type} page={store.page}/>, document.getElementById('ranking-container'));
+        ReactDOM.render(<RankingTypeNavigator duration={store.duration} type={store.type}/>, document.getElementById('ranking-type-nav'));
     }
 
-    /**
-     * パラメータオブジェクトを保持する
-     * ページの再描画を行う際は、まずこちらを更新してからレンダリング関数を呼び出すようにする
-     */
-    let parameters = getRankingPageParams();
-
-    renderRanking(parameters);
+    const rankingStore = new RankingStore(getRankingPageParams());
+    renderRanking(rankingStore);
 })();
