@@ -86,12 +86,11 @@ class RankingBody extends Component {
 
         this.item_per_page = 20;
 
-        this.page = props.page;
-        this.duration = props.duration;
-        this.type = props.type;
+        this.store = props.store;
+        ({page : this.page, duration : this.duration, type : this.type} = this.store);
 
         this.state = {
-            ranking : undefined
+            "ranking" : undefined
         };
     }
 
@@ -148,8 +147,8 @@ class RankingTypeNavigator extends Component {
     constructor(props) {
         super(props);
 
-        this.type = props.type;
-        this.duration = props.duration;
+        this.store = props.store;
+        ({type : this.type, duration : this.duration} = this.store);
 
         this._getTab = this._getTab.bind(this);
     }
@@ -169,7 +168,7 @@ class RankingTypeNavigator extends Component {
 
         return (
             <li className={item_class_name} key={type}>
-                <a className="nav-link bg-primary" data-toggle="tab">{tab_title}</a>
+                <a className="nav-link bg-primary" data-toggle="tab" onClick={ () => this.store.setType(type) }>{tab_title}</a>
             </li>
         );
     }
