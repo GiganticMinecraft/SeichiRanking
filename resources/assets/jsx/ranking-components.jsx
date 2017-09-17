@@ -88,22 +88,20 @@ class RankingBody extends Component {
 
         const { store } = props;
 
-        this.state = {
-            ranking : undefined,
-            store : store,
-            page : store.page,
-            duration : store.duration,
-            type : store.type
-        };
+        this.state = { ranking : undefined, store : store };
 
-        this.state.store.on("update", (updatedStore, _) => {
-        });
+        store.on("update", (updatedStore, _) => this.updateRankingData());
     }
 
-    async componentDidMount() {
-        const response = await RankingApi.getRanking(this.state.type, this.item_per_page * (this.page - 1), this.item_per_page);
+    async updateRankingData() {
+        const response = await RankingApi.getRanking(this.state.store.type, this.item_per_page * (this.page - 1), this.item_per_page);
+        const ranking_json = await response.json();
 
-        this.setState({ ranking : await response.json() });
+        this.setState({ ranking : ranking_json });
+    }
+
+    componentDidMount() {
+        return this.updateRankingData();
     }
 
     /**
@@ -113,7 +111,7 @@ class RankingBody extends Component {
      */
     _getRankingBody() {
         // TODO 期間ランキングのAPIが実装され次第このブロックを消すこと
-        if (this.state.duration !== "total") {
+        if (this.state.store.duration !== "total") {
             return <div>"※ 近日公開予定"</div>;
         }
 
@@ -140,7 +138,7 @@ class RankingBody extends Component {
     render() {
         return (
             <div>
-                <h3>◇ {RankingTypes.resolveRaw(this.state.type)}ランキング</h3>
+                <h3>◇ {RankingTypes.resolveRaw(this.state.store.type)}ランキング</h3>
                 {this._getRankingBody()}
             </div>
         );
@@ -153,18 +151,23 @@ class RankingTypeNavigator extends Component {
 
         const { store } = props;
 
-        this.state = {
-            store : store,
-            type : store.type,
-            duration : store.duration
-        };
+        this.state = { store : store };
+
+        store.on("update", (updatedStore, updatedParameter) => {
+            // durationが変更されない限りnavvarへの変更も存在しない
+            if (updatedParameter !== "duration") {
+                return;
+            }
+
+            this.setState({ store : updatedStore })
+        });
 
         this._getTab = this._getTab.bind(this);
     }
 
     _getTab(type) {
         let item_class_name = "nav-item ranking-type-item";
-        if (this.state.type === type) {
+        if (this.state.store.type === type) {
             item_class_name += " active";
         }
 
@@ -185,7 +188,7 @@ class RankingTypeNavigator extends Component {
     render() {
         return (
             <ul className="nav nav-tabs" id="ranking-type-nav">
-                {RankingTypes.getAvailableTypes(this.state.duration).map(this._getTab)}
+                { RankingTypes.getAvailableTypes(this.state.store.duration).map(this._getTab) }
             </ul>
         );
     }
