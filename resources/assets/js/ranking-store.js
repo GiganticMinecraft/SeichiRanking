@@ -1,4 +1,7 @@
-class RankingStore {
+import { EventEmitter2 } from "eventemitter2";
+import RankingTypes from "./ranking-types";
+
+class RankingStore extends EventEmitter2 {
     static isDurationValid(duration) {
         return ["total", "daily", "weekly", "monthly"].includes(duration);
     }
@@ -7,19 +10,83 @@ class RankingStore {
         return ["break", "build", "playtime", "vote"].includes(type);
     }
 
-    constructor({duration, type, page}) {
-        [this.duration, this.type, this.page] = [duration, type, page];
+    /**
+     * 与えられたパラメータに不整合がないようにして配列形式で返す
+     *
+     * @returns {[string,string,int]} [duration, type, page] の形式で返却される
+     * 戻り値は整えられているのでページレンダリングにそのまま使用してよい
+     */
+    static constructParameters({duration : _duration, type : _type, page : _page}) {
+        let {duration, type, page} = [_duration, _type, _page];
 
-        // パラメータに不足又は異常があった場合デフォルト値を設定する
-        this.page = Math.max(this.page || 1, 1);
+        page = Math.max(page || 1, 1);
 
-        if (!RankingStore.isDurationValid(this.duration)) {
-            this.duration = "total";
+        if (!RankingStore.isDurationValid(duration)) {
+            duration = "total";
         }
 
-        if (!RankingStore.isTypeValid(this.type) || (this.type === "vote" && this.duration === "daily")) {
+        if (!RankingStore.isTypeValid(type) || (type === "vote" && duration === "daily")) {
+            type = "break";
+        }
+
+        return [duration, type, page];
+    }
+
+    constructor(parameterObject) {
+        super();
+        EventEmitter2.call(this);
+
+        [this.duration, this.type, this.page] = RankingStore.constructParameters(parameterObject);
+    }
+
+    _emitUpdateEvent() {
+        this.emit("update", this);
+    }
+
+    /**
+     * pageパラメータを更新する
+     * @param page
+     */
+    setPage(page) {
+        this.page = page;
+        this._emitUpdateEvent();
+    }
+
+    /**
+     * typeパラメータを更新する
+     * @param type
+     */
+    setType(type) {
+        if (!RankingStore.isTypeValid(type)) {
+            throw new Error("Given type is invalid");
+        }
+
+        // typeが更新されていればpageを1に戻す
+        if (this.type !== type) {
+            this.page = 1;
+        }
+        this.type = type;
+
+        this._emitUpdateEvent()
+    }
+
+    setDuration(duration) {
+        if (!RankingStore.isDurationValid(duration)) {
+            throw new Error("Given duration is invalid");
+        }
+
+        // durationが更新されていればpageを1に戻す
+        if (this.duration !== duration) {
+            this.page = 1;
+        }
+
+        // durationとtypeが矛盾していれば、typeをbreakにする
+        if (!RankingTypes.getAvailableTypes(duration).includes(this.type)) {
             this.type = "break";
         }
+
+        this.duration = duration;
+        this._emitUpdateEvent();
     }
 }
 

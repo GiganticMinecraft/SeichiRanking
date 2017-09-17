@@ -12,5 +12,7 @@ import rankingStore from "../js/ranking-store";
         ReactDOM.render(<RankingTypeNavigator duration={store.duration} type={store.type}/>, document.getElementById('ranking-type-nav'));
     }
 
+    rankingStore.on("update", updatedStore => renderRanking(updatedStore));
+
     renderRanking(rankingStore);
 })();
