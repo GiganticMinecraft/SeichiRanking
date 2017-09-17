@@ -18,24 +18,8 @@
 
             <!-- メニュー -->
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-
-                <ul class="nav navbar-nav">
-                    <li @if (!empty($navbar_act) && $navbar_act == 'total')class="active"@endif>
-                        <a href="/ranking/total">総合</a>
-                    </li>
-                    <li @if (!empty($navbar_act) && $navbar_act == 'daily')class="active"@endif>
-                        <a href="/ranking/daily">日間</a>
-                    </li>
-                    <li @if (!empty($navbar_act) && $navbar_act == 'weekly')class="active"@endif>
-                        <a href="/ranking/weekly">週間</a>
-                    </li>
-                    <li @if (!empty($navbar_act) && $navbar_act == 'monthly')class="active"@endif>
-                        <a href="/ranking/monthly">月間</a>
-                    </li>
-                    <li @if (!empty($navbar_act) && $navbar_act == 'year')class="active"@endif>
-                        <a href="/ranking/year">年間</a>
-                    </li>
-                </ul>
+                <!-- 期間選択のnavvar -->
+                <div id="ranking-duration-nav"></div>
 
                 <!-- 左寄せメニュー -->
                 <ul class="nav navbar-nav small">

@@ -1,15 +1,8 @@
 import { EventEmitter2 } from "eventemitter2";
 import RankingTypes from "./ranking-types";
+import RankingDuration from "./ranking-durations";
 
 class RankingStore extends EventEmitter2 {
-    static isDurationValid(duration) {
-        return ["total", "daily", "weekly", "monthly"].includes(duration);
-    }
-
-    static isTypeValid(type) {
-        return ["break", "build", "playtime", "vote"].includes(type);
-    }
-
     /**
      * 与えられたパラメータに不整合がないようにして配列形式で返す
      *
@@ -21,11 +14,11 @@ class RankingStore extends EventEmitter2 {
 
         page = Math.max(page || 1, 1);
 
-        if (!RankingStore.isDurationValid(duration)) {
+        if (!RankingDuration.getAvailableDurations().includes(duration)) {
             duration = "total";
         }
 
-        if (!RankingStore.isTypeValid(type) || (type === "vote" && duration === "daily")) {
+        if (!RankingTypes.getAvailableTypes(duration).includes(type)) {
             type = "break";
         }
 
@@ -62,7 +55,7 @@ class RankingStore extends EventEmitter2 {
      * @param type
      */
     setType(type) {
-        if (!RankingStore.isTypeValid(type)) {
+        if (!RankingTypes.getAvailableTypes(this.duration).includes(type)) {
             throw new Error("Given type is invalid");
         }
 
@@ -77,7 +70,7 @@ class RankingStore extends EventEmitter2 {
     }
 
     setDuration(duration) {
-        if (!RankingStore.isDurationValid(duration)) {
+        if (!RankingDuration.getAvailableDurations().includes(duration)) {
             throw new Error("Given duration is invalid");
         }
 
