@@ -5,17 +5,13 @@ export default class RankingTypeNavigator extends Component {
     constructor(props) {
         super(props);
 
-        const { store } = props;
-
-        this.state = { store : store };
-
-        store.on("update", (updatedStore, updatedParameter) => {
+        props.store.on("update", (updatedStore, updatedParameter) => {
             // durationが変更されない限りnavvarへの変更も存在しない
             if (updatedParameter !== "duration") {
                 return;
             }
 
-            this.setState({ store : updatedStore })
+            this.forceUpdate();
         });
 
         this._getTab = this._getTab.bind(this);
@@ -23,7 +19,7 @@ export default class RankingTypeNavigator extends Component {
 
     _getTab(type) {
         let item_class_name = "nav-item ranking-type-item";
-        if (this.state.store.type === type) {
+        if (this.props.store.type === type) {
             item_class_name += " active";
         }
 
@@ -36,7 +32,7 @@ export default class RankingTypeNavigator extends Component {
 
         return (
             <li className={item_class_name} key={type}>
-                <a className="nav-link bg-primary" data-toggle="tab" onClick={ () => this.state.store.setType(type) }>{tab_title}</a>
+                <a className="nav-link bg-primary" data-toggle="tab" onClick={ () => this.props.store.setType(type) }>{tab_title}</a>
             </li>
         );
     }
@@ -44,7 +40,7 @@ export default class RankingTypeNavigator extends Component {
     render() {
         return (
             <ul className="nav nav-tabs" id="ranking-type-nav">
-                { RankingTypes.getAvailableTypes(this.state.store.duration).map(this._getTab) }
+                { RankingTypes.getAvailableTypes(this.props.store.duration).map(this._getTab) }
             </ul>
         );
     }

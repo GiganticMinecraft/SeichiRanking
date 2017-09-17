@@ -86,15 +86,13 @@ export default class RankingBody extends Component {
 
         this.item_per_page = 20;
 
-        const { store } = props;
+        this.state = { ranking : undefined };
 
-        this.state = { ranking : undefined, store : store };
-
-        store.on("update", (updatedStore, _) => this.updateRankingData());
+        props.store.on("update", (updatedStore, _) => this.updateRankingData());
     }
 
     async updateRankingData() {
-        const response = await RankingApi.getRanking(this.state.store.type, this.item_per_page * (this.page - 1), this.item_per_page);
+        const response = await RankingApi.getRanking(this.props.store.type, this.item_per_page * (this.page - 1), this.item_per_page);
         const ranking_json = await response.json();
 
         this.setState({ ranking : ranking_json });
@@ -111,7 +109,7 @@ export default class RankingBody extends Component {
      */
     _getRankingBody() {
         // TODO 期間ランキングのAPIが実装され次第このブロックを消すこと
-        if (this.state.store.duration !== "total") {
+        if (this.props.store.duration !== "total") {
             return <div>"※ 近日公開予定"</div>;
         }
 
@@ -138,7 +136,7 @@ export default class RankingBody extends Component {
     render() {
         return (
             <div>
-                <h3>◇ {RankingTypes.resolveRaw(this.state.store.type)}ランキング</h3>
+                <h3>◇ {RankingTypes.resolveRaw(this.props.store.type)}ランキング</h3>
                 {this._getRankingBody()}
             </div>
         );
