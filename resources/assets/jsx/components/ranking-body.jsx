@@ -88,7 +88,7 @@ export default class RankingBody extends Component {
 
         this.state = { ranking : undefined };
 
-        props.store.on("update", (updatedStore, _) => this.updateRankingData());
+        props.store.on("update", () => this.updateRankingData());
     }
 
     async updateRankingData() {

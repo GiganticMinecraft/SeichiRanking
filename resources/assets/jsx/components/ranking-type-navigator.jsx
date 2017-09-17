@@ -5,7 +5,7 @@ export default class RankingTypeNavigator extends Component {
     constructor(props) {
         super(props);
 
-        props.store.on("update", (updatedStore, updatedParameter) => {
+        props.store.on("update", (_, updatedParameter) => {
             // durationが変更されない限りnavvarへの変更も存在しない
             if (updatedParameter !== "duration") {
                 return;
