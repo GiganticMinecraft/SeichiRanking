@@ -10,8 +10,8 @@ export default class RankingDurationNavigator extends Component {
 
     _getTab(duration) {
         return (
-            <li>
-                <a key={duration} onClick={() => this.props.store.setDuration(duration)}>
+            <li key={duration}>
+                <a onClick={() => this.props.store.setDuration(duration)}>
                     {RankingDuration.resolveRaw(duration)}
                 </a>
             </li>
