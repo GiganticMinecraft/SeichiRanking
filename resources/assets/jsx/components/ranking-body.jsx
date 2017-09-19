@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import RankingApi from '../../js/ranking-api';
 import RankingTypes from '../../js/ranking-types';
 import RankingItem from './ranking-item.jsx';
+import Pagination from "./pagination.jsx";
 
 export default class RankingBody extends Component {
     constructor(props) {
@@ -15,7 +16,8 @@ export default class RankingBody extends Component {
     }
 
     async updateRankingData() {
-        const response = await RankingApi.getRanking(this.props.store.type, this.item_per_page * (this.page - 1), this.item_per_page);
+        const ranking_offset = this.item_per_page * (this.props.store.page - 1);
+        const response = await RankingApi.getRanking(this.props.store.type, ranking_offset, this.item_per_page);
         const ranking_json = await response.json();
 
         this.setState({ ranking : ranking_json });
@@ -56,11 +58,23 @@ export default class RankingBody extends Component {
         );
     }
 
+    _getPagination() {
+        if (this.state.ranking === undefined) {
+            return null;
+        }
+
+        const total_pages = Math.ceil(this.state.ranking["total-ranked-player"] / this.item_per_page);
+        return <Pagination currentPage={this.props.store.page}
+                           totalPages={total_pages}
+                           onPageChange={ page => this.props.store.setPage(page) }/>
+    }
+
     render() {
         return (
             <div>
                 <h3>◇ {RankingTypes.resolveRaw(this.props.store.type)}ランキング</h3>
                 {this._getRankingBody()}
+                {this._getPagination()}
             </div>
         );
     }

@@ -12,8 +12,6 @@ class RankingStore extends EventEmitter2 {
     static constructParameters({duration : _duration, type : _type, page : _page}) {
         let [duration, type, page] = [_duration, _type, _page];
 
-        console.log(duration, type, page);
-
         page = Math.max(page || 1, 1);
 
         if (!RankingDuration.getAvailableDurations().includes(duration)) {
