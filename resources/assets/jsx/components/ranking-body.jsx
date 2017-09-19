@@ -46,7 +46,6 @@ export default class RankingBody extends Component {
             );
         }
 
-        // TODO ページ切り替えバーを追加する
         return (
             <div className="ranking-table">
                 <table className="table table-striped table-hover">
@@ -54,6 +53,7 @@ export default class RankingBody extends Component {
                     {ranking_items}
                     </tbody>
                 </table>
+                {this._getPagination()}
             </div>
         );
     }
@@ -74,7 +74,6 @@ export default class RankingBody extends Component {
             <div>
                 <h3>◇ {RankingTypes.resolveRaw(this.props.store.type)}ランキング</h3>
                 {this._getRankingBody()}
-                {this._getPagination()}
             </div>
         );
     }
