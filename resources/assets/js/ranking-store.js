@@ -10,7 +10,9 @@ class RankingStore extends EventEmitter2 {
      * 戻り値は整えられているのでページレンダリングにそのまま使用してよい
      */
     static constructParameters({duration : _duration, type : _type, page : _page}) {
-        let {duration, type, page} = [_duration, _type, _page];
+        let [duration, type, page] = [_duration, _type, _page];
+
+        console.log(duration, type, page);
 
         page = Math.max(page || 1, 1);
 
@@ -96,6 +98,10 @@ class RankingStore extends EventEmitter2 {
  * @returns {*}
  */
 function getQueryObject(hash) {
+    if (hash === "") {
+        return ({});
+    }
+
     return hash.substring(1)
         .split("&")
         .map(param => {
