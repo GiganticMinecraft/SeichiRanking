@@ -62,7 +62,7 @@ export default class RankingItem extends Component {
             <tr>
                 <th scope="row">
                     <span className="rank">
-                        {this.rank} 位
+                        {this.rank}位
                     </span>
                 </th>
                 <td>
