@@ -18,7 +18,7 @@ export default class RankingTypeNavigator extends Component {
     }
 
     _getTab(type) {
-        let item_class_name = "nav-item ranking-type-item";
+        let item_class_name = "clickable nav-item ranking-type-item";
         if (this.props.store.type === type) {
             item_class_name += " active";
         }

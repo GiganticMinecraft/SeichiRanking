@@ -55,3 +55,7 @@
 .player-search-suggestion-selected {
     background-color: #e3f0f9;
 }
+
+.clickable {
+    cursor: pointer;
+}

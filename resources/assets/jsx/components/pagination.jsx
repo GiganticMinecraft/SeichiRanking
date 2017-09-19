@@ -40,7 +40,7 @@ export default class Pagination extends Component {
         }
 
         return (
-            <li key={`prev-${current_page}`}>
+            <li className="clickable" key={`prev-${current_page}`}>
                 <a onClick={ () => this.props.onPageChange(current_page - 1) }>«</a>
             </li>
         );
@@ -60,7 +60,7 @@ export default class Pagination extends Component {
         }
 
         return (
-            <li key={`next-${current_page}`}>
+            <li className="clickable" key={`next-${current_page}`}>
                 <a onClick={ () => this.props.onPageChange(current_page + 1) }>»</a>
             </li>
         );
@@ -81,7 +81,7 @@ export default class Pagination extends Component {
         }
 
         return (
-            <li key={page}>
+            <li className="clickable" key={page}>
                 <a onClick={ () => this.props.onPageChange(page) }>{page}</a>
             </li>
         )
