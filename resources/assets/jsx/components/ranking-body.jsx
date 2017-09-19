@@ -63,7 +63,7 @@ export default class RankingBody extends Component {
             return null;
         }
 
-        const total_pages = Math.ceil(this.state.ranking["total-ranked-player"] / this.item_per_page);
+        const total_pages = Math.ceil(this.state.ranking.total_ranked_player / this.item_per_page);
         return <Pagination currentPage={this.props.store.page}
                            totalPages={total_pages}
                            onPageChange={ page => this.props.store.setPage(page) }/>
