@@ -61,7 +61,7 @@ class PlayerRanking extends Controller
         return response()->json([
             'result_count' => count($sub_ranking),
             'ranks' => $sub_ranking,
-            'total-ranked-player' => count($entire_ranking)
+            'total_ranked_player' => count($entire_ranking)
         ]);
     }
 
