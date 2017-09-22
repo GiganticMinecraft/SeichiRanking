@@ -112,7 +112,7 @@ export default class Pagination extends Component {
         let disabledButtonAtEnd = false;
         for (let page = 1; page <= this.props.totalPages; page++) {
             if (this._isPageButtonDisplayed(page)) {
-                displayPageButtonArray.push(this._getPageButton(page))
+                displayPageButtonArray.push(this._getPageButton(page));
                 disabledButtonAtEnd = false;
             } else if (!disabledButtonAtEnd) {
                 displayPageButtonArray.push("...");
