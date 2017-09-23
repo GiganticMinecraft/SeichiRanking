@@ -1,8 +1,16 @@
-import { EventEmitter2 } from "eventemitter2";
 import RankingTypes from "./ranking-types";
 import RankingDuration from "./ranking-durations";
+import RankingApi from './ranking-api';
+import { observable, action } from 'mobx';
 
-class RankingStore extends EventEmitter2 {
+const ranking_item_per_page = 20;
+
+class RankingStore {
+    @observable duration;
+    @observable type;
+    @observable page;
+    @observable ranking;
+
     /**
      * 与えられたパラメータに不整合がないようにして配列形式で返す
      *
@@ -25,56 +33,48 @@ class RankingStore extends EventEmitter2 {
         return [duration, type, page];
     }
 
-    constructor(parameterObject) {
-        super();
-        EventEmitter2.call(this);
-
-        [this.duration, this.type, this.page] = RankingStore.constructParameters(parameterObject);
+    async _updateRankingData() {
+        const ranking_offset = ranking_item_per_page * (this.page - 1);
+        const response = await RankingApi.getRanking(this.type, ranking_offset, ranking_item_per_page);
+        this.ranking = await response.json();
     }
 
-    _emitUpdateEvent(updateComponent) {
-        this.emit("update", this, updateComponent);
+    constructor(parameterObject) {
+        [this.duration, this.type, this.page] = RankingStore.constructParameters(parameterObject);
+        this.ranking = undefined;
+
+        this._updateRankingData();
     }
 
     /**
      * pageパラメータを更新する
      * @param page
      */
-    setPage(page){
-        const oldPage = this.page;
+    @action setPage(page){
         this.page = page;
 
-        // 更新処理
-        if (oldPage !== page) {
-            this._emitUpdateEvent("page");
-        }
+        this._updateRankingData();
     }
 
     /**
      * typeパラメータを更新する
      * @param type
      */
-    setType(type) {
+    @action setType(type) {
         if (!RankingTypes.getAvailableTypes(this.duration).includes(type)) {
             throw new Error("Given type is invalid");
         }
 
-        const oldType = this.type;
         this.type = type;
 
-        // 更新処理
-        if (oldType !== type) {
-            this.page = 1;
-            this._emitUpdateEvent("type")
-        }
+        this._updateRankingData();
     }
 
-    setDuration(duration) {
+    @action setDuration(duration) {
         if (!RankingDuration.getAvailableDurations().includes(duration)) {
             throw new Error("Given duration is invalid");
         }
 
-        const oldDuration = this.duration;
         this.duration = duration;
 
         // durationとtypeが矛盾していれば、typeをbreakにする
@@ -82,11 +82,7 @@ class RankingStore extends EventEmitter2 {
             this.type = "break";
         }
 
-        // 更新処理
-        if (oldDuration !== duration) {
-            this.page = 1;
-            this._emitUpdateEvent("duration");
-        }
+        this._updateRankingData();
     }
 }
 

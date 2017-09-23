@@ -1,25 +1,19 @@
 import React, { Component } from 'react';
 import RankingTypes from '../../js/ranking-types';
+import rankingStore from '../../js/ranking-store'
+import { observer } from "mobx-react";
 
+@observer
 export default class RankingTypeNavigator extends Component {
     constructor(props) {
         super(props);
-
-        props.store.on("update", (_, updatedParameter) => {
-            // durationが変更されない限りnavvarへの変更も存在しない
-            if (updatedParameter !== "duration") {
-                return;
-            }
-
-            this.forceUpdate();
-        });
 
         this._getTab = this._getTab.bind(this);
     }
 
     _getTab(type) {
         let item_class_name = "clickable nav-item ranking-type-item";
-        if (this.props.store.type === type) {
+        if (rankingStore.type === type) {
             item_class_name += " active";
         }
 
@@ -32,7 +26,7 @@ export default class RankingTypeNavigator extends Component {
 
         return (
             <li className={item_class_name} key={type}>
-                <a className="nav-link bg-primary" data-toggle="tab" onClick={ () => this.props.store.setType(type) }>{tab_title}</a>
+                <a className="nav-link bg-primary" data-toggle="tab" onClick={ () => rankingStore.setType(type) }>{tab_title}</a>
             </li>
         );
     }
@@ -40,7 +34,7 @@ export default class RankingTypeNavigator extends Component {
     render() {
         return (
             <ul className="nav nav-tabs" id="ranking-type-nav">
-                { RankingTypes.getAvailableTypes(this.props.store.duration).map(this._getTab) }
+                { RankingTypes.getAvailableTypes(rankingStore.duration).map(this._getTab) }
             </ul>
         );
     }

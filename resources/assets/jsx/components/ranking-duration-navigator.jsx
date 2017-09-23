@@ -1,27 +1,21 @@
 import React, { Component } from 'react';
 import RankingDuration from '../../js/ranking-durations'
+import rankingStore from '../../js/ranking-store';
+import {observer} from "mobx-react";
 
+@observer
 export default class RankingDurationNavigator extends Component {
-    constructor(props) {
-        super(props);
-
-        props.store.on("update", (_, updateParameter) => {
-            // durationが変更されない限りnavvarへの変更も存在しない
-            if (updateParameter !== "duration") {
-                return;
-            }
-
-            this.forceUpdate();
-        });
+    constructor(...args) {
+        super(...args);
 
         this._getTab = this._getTab.bind(this);
     }
 
     _getTab(duration) {
-        const isActive = duration === this.props.store.duration;
+        const isActive = duration === rankingStore.duration;
         return (
             <li className={isActive ? "active" : "clickable"} key={`${duration}${isActive ? "-active" : ""}`}>
-                <a onClick={() => this.props.store.setDuration(duration)}>
+                <a onClick={() => rankingStore.setDuration(duration)}>
                     {RankingDuration.resolveRaw(duration)}
                 </a>
             </li>
