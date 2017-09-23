@@ -33,17 +33,22 @@ class RankingStore {
         return [duration, type, page];
     }
 
-    async _updateRankingData() {
-        const ranking_offset = ranking_item_per_page * (this.page - 1);
-        const response = await RankingApi.getRanking(this.type, ranking_offset, ranking_item_per_page);
-        this.ranking = await response.json();
-    }
-
     constructor(parameterObject) {
         [this.duration, this.type, this.page] = RankingStore.constructParameters(parameterObject);
         this.ranking = undefined;
 
         this._updateRankingData();
+    }
+
+    /**
+     * ランキング情報をStoreのほかのデータを用いて更新する
+     * @returns {Promise.<void>}
+     * @private
+     */
+    @action async _updateRankingData() {
+        const ranking_offset = ranking_item_per_page * (this.page - 1);
+        const response = await RankingApi.getRanking(this.type, ranking_offset, ranking_item_per_page);
+        this.ranking = await response.json();
     }
 
     /**
@@ -70,6 +75,10 @@ class RankingStore {
         this._updateRankingData();
     }
 
+    /**
+     * durationパラメータを更新する
+     * @param duration
+     */
     @action setDuration(duration) {
         if (!RankingDuration.getAvailableDurations().includes(duration)) {
             throw new Error("Given duration is invalid");
