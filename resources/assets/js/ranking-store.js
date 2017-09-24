@@ -3,13 +3,12 @@ import RankingDuration from "./ranking-durations";
 import RankingApi from './ranking-api';
 import { observable, action } from 'mobx';
 
-const ranking_item_per_page = 20;
-
 class RankingStore {
     @observable duration;
     @observable type;
     @observable page;
     @observable ranking;
+    @observable item_per_page;
 
     /**
      * 与えられたパラメータに不整合がないようにして配列形式で返す
@@ -36,6 +35,7 @@ class RankingStore {
     constructor(parameterObject) {
         [this.duration, this.type, this.page] = RankingStore.constructParameters(parameterObject);
         this.ranking = undefined;
+        this.item_per_page = 20;
 
         this._updateRankingData();
     }
@@ -46,8 +46,8 @@ class RankingStore {
      * @private
      */
     @action async _updateRankingData() {
-        const ranking_offset = ranking_item_per_page * (this.page - 1);
-        const response = await RankingApi.getRanking(this.type, ranking_offset, ranking_item_per_page);
+        const ranking_offset = this.item_per_page * (this.page - 1);
+        const response = await RankingApi.getRanking(this.type, ranking_offset, this.item_per_page);
         this.ranking = await response.json();
     }
 
