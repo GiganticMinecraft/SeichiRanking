@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Api\PlayerRanking;
+namespace App\Http\Models\Api\PlayerRanking;
 
 use DB;
 

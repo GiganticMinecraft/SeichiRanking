@@ -2,11 +2,8 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Http\Controllers\Api\PlayerRanking\BreakRankingResolver;
-use App\Http\Controllers\Api\PlayerRanking\BuildRankingResolver;
-use App\Http\Controllers\Api\PlayerRanking\PlaytimeRankingResolver;
-use App\Http\Controllers\Api\PlayerRanking\VoteRankingResolver;
 use App\Http\Controllers\Controller;
+use App\Http\Models\Api\PlayerRankingFacade;
 use Illuminate\Http\Request;
 
 class PlayerRanking extends Controller
@@ -18,31 +15,25 @@ class PlayerRanking extends Controller
 
     const DEFAULT_RANKING_TYPES = "break,build,playtime,vote";
 
-    private $resolvers;
-
-    public function __construct()
-    {
-        $this->resolvers = [
-            "break" => new BreakRankingResolver(),
-            "build" => new BuildRankingResolver(),
-            "playtime" => new PlaytimeRankingResolver(),
-            "vote" => new VoteRankingResolver()
-        ];
-    }
-
     private function isValidRankingType($ranking_type)
     {
         return isset($this->resolvers[$ranking_type]);
     }
 
+    /**
+     * ランキングリゾルバのインスタンスを取得
+     * @param $ranking_type
+     * @return \App\Http\Models\Api\PlayerRanking\RankingResolver
+     */
     private function fetchRankingResolver($ranking_type)
     {
-        if($this->isValidRankingType($ranking_type)) {
-            return $this->resolvers[$ranking_type];
+        $facade = PlayerRankingFacade::getInstance();
+        if($facade->isValidMode($ranking_type)) {
+            return $facade->getResolver($ranking_type);
         }
 
         // デフォルトで破壊量ランキングのリゾルバを使用する
-        return $this->resolvers["break"];
+        return $facade->getResolver('break');
     }
 
     public function get(Request $request)
