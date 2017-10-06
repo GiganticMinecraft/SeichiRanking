@@ -5,7 +5,6 @@ namespace App\Http\Models\Api;
 use App\Http\Models\Api\PlayerData\BreakPlayerDataResolver;
 use App\Http\Models\Api\PlayerData\BuildPlayerDataResolver;
 use App\Http\Models\Api\PlayerData\LastQuitPlayerDataResolver;
-use App\Http\Models\Api\PlayerData\PlayerDataResolver;
 use App\Http\Models\Api\PlayerData\PlaytimePlayerDataResolver;
 use App\Http\Models\Api\PlayerData\VotePlayerDataResolver;
 
@@ -24,8 +23,8 @@ class PlayerDataFacade
     }
 
     /**
-     * 指定モードが有効かどうかの真偽値を返します
-     * @param $mode string モードの文字列
+     * 指定データタイプが有効かどうかの真偽値を返します
+     * @param $mode string データタイプ文字列
      * @return bool
      */
     public function isValidMode($mode)
@@ -34,13 +33,15 @@ class PlayerDataFacade
     }
 
     /**
-     * 指定モードに対応するリゾルバのインスタンスを返します
-     * @param $mode string モードの文字列
-     * @return PlayerDataResolver
+     * 指定プレーヤーの指定データを取得します。
+     * データタイプが無効の場合例外が発生するので、事前に{@see isValidMode}で有効性をチェックして下さい。
+     * @param $mode string データタイプ文字列
+     * @param $player_uuid string プレーヤーのuuid
+     * @return array
      */
-    public function getResolver($mode)
+    public function resolveData($mode, $player_uuid)
     {
-        return $this->resolvers[$mode];
+        return $this->resolvers[$mode]->resolveData($player_uuid);
     }
 
     private static $instance;

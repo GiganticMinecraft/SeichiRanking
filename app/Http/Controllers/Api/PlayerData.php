@@ -26,7 +26,7 @@ class PlayerData extends Controller
             return response()->json(["message" => "requested data type does not exist."], 404);
         }
 
-        $data = $facade->getResolver($data_type)->resolveData($player_uuid);
+        $data = $facade->resolveData($data_type, $player_uuid);
 
         // データが見つからなかった場合
         if ($data === null) {

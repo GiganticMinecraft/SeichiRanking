@@ -5,7 +5,6 @@ namespace App\Http\Models\Api;
 use App\Http\Models\Api\PlayerRanking\BreakRankingResolver;
 use App\Http\Models\Api\PlayerRanking\BuildRankingResolver;
 use App\Http\Models\Api\PlayerRanking\PlaytimeRankingResolver;
-use App\Http\Models\Api\PlayerRanking\RankingResolver;
 use App\Http\Models\Api\PlayerRanking\VoteRankingResolver;
 
 class PlayerRankingFacade
@@ -32,14 +31,28 @@ class PlayerRankingFacade
     }
 
     /**
-     * 指定モードに対応するリゾルバのインスタンスを返します
-     * @param $mode string モードの文字列
-     * @return RankingResolver
+     * 指定モードのランキング全体を取得します。
+     * データタイプが無効の場合例外が発生するので、事前に{@see isValidMode}で有効性をチェックして下さい。
+     * @param $mode string データタイプ文字列
+     * @return array
      */
-    public function getResolver($mode)
+    public function getRanking($mode)
     {
-        return $this->resolvers[$mode];
+        return $this->resolvers[$mode]->getRanking();
     }
+
+    /**
+     * プレーヤーの順位を取得します。
+     * データタイプが無効の場合例外が発生するので、事前に{@see isValidMode}で有効性をチェックして下さい。
+     * @param $mode string データタイプ文字列
+     * @param $player_uuid string プレーヤーのuuid
+     * @return array
+     */
+    public function getPlayerRank($mode, $player_uuid)
+    {
+        return $this->resolvers[$mode]->getPlayerRank($player_uuid);
+    }
+
 
     private static $instance;
 
