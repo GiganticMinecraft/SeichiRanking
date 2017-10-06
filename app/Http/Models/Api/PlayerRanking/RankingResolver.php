@@ -2,6 +2,7 @@
 
 namespace App\Http\Models\Api\PlayerRanking;
 
+use App\Http\Models\Api\PlayerDataFacade;
 use DB;
 
 abstract class RankingResolver
@@ -18,10 +19,15 @@ abstract class RankingResolver
 
         $player_rank = $ranked_player->rank;
         unset($ranked_player->rank);
+
+        $dataFacade = PlayerDataFacade::getInstance();
+
         return [
             "player" => $ranked_player,
             "type" => $this->getRankingType(),
-            "rank" => $player_rank
+            "rank" => $player_rank,
+            "data" => $dataFacade->resolveData($this->getRankingType(), $ranked_player->uuid),
+            "lastquit" => $dataFacade->resolveData("lastquit", $ranked_player->uuid)["raw_data"]
         ];
     }
 
