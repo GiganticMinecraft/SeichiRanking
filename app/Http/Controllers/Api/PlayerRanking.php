@@ -29,13 +29,12 @@ class PlayerRanking extends Controller
         $offset = (int) $request->input("offset") ?: self::DEFAULT_OFFSET_VALUE;
         $offset = max(0, $offset);
 
-        $entire_ranking = $facade->getRanking($ranking_type);
-        $sub_ranking = array_slice($entire_ranking, $offset, $limit);
+        $ranking = $facade->getRanking($ranking_type, $offset, $limit);
 
         return response()->json([
-            'result_count' => count($sub_ranking),
-            'ranks' => $sub_ranking,
-            'total_ranked_player' => count($entire_ranking)
+            'result_count' => count($ranking),
+            'ranks' => $ranking,
+            'total_ranked_player' => $facade->getRankedPlayerCount($ranking_type)
         ]);
     }
 

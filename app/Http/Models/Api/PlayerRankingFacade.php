@@ -31,15 +31,17 @@ class PlayerRankingFacade
     }
 
     /**
-     * 指定モードのランキング全体を取得します。
+     * 指定モードのランキングを取得します。
      * データタイプが無効の場合例外が発生するので、事前に{@see isValidMode}で有効性をチェックして下さい。
-     * @param $mode string データタイプ文字列
-     * @return array
+     * @param $mode string ランキングタイプ文字列
+     * @param $offset integer オフセットの大きさ
+     * @param $limit integer 取得するランキングのサイズ
+     * @return mixed
      */
-    public function getRanking($mode)
-    {
-        return $this->resolvers[$mode]->getRanking();
-    }
+     public function getRanking($mode, $offset, $limit)
+     {
+        return $this->resolvers[$mode]->getRanking($offset, $limit);
+     }
 
     /**
      * プレーヤーの順位を取得します。
@@ -53,6 +55,16 @@ class PlayerRankingFacade
         return $this->resolvers[$mode]->getPlayerRank($player_uuid);
     }
 
+    /**
+     * 指定モードのランキングでのプレーヤー総数を返します。
+     * データタイプが無効の場合例外が発生するので、事前に{@see isValidMode}で有効性をチェックして下さい。
+     * @param $mode string ランキングタイプ文字列
+     * @return integer
+     */
+    public function getRankedPlayerCount($mode)
+    {
+        return $this->resolvers[$mode]->getPlayerCount();
+    }
 
     private static $instance;
 

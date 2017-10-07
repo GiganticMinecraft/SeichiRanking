@@ -33,9 +33,11 @@ abstract class RankingResolver
 
     /**
      * ランキング全体を取得する。
+     * @param $offset integer オフセットの大きさ
+     * @param $limit integer 取得するランキングのサイズ
      * @return array IPlayerRankの配列
      */
-    public function getRanking()
+    public function getRanking($offset, $limit)
     {
         $comparator = $this->getRankComparator();
 
@@ -49,6 +51,8 @@ abstract class RankingResolver
             ->where($comparator, '>', 0)
             ->orderBy('rank', 'ASC')
             ->orderBy('name')
+            ->skip($offset)
+            ->take($limit)
             ->get();
 
         $ranked_players = [];
@@ -80,5 +84,16 @@ abstract class RankingResolver
             ->first();
 
         return $this->toPlayerRank($ranked_player);
+    }
+
+    /**
+     * ランキングに含まれるプレーヤーの総数を返す。レコードが0又は向こうの場合は除外される。
+     */
+    public function getPlayerCount()
+    {
+        return DB::table('playerdata')
+            ->select('uuid')
+            ->where($this->getRankComparator(), '>', 0)
+            ->count();
     }
 }
