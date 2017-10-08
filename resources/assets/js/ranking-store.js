@@ -70,6 +70,11 @@ class RankingStore {
             throw new Error("Given type is invalid");
         }
 
+        // typeが違うものに設定された場合、pageを1に戻す
+        if (this.type !== type) {
+            this.page = 1;
+        }
+
         this.type = type;
 
         this._updateRankingData();
