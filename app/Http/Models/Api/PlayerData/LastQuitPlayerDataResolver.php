@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Api\PlayerData;
+namespace App\Http\Models\Api\PlayerData;
 
 /**
  * 最終ログアウト時間のリゾルバクラス
