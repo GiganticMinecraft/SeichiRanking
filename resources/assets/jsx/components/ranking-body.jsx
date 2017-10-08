@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import RankingTypes from '../../js/ranking-types';
 import RankingItem from './ranking-item.jsx';
 import Pagination from "./pagination.jsx";
@@ -29,8 +29,8 @@ const RankingTable = observer(({ store }) => {
         <div className="ranking-table">
             <table className="table table-striped table-hover">
                 <tbody>
-                {store.ranking.ranks.map(player_rank =>
-                    <RankingItem playerRank={player_rank} key={`${player_rank.player.uuid}-${player_rank.type}`}/>
+                {store.ranking.ranks.map(rank =>
+                    <RankingItem rank={rank} key={`${rank.player.uuid}-${rank.type}`}/>
                 )}
                 </tbody>
             </table>
