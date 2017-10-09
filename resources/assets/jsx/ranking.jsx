@@ -16,6 +16,11 @@ ReactDOM.render(<RankingDurationNavigator/>, document.getElementById('ranking-du
 //---------------------------
 // ストアに対するリスナを追加
 
+/**
+ * 指定オブジェクトをアンカーの表示形式に変換する
+ * @param obj
+ * @return string
+ */
 const toAnchorString = (obj) => "#" + Object.keys(obj)
     .map(key => [key, obj[key]])
     .map(([key, val]) => `${key}=${val}`)
