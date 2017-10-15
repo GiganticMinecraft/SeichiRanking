@@ -17,6 +17,12 @@ gulp.task('browserify', () => {
         .on('error', console.log)
         .pipe(source("ranking.js"))
         .pipe(gulp.dest('./public/js/jsx'));
+
+    browserify('./resources/assets/js/player-search.js', { debug : false })
+        .transform(babelify).bundle()
+        .on('error', console.log)
+        .pipe(source("player-search.js"))
+        .pipe(gulp.dest('./public/js'));
 });
 
 gulp.task("default", ['browserify']);
