@@ -59,3 +59,8 @@
 .clickable {
     cursor: pointer;
 }
+
+.avatar-placeholder {
+    width : 60px;
+    height : 60px;
+}

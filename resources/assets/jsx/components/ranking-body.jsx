@@ -31,11 +31,12 @@ const formatRankedData = (json_data, rankingType) => {
     return result;
 };
 
+const avatarSize = 60;
 /**
  * アバターのURLを取得する
  * @param playerName プレーヤー名
  */
-const getAvatarUrl = playerName => `https://mcapi.ca/avatar/${playerName}/60`;
+const getAvatarUrl = playerName => `https://mcapi.ca/avatar/${playerName}/${avatarSize}`;
 
 const RankingItem = observer(({rank: rankObject}) => {
     const player = rankObject.player;
@@ -48,7 +49,9 @@ const RankingItem = observer(({rank: rankObject}) => {
                 </span>
             </th>
             <td>
-                <img src={getAvatarUrl(player.name)}/>
+                <div className="avatar-placeholder">
+                    <img src={getAvatarUrl(player.name)}/>
+                </div>
             </td>
             <td>
                 {player.name}<br />
