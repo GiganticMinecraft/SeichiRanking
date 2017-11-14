@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Api\PlayerData;
+namespace App\Http\Models\Api\PlayerData;
 
 /**
  * プレイ時間のリゾルバクラス

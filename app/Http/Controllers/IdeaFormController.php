@@ -12,6 +12,7 @@ use Log;
 use Auth;
 use Input;
 use Session;
+use Validator;
 use Redmine;
 
 class IdeaFormController extends Controller
@@ -47,22 +48,34 @@ class IdeaFormController extends Controller
      * 投稿完了アクション
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function submit()
+    public function submit(Request $request)
     {
         // クッキーが生きて入れば、投稿不可
         if (!empty($_COOKIE["idea"])) {
             Log::debug('idea cookie -> '.print_r($_COOKIE["idea"], 1));
-            return redirect('ideaForm')->with('message', "アイデアの連続投稿はご遠慮ください。\nしばらく時間を置いてから投稿をお願いします。");
+            return redirect()->back()->withErrors(['idea_text' => "アイデアの連続投稿はご遠慮ください。しばらく時間を置いてから投稿をお願いします。"]);
         }
         // 投稿処理
         else {
             // パラメータ取得
-            $idea =  Input::get('idea');
+            $idea_text    = Input::get('idea_text');
+            $idea_reason  = Input::get('idea_reason');
+            $idea_example = Input::get('idea_example');
+
+            // チケット説明文の整形
+            $description  = 'h3. ◇' . __('label.idea_text') . "\n\n";
+            $description .= '* ' . $idea_text . "\n\n";
+            $description .= 'h3. ◇' . __('label.idea_reason') . "\n\n";
+            $description .= '* ' . $idea_reason . "\n\n";
+            $description .= 'h3. ◇' . __('label.idea_example') . "\n\n";
+            $description .= '* ' . $idea_example;
 
             // 空欄チェック
-            if (empty($idea)) {
-                return redirect('ideaForm')->with('message', 'アイディアの項目が空欄です。');
-            }
+            $this->validate($request, [
+                'idea_text'    => 'required',
+                'idea_reason'  => 'required',
+                'idea_example' => 'required',
+            ]);
 
             // 投稿処理
             try {
@@ -78,8 +91,8 @@ class IdeaFormController extends Controller
                     'tracker_id'  => env('IDEA_FORM_TRACKER_ID'),
                     'status_id'   => env('IDEA_FORM_STATUS_ID'),
                     'priority_id' => env('IDEA_FORM_PRIORITY_ID'),
-                    'subject'     => '[' . $user['preferred_username'] . '] ' . mb_strimwidth($idea, 0, 40),
-                    'description' => $idea,
+                    'subject'     => '[' . $user['preferred_username'] . '] ' . mb_strimwidth($idea_text, 0, 40),
+                    'description' => $description,
 //                    'assigned_to' => 'user1',
                 ]);
 

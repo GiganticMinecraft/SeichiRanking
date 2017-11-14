@@ -2,13 +2,8 @@
 
 namespace App\Http\Controllers\Api;
 
-
-use App\Http\Controllers\Api\PlayerData\BreakPlayerDataResolver;
-use App\Http\Controllers\Api\PlayerData\BuildPlayerDataResolver;
-use App\Http\Controllers\Api\PlayerData\LastQuitPlayerDataResolver;
-use App\Http\Controllers\Api\PlayerData\PlaytimePlayerDataResolver;
-use App\Http\Controllers\Api\PlayerData\VotePlayerDataResolver;
 use App\Http\Controllers\Controller;
+use App\Http\Models\Api\PlayerDataFacade;
 
 /**
  * プレーヤーデータAPIのコントローラクラス
@@ -16,35 +11,22 @@ use App\Http\Controllers\Controller;
  */
 class PlayerData extends Controller
 {
-    /** データのリゾルバを格納するための連想配列 */
-    private $resolvers;
-
-    public function __construct()
-    {
-        $this->resolvers = [
-            "break" => new BreakPlayerDataResolver(),
-            "build" => new BuildPlayerDataResolver(),
-            "playtime" => new PlaytimePlayerDataResolver(),
-            "vote" => new VotePlayerDataResolver(),
-            "lastquit" => new LastQuitPlayerDataResolver()
-        ];
-    }
-
     /**
      * 指定したUUIDを持つプレーヤーの指定したデータを取得する。
-
      * @param $player_uuid
      * @param $data_type
      * @return \Illuminate\Http\JsonResponse
      */
     public function getPlayerData($player_uuid, $data_type)
     {
+        $facade = PlayerDataFacade::getInstance();
+
         // データタイプが未定義の場合
-        if (!isset($this->resolvers[$data_type])) {
+        if (!$facade->isValidMode($data_type)) {
             return response()->json(["message" => "requested data type does not exist."], 404);
         }
 
-        $data = $this->resolvers[$data_type]->resolveData($player_uuid);
+        $data = $facade->resolveData($data_type, $player_uuid);
 
         // データが見つからなかった場合
         if ($data === null) {
