@@ -6,6 +6,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Http\Models\FormModel;
 
 use Response;
 use Cookie;
@@ -19,6 +20,13 @@ use GuzzleHttp;
 
 class inquiryFormController extends Controller
 {
+    const FORM_NM = 'inquiryForm';
+
+    public function __construct()
+    {
+        $this->model = new FormModel();
+    }
+
     /**
      * indexアクション
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
@@ -27,8 +35,7 @@ class inquiryFormController extends Controller
     {
         try {
             // ユーザ情報を取得
-            $user = $this->jms_login_auth()->getUser();
-            Log::debug(__FUNCTION__.' : login user ->'.print_r($user, 1));
+            $jms_user_info = $this->model->get_jms_user_info(self::FORM_NM);
 
             // 独自定義JS
             $assetJs = [
@@ -36,9 +43,9 @@ class inquiryFormController extends Controller
             ];
 
             return view(
-                'inquiryForm', [
-                    'user'    => $user,     // JMSユーザ情報
-                    'assetJs' => $assetJs,  // 独自定義JS
+                self::FORM_NM, [
+                    'user'    => $jms_user_info,    // JMSユーザ情報
+                    'assetJs' => $assetJs,          // 独自定義JS
                 ]
             );
         }
@@ -134,7 +141,7 @@ class inquiryFormController extends Controller
                 ['json' => ['content' => $discord_content]]
             );
 
-            // 問い合わせデータ保存
+            // 問い合わせデータ保存 (将来的に問い合わせ管理システムで利用する目的)
             DB::table('inquiry')->insert([
                 'name' => $user['preferred_username'],
                 'inquiry_text' => $inquiry_text,

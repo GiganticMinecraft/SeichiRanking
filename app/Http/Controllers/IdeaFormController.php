@@ -5,6 +5,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Http\Models\FormModel;
 
 use Response;
 use Cookie;
@@ -17,6 +18,13 @@ use Redmine;
 
 class IdeaFormController extends Controller
 {
+    const FORM_NM = 'ideaForm';
+
+    public function __construct()
+    {
+        $this->model = new FormModel();
+    }
+
     /**
      * indexアクション
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
@@ -25,12 +33,11 @@ class IdeaFormController extends Controller
     {
         try {
             // ユーザ情報を取得
-            $user = $this->jms_login_auth()->getUser();
-            Log::debug(__FUNCTION__.' : login user ->'.print_r($user, 1));
+            $jms_user_info = $this->model->get_jms_user_info(self::FORM_NM);
 
             return view(
-                'ideaForm', [
-                    'user'    => $user,
+                self::FORM_NM, [
+                    'user'    => $jms_user_info,
                 ]
             );
         }
@@ -80,7 +87,7 @@ class IdeaFormController extends Controller
             // 投稿処理
             try {
                 // ユーザ情報を取得
-                $user = $this->jms_login_auth()->getUser();
+                $user = $this->model->jms_login_auth()->getUser();
                 Log::debug(__FUNCTION__ . ' : login user -> ' . print_r($user, 1));
 
                 // Redmine連携

@@ -26,8 +26,8 @@ Route::get('/ideaForm', 'IdeaFormController@index');
 Route::post('/ideaForm/submit', 'IdeaFormController@submit');
 
 // お問い合わせフォーム
-//Route::get('/inquiryForm', 'inquiryFormController@index');
-//Route::post('/inquiryForm/submit', 'InquiryFormController@submit');
+Route::get('/inquiryForm', 'inquiryFormController@index');
+Route::post('/inquiryForm/submit', 'InquiryFormController@submit');
 
 Route::get('/thanks', 'PagesController@thanks');
 
