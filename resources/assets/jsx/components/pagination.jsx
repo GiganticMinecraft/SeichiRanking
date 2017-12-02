@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 
 /**
  * 最初と最後のにあるページボタンの定数
@@ -19,9 +19,9 @@ const terminal_button_num = 2;
 const middle_button_num = 3;
 
 export default class Pagination extends Component {
-    static _getDisabledButton(text) {
+    static _getDisabledButton(text, key=text) {
         return (
-            <li className="disabled" key={`disabled-${text}`}>
+            <li className="disabled" key={`disabled-${key}`}>
                 <span>{text}</span>
             </li>
         )
@@ -115,7 +115,7 @@ export default class Pagination extends Component {
                 displayPageButtonArray.push(this._getPageButton(page));
                 disabledButtonAtEnd = false;
             } else if (!disabledButtonAtEnd) {
-                displayPageButtonArray.push("...");
+                displayPageButtonArray.push(Pagination._getDisabledButton("...", page));
                 disabledButtonAtEnd = true;
             }
         }
