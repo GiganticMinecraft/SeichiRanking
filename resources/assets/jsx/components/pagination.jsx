@@ -3,7 +3,7 @@ import React, {Component} from 'react';
 /**
  * 最初と最後のにあるページボタンの定数
  *
- * 例えばこれが2, currentPage=10, titakPages=20の時、
+ * 例えばこれが2, currentPage=10, totalPages=20の時、
  * | << | 1 | 2 | ... | 10 | ... | 19 | 20 | >> |
  * といったような表示になる
  */
@@ -12,7 +12,7 @@ const terminal_button_num = 2;
 /**
  * 現ページの周辺にあるページボタンの定数
  *
- * 例えばこれが2, currentPage=10, titakPages=20, terminal_button_num = 1 の時、
+ * 例えばこれが2, currentPage=10, totalPages=20, terminal_button_num = 1 の時、
  * | << | 1 | ... | 8 | 9 | 10 | 11 | 12 | ... | 20 | >> |
  * といったような表示になる
  */
