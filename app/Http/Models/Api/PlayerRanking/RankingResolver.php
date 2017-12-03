@@ -2,9 +2,8 @@
 
 namespace App\Http\Models\Api\PlayerRanking;
 
-use App\Http\Models\Api\PlayerDataFacade;
-use Illuminate\Database\Query\Builder;
 use DB;
+use Illuminate\Database\Query\Builder;
 use Log;
 
 abstract class RankingResolver
@@ -13,23 +12,21 @@ abstract class RankingResolver
 
     abstract function getRankingType();
 
-    private function toPlayerRank($ranked_player)
+    private function toPlayerRank($fetched_player_row)
     {
-        if ($ranked_player == null) {
+        if ($fetched_player_row == null) {
             return null;
         }
 
-        $player_rank = $ranked_player->rank;
-        unset($ranked_player->rank);
-
-        $dataFacade = PlayerDataFacade::getInstance();
-
         return [
-            "player" => $ranked_player,
+            "player" => [
+                'uuid' => $fetched_player_row->uuid,
+                'name' => $fetched_player_row->name,
+            ],
             "type" => $this->getRankingType(),
-            "rank" => $player_rank,
-            "data" => $dataFacade->resolveData($this->getRankingType(), $ranked_player->uuid),
-            "lastquit" => $dataFacade->resolveData("lastquit", $ranked_player->uuid)["raw_data"]
+            "rank" => $fetched_player_row->rank,
+            "data" => $fetched_player_row->data,
+            "lastquit" => $fetched_player_row->lastquit
         ];
     }
 
@@ -50,7 +47,7 @@ JOIN playerdata ON playerdata.$comparator = Ranking.$comparator
 EOT
         ))
             // rankがなぜか文字列で取得されていたのでSIGNEDにキャスト
-            ->selectRaw('name, uuid, CAST(rank AS SIGNED) as rank')
+            ->selectRaw("name, uuid, CAST(rank AS SIGNED) as rank, playerdata.$comparator as data, playerdata.lastquit as lastquit")
             ->orderBy('rank', 'ASC')
             ->orderBy('name');
     }
@@ -63,12 +60,12 @@ EOT
      */
     public function getRanking($offset, $limit)
     {
-        $sorted_players = $this->getRankingQuery()->limit($limit)->offset($offset)->get();
+        $fetched_player_rows = $this->getRankingQuery()->limit($limit)->offset($offset)->get();
 
         $ranked_players = [];
 
-        foreach ($sorted_players as $player) {
-            $ranked_players[] = $this->toPlayerRank($player);
+        foreach ($fetched_player_rows as $player_row) {
+            $ranked_players[] = $this->toPlayerRank($player_row);
         }
 
         return $ranked_players;
@@ -81,9 +78,9 @@ EOT
      */
     public function getPlayerRank($player_uuid)
     {
-        $ranked_player = $this->getRankingQuery()->where('uuid', $player_uuid)->first();
+        $player_row = $this->getRankingQuery()->where('uuid', $player_uuid)->first();
 
-        return $this->toPlayerRank($ranked_player);
+        return $this->toPlayerRank($player_row);
     }
 
     /**
