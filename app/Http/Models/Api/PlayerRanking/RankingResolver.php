@@ -20,12 +20,14 @@ abstract class RankingResolver
 
         return [
             "player" => [
-                'uuid' => $fetched_player_row->uuid,
                 'name' => $fetched_player_row->name,
+                'uuid' => $fetched_player_row->uuid,
             ],
             "type" => $this->getRankingType(),
             "rank" => $fetched_player_row->rank,
-            "data" => $fetched_player_row->data,
+            "data" => [
+                'raw_data' => "$fetched_player_row->data"
+            ],
             "lastquit" => $fetched_player_row->lastquit
         ];
     }
