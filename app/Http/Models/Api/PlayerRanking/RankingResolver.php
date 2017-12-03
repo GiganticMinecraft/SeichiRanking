@@ -12,7 +12,7 @@ abstract class RankingResolver
 
     abstract function getRankingType();
 
-    private function toPlayerRank($fetched_player_row)
+    protected function toPlayerRank($fetched_player_row)
     {
         if ($fetched_player_row == null) {
             return null;
