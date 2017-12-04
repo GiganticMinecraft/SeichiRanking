@@ -12,7 +12,19 @@ abstract class RankingResolver
 
     abstract function getRankingType();
 
-    protected function toPlayerRank($fetched_player_row)
+    /**
+     * DBから取得した生のデータカラムをIPlayerData構造体に変換する
+     * @param $raw_column mixed
+     * @return array IPlayerDataの仕様に従ったarray
+     * @internal param int $playtick プレイ時間(tick)
+     */
+    protected function toPlayerDataObject($raw_column) {
+        return [
+            'raw_data' => "$raw_column"
+        ];
+    }
+
+    private function toPlayerRank($fetched_player_row)
     {
         if ($fetched_player_row == null) {
             return null;
@@ -25,9 +37,7 @@ abstract class RankingResolver
             ],
             "type" => $this->getRankingType(),
             "rank" => $fetched_player_row->rank,
-            "data" => [
-                'raw_data' => "$fetched_player_row->data"
-            ],
+            "data" => $this->toPlayerDataObject($fetched_player_row->data),
             "lastquit" => $fetched_player_row->lastquit
         ];
     }
