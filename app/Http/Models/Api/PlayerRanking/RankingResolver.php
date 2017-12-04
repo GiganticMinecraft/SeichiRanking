@@ -50,6 +50,7 @@ EOT
         ))
             // rankがなぜか文字列で取得されていたのでSIGNEDにキャスト
             ->selectRaw("name, uuid, CAST(rank AS SIGNED) as rank, playerdata.$comparator as data, playerdata.lastquit as lastquit")
+            ->where("playerdata.$comparator", '>', 0)
             ->orderBy('rank', 'ASC')
             ->orderBy('name');
     }
