@@ -38,6 +38,6 @@ class PagesController extends Controller
     public function thanks()
     {
         // フォームの各投稿完了画面を表示
-        return view('ideaSubmitted');
+        return view('form.thanks');
     }
 }

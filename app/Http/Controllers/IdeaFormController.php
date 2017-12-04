@@ -36,7 +36,7 @@ class IdeaFormController extends Controller
             $jms_user_info = $this->model->get_jms_user_info(self::FORM_NM);
 
             return view(
-                self::FORM_NM, [
+                'form.'.self::FORM_NM, [
                     'user'    => $jms_user_info,
                 ]
             );
