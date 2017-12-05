@@ -11,13 +11,7 @@
     <script src="{{asset('/js/base/jquery.bootgrid.min.js?'.date('Ymd'))}}"></script>
     <script src="{{asset('/js/base/Chart.min.js?'.date('Ymd'))}}"></script>
     <script src="{{asset('/js/base/Chart.bundle.min.js?'.date('Ymd'))}}"></script>
-    <script src="{{asset('/js/player-search.js?'.date('Ymd'))}}"></script>
     {{--<script src="{{asset('/js/index.js')}}"></script>--}}
-
-    {{--<script src="http://fb.me/react-0.13.3.js"></script>--}}
-    {{--<script src="http://fb.me/JSXTransformer-0.13.3.js"></script>--}}
-    {{--<script src="https://unpkg.com/react@15/dist/react.js"></script>--}}
-    {{--<script src="https://unpkg.com/react-dom@15/dist/react-dom.js"></script>--}}
 
     {{-- ページ独自JSの組み込み --}}
     @if(!empty($assetJs))
