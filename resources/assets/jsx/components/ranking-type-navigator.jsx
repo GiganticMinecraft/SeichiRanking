@@ -1,7 +1,7 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import RankingTypes from '../../js/ranking-types';
 import rankingStore from '../../js/ranking-store'
-import { observer } from "mobx-react";
+import {observer} from "mobx-react";
 
 @observer
 export default class RankingTypeNavigator extends Component {
@@ -33,7 +33,7 @@ export default class RankingTypeNavigator extends Component {
 
     render() {
         return (
-            <ul className="nav nav-tabs" id="ranking-type-nav">
+            <ul className="nav nav-tabs">
                 { RankingTypes.getAvailableTypes(rankingStore.duration).map(this._getTab) }
             </ul>
         );
