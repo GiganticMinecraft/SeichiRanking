@@ -11,9 +11,11 @@ import RankingDurationNavigator from "./components/ranking-duration-navigator.js
 import rankingStore from "../js/ranking-store";
 import {observe} from "../../../node_modules/mobx/lib/mobx";
 
-ReactDOM.render(<RankingBody store={rankingStore}/>, document.getElementById('ranking-container'));
-ReactDOM.render(<RankingTypeNavigator/>, document.getElementById('ranking-type-nav'));
-ReactDOM.render(<RankingDurationNavigator/>, document.getElementById('ranking-duration-nav'));
+document.addEventListener("DOMContentLoaded", () => {
+    ReactDOM.render(<RankingBody store={rankingStore}/>, document.getElementById('ranking-container'));
+    ReactDOM.render(<RankingTypeNavigator/>, document.getElementById('ranking-type-nav'));
+    ReactDOM.render(<RankingDurationNavigator/>, document.getElementById('ranking-duration-nav'));
+});
 
 //---------------------------
 // ストアに対するリスナを追加
