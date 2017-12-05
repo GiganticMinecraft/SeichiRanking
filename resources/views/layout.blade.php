@@ -9,8 +9,6 @@
     <script src="{{asset('/js/base/jquery-3.1.1.min.js?'.date('Ymd'))}}"></script>
     <script src="{{asset('/js/base/bootstrap.min.js?'.date('Ymd'))}}"></script>
     <script src="{{asset('/js/base/jquery.bootgrid.min.js?'.date('Ymd'))}}"></script>
-    <script src="{{asset('/js/base/Chart.min.js?'.date('Ymd'))}}"></script>
-    <script src="{{asset('/js/base/Chart.bundle.min.js?'.date('Ymd'))}}"></script>
     {{--<script src="{{asset('/js/index.js')}}"></script>--}}
 
     {{-- ページ独自JSの組み込み --}}
