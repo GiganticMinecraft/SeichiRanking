@@ -128,9 +128,6 @@
                     <div id="ranking-type-nav"></div>
                     <div id="ranking-container"></div>
                 </div>
-
-                <!-- これより前に読み込むとDOM参照でコケる -->
-                <script src="{{asset('/js/jsx/ranking.js?'.date('Ymd'))}}"></script>
             </div>
             <div class="col-sm-2 top70">
                 {{--広告スペース--}}
