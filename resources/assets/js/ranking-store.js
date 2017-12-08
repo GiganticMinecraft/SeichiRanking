@@ -1,7 +1,7 @@
 import RankingTypes from "./ranking-types";
 import RankingDuration from "./ranking-durations";
 import RankingApi from './ranking-api';
-import { observable, action } from 'mobx';
+import {action, observable} from 'mobx';
 
 class RankingStore {
     @observable duration;
@@ -32,8 +32,8 @@ class RankingStore {
         return [duration, type, page];
     }
 
-    constructor(parameterObject) {
-        [this.duration, this.type, this.page] = RankingStore.constructParameters(parameterObject);
+    constructor() {
+        [this.duration, this.type, this.page] = RankingStore.constructParameters(getQueryObject(window.location.hash));
         this.ranking = undefined;
         this.item_per_page = 20;
 
@@ -122,18 +122,4 @@ function getQueryObject(hash) {
         .reduce((previous, current) => Object.assign(previous, current));
 }
 
-/**
- * ランキングページの構成に必要なパラメータをURLから取得する
- * @returns {{duration, type, page}}
- */
-function getRankingPageParams() {
-    let {duration, type, page} = getQueryObject(window.location.hash);
-
-    return {
-        duration : duration,
-        type : type,
-        page : page
-    }
-}
-
-export default new RankingStore(getRankingPageParams());
+export default new RankingStore();
