@@ -33,11 +33,10 @@ class RankingStore {
     }
 
     constructor() {
-        [this.duration, this.type, this.page] = RankingStore.constructParameters(getQueryObject(window.location.hash));
         this.ranking = undefined;
         this.item_per_page = 20;
 
-        this._updateRankingData();
+        this.matchStateToUrl();
     }
 
     /**
@@ -97,6 +96,22 @@ class RankingStore {
         }
 
         this._updateRankingData();
+    }
+
+    /**
+     * ストアの状態をURLのハッシュに基づいて再セットする
+     */
+    @action matchStateToUrl() {
+        const parameters = RankingStore.constructParameters(getQueryObject(window.location.hash));
+
+        // 差分がある最初のパラメータを取得
+        const updated_parameter = Object.entries(parameters).find(([key, value]) => this[key] !== value);
+
+        // ストアの状態とURLに違いがあれば更新処理を行う
+        if (updated_parameter !== undefined) {
+            [this.duration, this.type, this.page] = parameters;
+            this._updateRankingData();
+        }
     }
 }
 

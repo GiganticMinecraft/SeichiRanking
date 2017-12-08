@@ -41,3 +41,6 @@ observe(rankingStore, "ranking", _ => {
     // ページ変更時にスクロールを巻き戻す
     window.scrollTo(0, 0);
 });
+
+// ハッシュ更新時にストアの状態も更新する
+window.addEventListener("hashchange", () => rankingStore.matchStateToUrl(), false);
