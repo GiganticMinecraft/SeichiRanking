@@ -114,9 +114,14 @@ return [
     */
 
     'attributes' => [
+        // アイディア提案フォーム
         'idea_text'    => __('label.idea_text'),
         'idea_reason'  => __('label.idea_reason'),
         'idea_example' => __('label.idea_example'),
+        // お問い合わせフォーム
+        'reply_type'   => __('label.reply_type'),
+        'inquiry_text' => __('label.inquiry_text'),
+
     ],
 
 ];
