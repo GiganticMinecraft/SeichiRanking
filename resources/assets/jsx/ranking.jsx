@@ -30,7 +30,7 @@ const toAnchorString = (obj) => "#" + Object.keys(obj)
     .map(([key, val]) => `${key}=${val}`)
     .join("&");
 
-observe(rankingStore, "ranking", _ => {
+observe(rankingStore, "ranking", () => {
     // アンカーを変更する
     window.location.hash = toAnchorString({
         page : rankingStore.page,
