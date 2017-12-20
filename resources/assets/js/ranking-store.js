@@ -102,14 +102,15 @@ class RankingStore {
      * ストアの状態をURLのハッシュに基づいて再セットする
      */
     @action matchStateToUrl() {
-        const parameters = RankingStore.constructParameters(getQueryObject(window.location.hash));
+        const [duration, type, page] = RankingStore.constructParameters(getQueryObject(window.location.hash));
+        const parameterObject = {duration, type, page};
 
         // 差分がある最初のパラメータを取得
-        const updated_parameter = Object.entries(parameters).find(([key, value]) => this[key] !== value);
+        const updated_parameter = Object.entries(parameterObject).find(([key, value]) => this[key] !== value);
 
         // ストアの状態とURLに違いがあれば更新処理を行う
         if (updated_parameter !== undefined) {
-            [this.duration, this.type, this.page] = parameters;
+            [this.duration, this.type, this.page] = [duration, type, page];
             this._updateRankingData();
         }
     }
