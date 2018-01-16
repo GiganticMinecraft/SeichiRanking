@@ -19,8 +19,12 @@
     margin: 10px 0;
 }
 
-.rank {
+.ranking-table {
     margin:20px;
+}
+
+.rank {
+    font-size: larger;
 }
 
 .fixing-base .fixing-box.fixed {
@@ -33,7 +37,7 @@
     color: #A4A4A4;
 }
 
-.num_break {
+.ranked-data {
     font-weight: bold;
     font-size: 16px;
 }
@@ -56,8 +60,14 @@
     background-color: #e3f0f9;
 }
 
-/*Below here edit by pcs510mc*/
+.clickable {
+    cursor: pointer;
+}
+
+.avatar-placeholder {
+    width : 60px;
+    height : 60px;
+}
 body , html {
     height: 100%;
 }
-/*Editing pcs510mc so far*/
