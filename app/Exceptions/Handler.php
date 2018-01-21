@@ -53,11 +53,14 @@ class Handler extends ExceptionHandler
             elseif($exception->getStatusCode() == 404) {
                 return response()->view('errors', ['message' => '404 該当のページは存在しません。']);
             }
+            // 500
+            elseif ($exception->getStatusCode() == 500) {
+                return response()->view('errors', ['message' => '500 internal server error']);
+            }
+            // 503 (メンテナンス)
             elseif ($exception->getStatusCode() == 503) {
                 return response()->view('errors', ['message' => "現在、整地ランキングはメンテナンス中です。"]);
             }
-            // 500
-            return response()->view('errors', ['message' => '500 internal server error']);
         }
         return parent::render($request, $exception);
     }
