@@ -50,11 +50,17 @@ class Handler extends ExceptionHandler
                 return response()->view('errors', ['message' => '403 このページはアクセスが制限されています。']);
             }
             // 404
-            if($exception->getStatusCode() == 404) {
+            elseif($exception->getStatusCode() == 404) {
                 return response()->view('errors', ['message' => '404 該当のページは存在しません。']);
             }
             // 500
-            return response()->view('errors', ['message' => '500 internal server error']);
+            elseif ($exception->getStatusCode() == 500) {
+                return response()->view('errors', ['message' => '500 internal server error']);
+            }
+            // 503 (メンテナンス)
+            elseif ($exception->getStatusCode() == 503) {
+                return response()->view('errors', ['message' => "現在、整地ランキングはメンテナンス中です。"]);
+            }
         }
         return parent::render($request, $exception);
     }
