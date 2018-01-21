@@ -55,7 +55,7 @@
                     <ul class="nav navbar-nav navbar-right">
                         <!-- Authentication Links -->
                         @if (empty($user['preferred_username']))
-                            <li><a href="/login/">ログイン</a></li>
+                            <li><a href="/login/jms">ログイン</a></li>
                             {{--<li><a href="{{ route('register') }}">Register</a></li>--}}
                         @else
                             <li class="dropdown">
