@@ -15,7 +15,7 @@
     {{-- ページ独自JSの組み込み --}}
     @if(!empty($assetJs))
         @foreach($assetJs as $js)
-            <script type="text/javascript" src="{{asset($js.'?'.date('Ymd'))}}"></script>
+            <script type="text/javascript" src="{{asset($js.'?'.date('YmdH'))}}"></script>
         @endforeach
     @endif
 
@@ -25,7 +25,7 @@
     {{-- ページ独自CSSの組み込み --}}
     @if(!empty($assetCss))
         @foreach($assetCss as $css)
-            <link rel="stylesheet" href="{{asset($css)}}">
+            <link rel="stylesheet" href="{{asset($css.'?'.date('YmdH'))}}">
         @endforeach
     @endif
     <link rel="shortcut icon" href="{{ asset('favicon.ico') }}">
