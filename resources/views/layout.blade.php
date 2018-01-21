@@ -5,6 +5,7 @@
 
     <meta charset="UTF-8">
     <meta name="csrf-token" content="{{ csrf_token() }}" />
+    <meta name="viewport" content="width=device-width,initial-scale=1">
 
     <script src="{{asset('/js/base/jquery-3.1.1.min.js?'.date('Ymd'))}}"></script>
     <script src="{{asset('/js/base/bootstrap.min.js?'.date('Ymd'))}}"></script>
