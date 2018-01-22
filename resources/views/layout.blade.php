@@ -6,12 +6,12 @@
     <meta charset="UTF-8">
     <meta name="csrf-token" content="{{ csrf_token() }}" />
 
-    <script src="{{asset('/js/base/jquery-3.1.1.min.js?'.date('Ymd'))}}"></script>
-    <script src="{{asset('/js/base/bootstrap.min.js?'.date('Ymd'))}}"></script>
-    <script src="{{asset('/js/base/jquery.bootgrid.min.js?'.date('Ymd'))}}"></script>
-    <script src="{{asset('/js/base/Chart.min.js?'.date('Ymd'))}}"></script>
-    <script src="{{asset('/js/base/Chart.bundle.min.js?'.date('Ymd'))}}"></script>
-    <script src="{{asset('/js/player-search.js?'.date('Ymd'))}}"></script>
+    <script src="{{asset('/js/base/jquery-3.1.1.min.js')}}"></script>
+    <script src="{{asset('/js/base/bootstrap.min.js')}}"></script>
+    <script src="{{asset('/js/base/jquery.bootgrid.min.js')}}"></script>
+    <script src="{{asset('/js/base/Chart.min.js')}}"></script>
+    <script src="{{asset('/js/base/Chart.bundle.min.js')}}"></script>
+    <script src="{{asset('/js/player-search.js')}}"></script>
     {{--<script src="{{asset('/js/index.js')}}"></script>--}}
 
     {{--<script src="http://fb.me/react-0.13.3.js"></script>--}}
@@ -26,9 +26,9 @@
         @endforeach
     @endif
 
-    <link rel="stylesheet" href="{{asset('/css/base/bootstrap.min.css?'.date('Ymd'))}}">
-    <link rel="stylesheet" href="{{asset('/css/base/jquery.bootgrid.min.css?'.date('Ymd'))}}">
-    <link rel="stylesheet" href="{{asset('/css/common.css?'.date('Ymd'))}}">
+    <link rel="stylesheet" href="{{asset('/css/base/bootstrap.min.css')}}">
+    <link rel="stylesheet" href="{{asset('/css/base/jquery.bootgrid.min.css')}}">
+    <link rel="stylesheet" href="{{asset('/css/common.css')}}">
     {{-- ページ独自CSSの組み込み --}}
     @if(!empty($assetCss))
         @foreach($assetCss as $css)
