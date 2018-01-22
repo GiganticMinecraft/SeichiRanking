@@ -18,14 +18,19 @@ class TwitterIdCheck implements Rule
      */
     public function passes($attribute, $value)
     {
+
+
+        $url = env('APP_URL') . '/api/checkTwitterId/' . $value;
+
+        Log::debug('$url -> '.print_r($url, 1));
+
         $client = new Client(); //GuzzleHttp\Client
+        $response = $client->request('GET',  $url);
+        $response_body = json_decode($response->getBody()->getContents(), true);
 
-        $response = $client->request( 'GET', '/api/checkTwitterId/');
-        $response_body = (string)$response->getBody();
+//        Log::debug('$response_body -> '.print_r($response_body, 1));
 
-        Log::debug('$response_body -> '.print_r($response_body, 1));
-
-
+        return !empty($response_body);
     }
 
     /**

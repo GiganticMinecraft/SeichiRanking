@@ -83,7 +83,7 @@ class inquiryFormController extends Controller
 
             $validate_rule = [
                 'reply_type'   => 'required|in:twitter,discord',
-                'contact_id'   => 'required', new TwitterIdCheck,
+                'contact_id'   => ['required', new TwitterIdCheck],
                 'inquiry_text' => 'required',
             ];
         }

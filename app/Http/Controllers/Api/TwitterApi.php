@@ -15,13 +15,13 @@ class TwitterApi extends Controller
     public function checkTwitterId($screen_name)
     {
         try {
-            $result = Twitter::getUsers(['screen_name' => $screen_name, 'user_id' => $screen_name, 'format' => 'json']);
+            $result = Twitter::getUsers(['screen_name' => $screen_name, 'format' => 'array']);
         }
         catch (\Exception $e) {
             $result = null;
         }
 
-        return $result;
+        return response()->json($result);
     }
 
 }
