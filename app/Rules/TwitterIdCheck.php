@@ -3,9 +3,9 @@
 namespace App\Rules;
 
 use Illuminate\Contracts\Validation\Rule;
-use GuzzleHttp\Exception\GuzzleException;
-use GuzzleHttp\Client;
 use Illuminate\Support\Facades\Log;
+use GuzzleHttp;
+
 
 class TwitterIdCheck implements Rule
 {
@@ -24,7 +24,7 @@ class TwitterIdCheck implements Rule
 
         Log::debug('$url -> '.print_r($url, 1));
 
-        $client = new Client(); //GuzzleHttp\Client
+        $client = new GuzzleHttp\Client();
         $response = $client->request('GET',  $url);
         $response_body = json_decode($response->getBody()->getContents(), true);
 
