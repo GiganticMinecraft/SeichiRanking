@@ -5,11 +5,11 @@
     "license": "MIT",
     "type": "project",
     "require": {
-        "php": ">=5.6.4",
+        "php": ">=7.0.0",
         "doctrine/dbal": "^2.5",
         "guzzlehttp/guzzle": "^6.3",
         "kbsali/redmine-api": "^1.5",
-        "laravel/framework": "5.4.*",
+        "laravel/framework": "5.5.*",
         "laravel/socialite": "^3.0",
         "laravel/tinker": "~1.0",
         "minecraftjp/minecraftjp-php-sdk": "^1.1",
@@ -17,9 +17,11 @@
         "thujohn/twitter": "~2.0"
     },
     "require-dev": {
+        "barryvdh/laravel-debugbar": "^3.1",
+        "filp/whoops": "~2.0",
         "fzaninotto/faker": "~1.4",
         "mockery/mockery": "0.9.*",
-        "phpunit/phpunit": "~5.7"
+        "phpunit/phpunit": "~6.0"
     },
     "autoload": {
         "classmap": [
@@ -49,6 +51,10 @@
         "post-update-cmd": [
             "Illuminate\\Foundation\\ComposerScripts::postUpdate",
             "php artisan optimize"
+        ],
+        "post-autoload-dump": [
+            "Illuminate\\Foundation\\ComposerScripts::postAutoloadDump",
+            "@php artisan package:discover"
         ]
     },
     "config": {

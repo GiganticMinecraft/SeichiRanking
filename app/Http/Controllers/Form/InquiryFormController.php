@@ -3,8 +3,10 @@
  * お問い合わせフォーム
  */
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Form;
 
+use App\Http\Controllers\Controller;
+use App\Rules\TwitterIdCheck;
 use Illuminate\Http\Request;
 use App\Http\Models\FormModel;
 
@@ -72,16 +74,28 @@ class inquiryFormController extends Controller
         $inquiry_text = $request->input('inquiry_text');
         $reply_type   = $request->input('reply_type');
 
+        $validate_rule = [];
+
         // 返信タイプのセット
         if ($reply_type == 'twitter') {
             $contact_id_label = 'Twitter ID';
             $type = 1;
 
+            $validate_rule = [
+                'reply_type'   => 'required|in:twitter,discord',
+                'contact_id'   => 'required', new TwitterIdCheck,
+                'inquiry_text' => 'required',
+            ];
         }
         elseif ($reply_type == 'discord') {
             $contact_id_label = 'Discord ID';
             $type = 2;
 
+            $validate_rule = [
+                'reply_type'   => 'required|in:twitter,discord',
+                'contact_id'   => 'required',
+                'inquiry_text' => 'required',
+            ];
         }
         else {
             $contact_id_label = 'ID';
@@ -97,12 +111,7 @@ class inquiryFormController extends Controller
         ];
 
         // バリデーション処理
-        Validator::make($request->all(), [
-            'reply_type'   => 'required|in:twitter,discord',
-            'contact_id'   => 'required|discordid',
-            'inquiry_text' => 'required',
-        ], $messages)->validate();
-
+        Validator::make($request->all(), $validate_rule, $messages)->validate();
 
         // クッキーが生きて入れば、投稿不可
         if (!empty($_COOKIE["inquiry"])) {
@@ -116,7 +125,7 @@ class inquiryFormController extends Controller
             $user = $this->jms_login_auth()->getUser();
             Log::debug(__FUNCTION__ . ' : login user -> ' . print_r($user, 1));
 
-                // Discord Botにpostリクエスト
+            // Discord Botにpostリクエスト
             $discord_content = "**[".$user['preferred_username']."]**\n".$inquiry_text;
             $client = new GuzzleHttp\Client();
             $client->post(

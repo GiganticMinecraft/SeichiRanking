@@ -31,3 +31,6 @@ Route::group(['middleware' => 'throttle:60,1'], function () {
 Route::group(['middleware' => 'throttle:600,1'], function () {
     Route::get('/players/{player_uuid}/{data_type}', 'Api\PlayerData@getPlayerData');
 });
+
+// Twitter ID確認用
+Route::get('/checkTwitterId/{screen_name}', 'Api\TwitterApi@checkTwitterId');

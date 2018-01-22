@@ -2,8 +2,9 @@
 /**
  * アイディア投稿フォーム
  */
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Form;
 
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Http\Models\FormModel;
 

@@ -22,12 +22,12 @@ Route::get('/ranking/{mode}', 'RankingController@index');
 Route::get('/about', 'PagesController@about');
 
 // アイディア投稿フォーム
-Route::get('/ideaForm', 'IdeaFormController@index');
-Route::post('/ideaForm/submit', 'IdeaFormController@submit');
+Route::get('/ideaForm', 'Form\IdeaFormController@index');
+Route::post('/ideaForm/submit', 'Form\IdeaFormController@submit');
 
 // お問い合わせフォーム
-Route::get('/inquiryForm', 'inquiryFormController@index');
-Route::post('/inquiryForm/submit', 'InquiryFormController@submit');
+Route::get('/inquiryForm', 'Form\inquiryFormController@index');
+Route::post('/inquiryForm/submit', 'Form\InquiryFormController@submit');
 
 Route::get('/thanks', 'PagesController@thanks');
 

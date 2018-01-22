@@ -19,7 +19,7 @@
 
     <div>
         当フォームより、運営チームに直接お問い合わせ頂けます。<br>
-        不具合報告、迷惑プレイヤーの通報は<a href="http://seichi.click/d/%a4%aa%cc%e4%a4%a4%b9%e7%a4%ef%a4%bb">専用フォーム</a>をご利用ください。
+        不具合報告、迷惑プレイヤーの通報は<a href="https://seichi.click/wiki/お問い合わせ">専用フォーム</a>をご利用ください。
 
     <br><br>
 
@@ -64,8 +64,8 @@
                 <label for="inputEmail3" class="col-sm-2 control-label">連絡先 <span class="text-danger">※</span></label>
 
                 <div class="radio col-sm-10">
-                    <label><input type="radio" name="reply_type" value="discord" checked>Discord　</label>
-                    <label><input type="radio" name="reply_type" value="twitter">Twitter　</label>
+                    <label><input type="radio" name="reply_type" value="discord" @if(old('reply_type') == 'discord' || old('reply_type') == null) checked @endif>Discord　</label>
+                    <label><input type="radio" name="reply_type" value="twitter" @if(old('reply_type') == 'twitter') checked @endif>Twitter　</label>
                 </div>
             </div>
 
