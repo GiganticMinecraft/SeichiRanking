@@ -1,16 +1,10 @@
 .footer {
-    /*position: absolute;*/
     bottom: 0;
     width: 100%;
-    /* Set the fixed height of the footer here */
-    /*height: 40px;*/
     background-color: #f5f5f5;
     text-align: center;
     margin-top:50px;
-    /*Below here edit by pcs510mc*/
     position: fixed;
-    height: 50px;
-    /*Editing pcs510mc so far*/
 }
 /*body > .container {*/
     /*padding: 60px 15px 0;*/
