@@ -34,11 +34,12 @@ class IdeaFormController extends Controller
     {
         try {
             // ユーザ情報を取得
-            $jms_user_info = $this->model->get_jms_user_info(self::FORM_NM);
+            $jms_user_info = $this->model->jms_login_auth();
 
             return view(
-                'form.'.self::FORM_NM, [
-                    'user'    => $jms_user_info,
+                'form.'.self::FORM_NM,
+                [
+                    'user'    => $jms_user_info->getUser(),
                 ]
             );
         }

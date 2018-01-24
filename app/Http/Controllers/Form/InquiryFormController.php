@@ -37,7 +37,7 @@ class inquiryFormController extends Controller
     {
         try {
             // ユーザ情報を取得
-            $jms_user_info = $this->model->get_jms_user_info(self::FORM_NM);
+            $jms_user_info = $this->model->jms_login_auth();
 
             // 独自定義JS
             $assetJs = [
@@ -55,8 +55,8 @@ class inquiryFormController extends Controller
         catch (\Exception $e) {
             // セッションに戻り先URLをセット
             Session::put('callback_url', '/inquiryForm');
-
-            Log::debug(print_r($e->getMessage(), 1));
+            Log::debug('hoge');
+            Log::error(__LINE__.print_r($e->getMessage(), 1));
             return redirect()->to('/login/jms');
         }
     }

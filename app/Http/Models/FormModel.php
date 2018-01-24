@@ -16,21 +16,6 @@ class FormModel extends Model
      */
     public function get_jms_user_info($template_nm = null)
     {
-        try {
-            // ユーザ情報を取得
-            $jms_user_info = $this->jms_login_auth()->getUser();
-            Log::debug(__FUNCTION__.' : login user ->'.print_r($jms_user_info, 1));
-
-            return $jms_user_info;
-        }
-        // 未ログインの場合、例外としてキャッチする
-        catch (\Exception $e) {
-            // セッションに戻り先URLをセット
-            Session::put('callback_url', '/' . $template_nm);
-
-            Log::debug(print_r($e->getMessage(), 1));
-            return redirect()->to('/login/jms');
-        }
     }
 
     /**
