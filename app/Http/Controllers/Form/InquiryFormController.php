@@ -46,7 +46,7 @@ class inquiryFormController extends Controller
 
             return view(
                 'form.'.self::FORM_NM, [
-                    'user'    => $jms_user_info,    // JMSユーザ情報
+                    'user'    => $jms_user_info->getUser(),    // JMSユーザ情報
                     'assetJs' => $assetJs,          // 独自定義JS
                 ]
             );
