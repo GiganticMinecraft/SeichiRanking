@@ -73,6 +73,7 @@ class inquiryFormController extends Controller
         // パラメータ取得
         $inquiry_text = $request->input('inquiry_text');
         $reply_type   = $request->input('reply_type');
+        $contact_id   = $request->input('contact_id');
 
         $validate_rule = [];
 
@@ -139,8 +140,6 @@ class inquiryFormController extends Controller
 //                ['json' => ['content' => $discord_content]]
 //            );
 
-            Log::debug('aaa');
-
             // 問い合わせデータ保存 (将来的に問い合わせ管理システムで利用する目的)
             DB::table('inquiry')->insert([
                 'name' => $user['preferred_username'],
@@ -154,7 +153,19 @@ class inquiryFormController extends Controller
                 'updated_at'   => Carbon::now(),
             ]);
 
-            Log::debug('bbb');
+            // Redmine連携
+            $client = new Redmine\Client(env('REDMINE_URL'), env('REDMINE_KEY'));
+
+            // チケット起票
+            $client->issue->create([
+                'project_id'  => env('INQUIRY_FORM_PROJECT_ID'),
+                'tracker_id'  => env('INQUIRY_FORM_TRACKER_ID'),
+                'status_id'   => env('INQUIRY_FORM_STATUS_ID'),
+                'priority_id' => env('INQUIRY_FORM_PRIORITY_ID'),
+                'subject'     => '[' . $user['preferred_username'] . '] ' . mb_strimwidth($inquiry_text, 0, 40),
+                'description' => $inquiry_text,
+                'custom_field' => [1 => $reply_type . ':' . $contact_id],
+            ]);
 
             // 二重投稿防止のcookieを生成
             $cookie = \Cookie::make('inquiry', md5(uniqid(mt_rand(), true)), 1);
