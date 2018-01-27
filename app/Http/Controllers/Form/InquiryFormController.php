@@ -158,8 +158,13 @@ class inquiryFormController extends Controller
                 'status_id'   => env('INQUIRY_FORM_STATUS_ID'),
                 'priority_id' => env('INQUIRY_FORM_PRIORITY_ID'),
                 'subject'     => '[' . $user['preferred_username'] . '] ' . mb_strimwidth($inquiry_text, 0, 40),
+                'custom_fields' => [
+                    ['id' => 1, 'value' => $reply_type . ':' . $contact_id],    // 連絡先
+                    ['id' => 2, 'value' => $user['preferred_username']]         // MCID
+                ],
                 'description' => $inquiry_text,
-                'cf_1'        => $reply_type . ':' . $contact_id,
+//                'cf_1'        => $reply_type . ':' . $contact_id,
+//                'cf_2'        => $user['preferred_username'],
             ]);
 
             // 二重投稿防止のcookieを生成
