@@ -18,7 +18,8 @@ use Auth;
 use Session;
 use DB;
 use Carbon\Carbon;
-use GuzzleHttp;
+use Redmine;
+
 
 class inquiryFormController extends Controller
 {
