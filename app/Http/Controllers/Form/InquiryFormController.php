@@ -78,9 +78,6 @@ class inquiryFormController extends Controller
 
         $validate_rule = [];
 
-        Log::debug('ddd');
-
-
         // 返信タイプのセット
         if ($reply_type == 'twitter') {
             $contact_id_label = 'Twitter ID';
@@ -114,9 +111,6 @@ class inquiryFormController extends Controller
             'contact_id.discordid'  => 'Discord IDは 末尾に「#数字」を入力してください。(例:user_name#1234)',
             'contact_id.twitter'    => '入力したTwitter IDは存在しません。',
         ];
-
-        Log::debug('ccc');
-
 
         // バリデーション処理
         Validator::make($request->all(), $validate_rule, $messages)->validate();
@@ -165,7 +159,7 @@ class inquiryFormController extends Controller
                 'priority_id' => env('INQUIRY_FORM_PRIORITY_ID'),
                 'subject'     => '[' . $user['preferred_username'] . '] ' . mb_strimwidth($inquiry_text, 0, 40),
                 'description' => $inquiry_text,
-                'custom_field' => [1 => $reply_type . ':' . $contact_id],
+                'cf_1'        => $reply_type . ':' . $contact_id,
             ]);
 
             // 二重投稿防止のcookieを生成
