@@ -76,6 +76,9 @@ class inquiryFormController extends Controller
 
         $validate_rule = [];
 
+        Log::debug('ddd');
+
+
         // 返信タイプのセット
         if ($reply_type == 'twitter') {
             $contact_id_label = 'Twitter ID';
@@ -110,6 +113,9 @@ class inquiryFormController extends Controller
             'contact_id.twitter'    => '入力したTwitter IDは存在しません。',
         ];
 
+        Log::debug('ccc');
+
+
         // バリデーション処理
         Validator::make($request->all(), $validate_rule, $messages)->validate();
 
@@ -122,16 +128,18 @@ class inquiryFormController extends Controller
         // 投稿処理
         try {
             // ユーザ情報を取得
-            $user = $this->jms_login_auth()->getUser();
+            $user = $this->model->jms_login_auth()->getUser();
             Log::debug(__FUNCTION__ . ' : login user -> ' . print_r($user, 1));
 
             // Discord Botにpostリクエスト
-            $discord_content = "**[".$user['preferred_username']."]**\n".$inquiry_text;
-            $client = new GuzzleHttp\Client();
-            $client->post(
-                env('DISCORD_INQUIRY_URL'),
-                ['json' => ['content' => $discord_content]]
-            );
+//            $discord_content = "**[".$user['preferred_username']."]**\n".$inquiry_text;
+//            $client = new GuzzleHttp\Client();
+//            $client->post(
+//                env('DISCORD_INQUIRY_URL'),
+//                ['json' => ['content' => $discord_content]]
+//            );
+
+            Log::debug('aaa');
 
             // 問い合わせデータ保存 (将来的に問い合わせ管理システムで利用する目的)
             DB::table('inquiry')->insert([
@@ -145,6 +153,8 @@ class inquiryFormController extends Controller
                 'created_at'   => Carbon::now(),
                 'updated_at'   => Carbon::now(),
             ]);
+
+            Log::debug('bbb');
 
             // 二重投稿防止のcookieを生成
             $cookie = \Cookie::make('inquiry', md5(uniqid(mt_rand(), true)), 1);
