@@ -26,11 +26,3 @@ Route::group(['middleware' => 'throttle:60,1'], function () {
     Route::get('/ranking', 'Api\PlayerRanking@get');
     Route::get('/ranking/player/{player_uuid}', 'Api\PlayerRanking@getPlayerRank');
 });
-
-// プレーヤーデータAPI
-Route::group(['middleware' => 'throttle:600,1'], function () {
-    Route::get('/players/{player_uuid}/{data_type}', 'Api\PlayerData@getPlayerData');
-});
-
-// Twitter ID確認用
-Route::get('/checkTwitterId/{screen_name}', 'Api\TwitterApi@checkTwitterId');

@@ -3,177 +3,146 @@
 
 @section('content')
 
-    <div class="m-t-1 m-l-1 m-r-1">
-        <!--タブのボタン部分-->
-        <ul class="nav nav-tabs">
-            {{--<li class="nav-item active">--}}
-                {{--<a href="#tab1" class="nav-link bg-primary" data-toggle="tab">総　合</a>--}}
-            {{--</li>--}}
-            <li class="nav-item @if (app('request')->input('kind') == 'break' || is_null(app('request')->input('kind')))active @endif">
-                <a href="#tab2" class="nav-link bg-primary" data-toggle="tab">整 地 量</a>
-            </li>
-            <li class="nav-item @if (app('request')->input('kind') == 'build')active @endif">
-                <a href="#tab3" class="nav-link bg-primary" data-toggle="tab">建 築 量</a>
-            </li>
-            <li class="nav-item @if (app('request')->input('kind') == 'playtime')active @endif">
-                <a href="#tab4" class="nav-link bg-primary" data-toggle="tab">接続時間</a>
-            </li>
-            @if ($navbar_act !== 'daily')
-                <li class="nav-item @if (app('request')->input('kind') == 'vote')active @endif">
-                    <a href="#tab5" class="nav-link bg-primary" data-toggle="tab">投 票 数</a>
-                </li>
-            @endif
-        </ul>
-        <!--タブのコンテンツ部分-->
-        <div class="tab-content">
+    {{-- ナビゲーションバーの Partial を使用 --}}
+    <nav class="navbar navbar-default navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+                <!-- スマホやタブレットで表示した時のメニューボタン -->
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                    ...
+                </button>
 
-            <div id="tab2" class="tab-pane @if (app('request')->input('kind') == 'break' || is_null(app('request')->input('kind')))active @endif">
-                <h3>◇ 整地量ランキング</h3>
-
-                <div class="rank">
-
-                    @if (!empty($navbar_act) && $navbar_act == 'year' || $navbar_act == 'monthly' || $navbar_act == 'weekly' || $navbar_act == 'daily')
-                        ※ 近日公開予定
-                    @else
-
-                        <table class="table table-striped table-hover">
-                            <tbody>
-
-                            @foreach ($break_ranking as $key => $item)
-                                <tr>
-                                    <th scope="row">
-                                        <big>{{$item->rank}}位</big>
-                                    </th>
-                                    <td>
-                                        <img src="{{$item->mob_head_img}}">
-                                    </td>
-                                    <td>
-                                        {{ $item->name }}<br>
-                                        {{--<span class="num_break">総整地量：{{ number_format($item->allmineblock) }}</span><br>--}}
-                                        <span class="num_break">整地量：{{ number_format($item->totalbreaknum) }}</span><br>
-                                        <span class="last_login">Last login: {{$item->lastquit}}</span>
-                                    </td>
-                                </tr>
-                            @endforeach
-                            </tbody>
-                        </table>
-
-                        {{-- ページネーション --}}
-                        {!! $break_ranking->appends(['kind' => 'break'])->links() !!}
-
-                    @endif
-
-                </div>
+                <!-- ブランド表示 -->
+                <a class="navbar-brand" href="/">整地鯖ランキング</a>
             </div>
 
-            <div id="tab3" class="tab-pane @if (app('request')->input('kind') == 'build')active @endif">
-                <h3>◇ 建築量ランキング</h3>
-                <div class="rank">
-                    @if (!empty($navbar_act) && $navbar_act == 'year' || $navbar_act == 'monthly' || $navbar_act == 'weekly' || $navbar_act == 'daily')
-                        ※ 近日公開予定
-                    @else
+            <!-- メニュー -->
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <!-- 期間選択のnavvar -->
+                <div id="ranking-duration-nav"></div>
 
-                        <table class="table table-striped table-hover">
-                            <tbody>
+                <!-- 左寄せメニュー -->
+                <ul class="nav navbar-nav small">
 
-                            @foreach ($build_ranking as $key => $item)
-                                <tr>
-                                    <th scope="row">
-                                        <big>{{$item->rank}}位</big>
-                                    </th>
-                                    <td>
-                                        <img src="{{$item->mob_head_img}}">
-                                    </td>
-                                    <td>
-                                        {{ $item->name }}<br>
-                                        {{--<span class="num_break">総整地量：{{ number_format($item->allmineblock) }}</span><br>--}}
-                                        <span class="num_break">建築量：{{ number_format($item->build_count) }}</span><br>
-                                        <span class="last_login">Last login: {{$item->lastquit}}</span>
-                                    </td>
-                                </tr>
-                            @endforeach
-                            </tbody>
-                        </table>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button">
+                            その他メニュー <span class="caret"></span>
+                        </a>
+                        <ul class="dropdown-menu" role="menu">
+                            <li><a href="/about">このページについて</a></li>
+                            <li><a href="http://seichi.click/" target="_blank">公式Wiki</a></li>
+                        </ul>
+                    </li>
 
-                        {{-- ページネーション --}}
-                        {!! $build_ranking->appends(['kind' => 'build'])->links() !!}
 
-                    @endif
-                </div>
-            </div>
-            <div id="tab4" class="tab-pane @if (app('request')->input('kind') == 'playtime')active @endif">
-                <h3>◇ 接続時間ランキング</h3>
-                <div class="rank">
-                    @if (!empty($navbar_act) && $navbar_act == 'year' || $navbar_act == 'monthly' || $navbar_act == 'weekly' || $navbar_act == 'daily')
-                        ※ 近日公開予定
-                    @else
-                        <table class="table table-striped table-hover">
-                            <tbody>
+                </ul>
 
-                            @foreach ($playtime_ranking as $key => $item)
-                                <tr>
-                                    <th scope="row">
-                                        <big>{{$item->rank}}位</big>
-                                    </th>
-                                    <td>
-                                        <img src="{{$item->mob_head_img}}">
-                                    </td>
-                                    <td>
-                                        {{ $item->name }}<br>
-                                        {{--<span class="num_break">総整地量：{{ number_format($item->allmineblock) }}</span><br>--}}
-                                        <span class="num_break">接続時間：{{ $item->playtime }}</span><br>
-                                        <span class="last_login">Last login: {{$item->lastquit}}</span>
-                                    </td>
-                                </tr>
-                            @endforeach
-                            </tbody>
-                        </table>
-
-                        {{-- ページネーション --}}
-                        {!! $playtime_ranking->appends(['kind' => 'playtime'])->links() !!}
-
-                    @endif
-
-                </div>
-            </div>
-            {{-- 累計のみ表示する --}}
-            @if ($navbar_act !== 'daily')
-                <div id="tab5" class="tab-pane @if (app('request')->input('kind') == 'vote')active @endif">
-                    <h3>◇ 投票数ランキング</h3>
-                    <div class="rank">
-                        @if (!empty($navbar_act) && $navbar_act == 'year' || $navbar_act == 'monthly' || $navbar_act == 'weekly' || $navbar_act == 'daily')
-                            ※ 近日公開予定
-                        @else
-                            <table class="table table-striped table-hover">
-                                <tbody>
-
-                                @foreach ($vote_ranking as $key => $item)
-                                    <tr>
-                                        <th scope="row">
-                                            <big>{{$item->rank}}位</big>
-                                        </th>
-                                        <td>
-                                            <img src="{{$item->mob_head_img}}">
-                                        </td>
-                                        <td>
-                                            {{ $item->name }}<br>
-                                            {{--<span class="num_break">総整地量：{{ number_format($item->allmineblock) }}</span><br>--}}
-                                            <span class="num_break">投票数：{{ $item->p_vote }}</span><br>
-                                            <span class="last_login">Last login: {{$item->lastquit}}</span>
-                                        </td>
-                                    </tr>
-                                @endforeach
-                                </tbody>
-                            </table>
-
-                            {{-- ページネーション --}}
-                            {!! $vote_ranking->appends(['kind' => 'vote'])->links() !!}
-
-                        @endif
-
+                <form id="player-search-form" class="navbar-form navbar-left" role="search">
+                    <div class="form-group">
+                        <input id="player-search-box" class="form-control" autocomplete="off" placeholder="ユーザー名を検索">
                     </div>
+                    <ul id="player-search-suggestions" class="list-group" style="position: absolute;"></ul>
+                </form>
+                <!-- 右寄せメニュー -->
+                <ul class="nav navbar-nav navbar-right">
+
+                {{-- 未ログイン時 --}}
+                {{--@if (Auth::guest())--}}
+                {{--<li><a href="/lead_system/auth/login">管理者用メニュー</a></li>--}}
+                {{-- ログイン時 --}}
+                {{--@else--}}
+                <!-- ドロップダウンメニュー -->
+                    <li class="dropdown">
+                        {{--<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">--}}
+                        {{--<span class="glyphicon glyphicon-cog"></span>--}}
+                        {{--</a>--}}
+                        <ul class="dropdown-menu" role="menu">
+                            {{--<li><a href="/lead_system/auth/logout">ログアウト</a></li>--}}
+                        </ul>
+                    </li>
+                    {{--@endif--}}
+                </ul>
+            </div><!-- /.navbar-collapse -->
+        </div><!-- /.container-fluid -->
+    </nav>
+
+    <div class="container">
+        @if (Session::has('flash_message'))
+            <div class="alert alert-success">{{ Session::get('flash_message') }}</div>
+        @endif
+
+        <div class="row">
+            <div class="col-sm-2 top70">
+                <h4>サーバー稼働状況</h4>
+
+                <p>☆ 合計接続人数：{{$server_status[0]['online'] or 0}}人</p>
+                <table class="table table-responsive">
+                    <tr>
+                        <td class="warning">ロビー</td>
+                        <td class="warning text-right">{{$server_status[0]['lobby'] or 0}}人</td>
+                    <tr>
+                        <td class="success">第1:メイン</td>
+                        <td class="success text-right">{{$server_status[0]['s1'] or 0}}人</td>
+                    </tr>
+                    <tr>
+                        <td class="success">第2:メイン</td>
+                        <td class="success text-right">{{$server_status[0]['s2'] or 0}}人</td>
+                    </tr>
+                    <tr>
+                        <td class="success">第3:メイン</td>
+                        <td class="success text-right">{{$server_status[0]['s3'] or 0}}人</td>
+                    </tr>
+                    <tr>
+                        <td class="danger">第1:整地専用</td>
+                        <td class="danger text-right">{{$server_status[0]['s5'] or 0}}人</td>
+                    </tr>
+                    <tr>
+                        <td class="danger">第2:整地専用</td>
+                        <td class="danger text-right">{{$server_status[0]['s6'] or 0}}人</td>
+                    </tr>
+                    <tr>
+                        <td class="info">公共施設</td>
+                        <td class="info text-right">{{$server_status[0]['s7'] or 0}}人</td>
+                    </tr>
+                    <tr>
+                        <td class="">イベント</td>
+                        <td class="text-right">{{$server_status[0]['eve'] or 0}}人</td>
+                    </tr>
+                    <tr>
+                        <td class="">クリエイティブ</td>
+                        <td class="text-right">{{$server_status[0]['cre'] or 0}}人</td>
+                    </tr>
+                    <tr>
+                        <td class="active">第1:ベータ</td>
+                        <td class="active text-right">{{$server_status[0]['g1'] or 0}}人</td>
+                    </tr>
+                    <tr>
+                        <td class="active">第2:ベータ</td>
+                        <td class="active text-right">{{$server_status[0]['g2'] or 0}}人</td>
+                    </tr>
+                </table>
+            </div>
+            <div class="col-sm-8 top70">
+                {{-- メインコンテンツ --}}
+                <div class="m-t-1 m-l-1 m-r-1">
+                    <div id="ranking-type-nav"></div>
+                    <div id="ranking-container"></div>
                 </div>
-            @endif
+            </div>
+            <div class="col-sm-2 top70">
+                {{--広告スペース--}}
+                <script type="text/javascript">
+                    google_ad_client = "ca-pub-1577125384876056";
+                    google_ad_slot = "9718464504";
+                    google_ad_width = 160;
+                    google_ad_height = 600;
+                </script>
+                <!-- 整地鯖ランキング -->
+                <script type="text/javascript"
+                        src="//pagead2.googlesyndication.com/pagead/show_ads.js">
+                </script>
+            </div>
         </div>
     </div>
+
 @endsection

@@ -5,6 +5,7 @@
 
     <meta charset="UTF-8">
     <meta name="csrf-token" content="{{ csrf_token() }}" />
+    <meta name="viewport" content="width=device-width,initial-scale=1">
 
     <script src="{{asset('/js/base/jquery-3.1.1.min.js')}}"></script>
     <script src="{{asset('/js/base/bootstrap.min.js')}}"></script>
@@ -14,15 +15,10 @@
     <script src="{{asset('/js/player-search.js')}}"></script>
     {{--<script src="{{asset('/js/index.js')}}"></script>--}}
 
-    {{--<script src="http://fb.me/react-0.13.3.js"></script>--}}
-    {{--<script src="http://fb.me/JSXTransformer-0.13.3.js"></script>--}}
-    {{--<script src="https://unpkg.com/react@15/dist/react.js"></script>--}}
-    {{--<script src="https://unpkg.com/react-dom@15/dist/react-dom.js"></script>--}}
-
     {{-- ページ独自JSの組み込み --}}
     @if(!empty($assetJs))
         @foreach($assetJs as $js)
-            <script type="text/javascript" src="{{asset($js.'?'.date('Ymd'))}}"></script>
+            <script type="text/javascript" src="{{asset($js.'?'.date('YmdH'))}}"></script>
         @endforeach
     @endif
 
@@ -32,7 +28,7 @@
     {{-- ページ独自CSSの組み込み --}}
     @if(!empty($assetCss))
         @foreach($assetCss as $css)
-            <link rel="stylesheet" href="{{asset($css)}}">
+            <link rel="stylesheet" href="{{asset($css.'?'.date('YmdH'))}}">
         @endforeach
     @endif
     <link rel="shortcut icon" href="{{ asset('favicon.ico') }}">
@@ -136,6 +132,7 @@
                 </div>
             </div>
     </div>
+    @yield('content')
 
     @include('footer')
 </body>
