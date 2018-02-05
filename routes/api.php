@@ -25,4 +25,7 @@ Route::group(['middleware' => 'throttle:60,1'], function () {
     // ランキングAPI
     Route::get('/ranking', 'Api\PlayerRanking@get');
     Route::get('/ranking/player/{player_uuid}', 'Api\PlayerRanking@getPlayerRank');
+
+    // Twitter ID確認用
+    Route::get('/checkTwitterId/{screen_name}', 'Api\TwitterApi@checkTwitterId');
 });
