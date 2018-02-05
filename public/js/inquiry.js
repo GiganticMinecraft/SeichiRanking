@@ -24,7 +24,7 @@ function change_contact_id_param() {
     else if (reply_type === 'twitter') {
         $('#contact_id_form').show();
         $('#contact_id_label').text('Twitter ID');
-        $('#contact_id').attr('placeholder', 'Twitter ID (@名前)');
+        $('#contact_id').attr('placeholder', 'ユーザー名/スクリーンネーム (@名前)');
     }
     else {
         $('#contact_id_form').hide();

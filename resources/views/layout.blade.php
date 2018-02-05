@@ -51,8 +51,8 @@
     </script>
 </head>
 <body>
-    @yield('content')
+@yield('content')
 
-    @include('footer')
+@include('footer')
 </body>
 </html>

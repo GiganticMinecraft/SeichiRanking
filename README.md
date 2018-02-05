@@ -1,8 +1,8 @@
 # SeichiRanking
-整地鯖のランキングページ
+整地鯖のランキング/アイディア提案/お問い合わせページ
 
 ## 動作環境
 - PHP 7.0.8
-- Laravel Framework 5.4.25
+- Laravel Framework 5.5
 
-詳細は追って追記します
+No License

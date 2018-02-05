@@ -3,9 +3,12 @@
  * お問い合わせフォーム
  */
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Form;
 
+use App\Http\Controllers\Controller;
+use App\Rules\TwitterIdCheck;
 use Illuminate\Http\Request;
+use App\Http\Models\FormModel;
 
 use Response;
 use Cookie;
@@ -15,10 +18,18 @@ use Auth;
 use Session;
 use DB;
 use Carbon\Carbon;
-use GuzzleHttp;
+use Redmine;
+
 
 class inquiryFormController extends Controller
 {
+    const FORM_NM = 'inquiryForm';
+
+    public function __construct()
+    {
+        $this->model = new FormModel();
+    }
+
     /**
      * indexアクション
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
@@ -27,8 +38,7 @@ class inquiryFormController extends Controller
     {
         try {
             // ユーザ情報を取得
-            $user = $this->jms_login_auth()->getUser();
-            Log::debug(__FUNCTION__.' : login user ->'.print_r($user, 1));
+            $jms_user_info = $this->model->jms_login_auth();
 
             // 独自定義JS
             $assetJs = [
@@ -36,9 +46,9 @@ class inquiryFormController extends Controller
             ];
 
             return view(
-                'inquiryForm', [
-                    'user'    => $user,     // JMSユーザ情報
-                    'assetJs' => $assetJs,  // 独自定義JS
+                'form.'.self::FORM_NM, [
+                    'user'    => $jms_user_info->getUser(),    // JMSユーザ情報
+                    'assetJs' => $assetJs,          // 独自定義JS
                 ]
             );
         }
@@ -46,8 +56,8 @@ class inquiryFormController extends Controller
         catch (\Exception $e) {
             // セッションに戻り先URLをセット
             Session::put('callback_url', '/inquiryForm');
-
-            Log::debug(print_r($e->getMessage(), 1));
+            Log::debug('hoge');
+            Log::error(__LINE__.print_r($e->getMessage(), 1));
             return redirect()->to('/login/jms');
         }
     }
@@ -64,55 +74,46 @@ class inquiryFormController extends Controller
         // パラメータ取得
         $inquiry_text = $request->input('inquiry_text');
         $reply_type   = $request->input('reply_type');
+        $contact_id   = $request->input('contact_id');
+
+        $validate_rule = [];
 
         // 返信タイプのセット
         if ($reply_type == 'twitter') {
             $contact_id_label = 'Twitter ID';
             $type = 1;
 
-            // バリデーションエラー時のメッセージをセット
-            $messages = [
-                'reply_type.required'   => '連絡先は必須項目です。',
-                'reply_type.in'         => '連絡先の値が不正です。',
-                'contact_id.required'   => $contact_id_label.'は必須項目です。',
-                'contact_id.twitter'  => '入力したTwitter IDは存在しません。',
-                'inquiry_text.required' => 'お問い合わせ内容は必須項目です。',
-                'inquiry_text.repeatlinefeed' => '改行の多用はご遠慮ください。(連続する改行は2回まで許容します)'
-            ];
-
-            // バリデーション処理
-            Validator::make($request->all(), [
+            $validate_rule = [
                 'reply_type'   => 'required|in:twitter,discord',
-                'contact_id'   => 'required',
-                'inquiry_text' => 'required|repeatlinefeed',
-            ], $messages)->validate();
-
+                'contact_id'   => ['required', new TwitterIdCheck],
+                'inquiry_text' => 'required',
+            ];
         }
         elseif ($reply_type == 'discord') {
             $contact_id_label = 'Discord ID';
             $type = 2;
 
-            // バリデーションエラー時のメッセージをセット
-            $messages = [
-                'reply_type.required'   => '連絡先は必須項目です。',
-                'reply_type.in'         => '連絡先の値が不正です。',
-                'contact_id.required'   => $contact_id_label.'は必須項目です。',
-                'contact_id.discordid'  => 'Discord IDは 末尾に「#数字」を入力してください。(例:user_name#1234)',
-                'inquiry_text.required' => 'お問い合わせ内容は必須項目です。',
-                'inquiry_text.repeatlinefeed' => '改行の多用はご遠慮ください。(連続する改行は2回まで許容します)',
-            ];
-
-            // バリデーション処理
-            Validator::make($request->all(), [
+            $validate_rule = [
                 'reply_type'   => 'required|in:twitter,discord',
-                'contact_id'   => 'required|discordid',
-                'inquiry_text' => 'required|repeatlinefeed',
-            ], $messages)->validate();
+                'contact_id'   => 'required',
+                'inquiry_text' => 'required',
+            ];
         }
         else {
             $contact_id_label = 'ID';
             $type = 9;
         }
+
+        // バリデーションエラー時のメッセージをセット
+        $messages = [
+            'reply_type.in'         => '連絡先の値が不正です。',
+            'contact_id.required'   => $contact_id_label.'は必須項目です。',
+            'contact_id.discordid'  => 'Discord IDは 末尾に「#数字」を入力してください。(例:user_name#1234)',
+            'contact_id.twitter'    => '入力したTwitter IDは存在しません。',
+        ];
+
+        // バリデーション処理
+        Validator::make($request->all(), $validate_rule, $messages)->validate();
 
         // クッキーが生きて入れば、投稿不可
         if (!empty($_COOKIE["inquiry"])) {
@@ -123,18 +124,18 @@ class inquiryFormController extends Controller
         // 投稿処理
         try {
             // ユーザ情報を取得
-            $user = $this->jms_login_auth()->getUser();
+            $user = $this->model->jms_login_auth()->getUser();
             Log::debug(__FUNCTION__ . ' : login user -> ' . print_r($user, 1));
 
             // Discord Botにpostリクエスト
-            $discord_content = "**[".$user['preferred_username']."]**\n".$inquiry_text;
-            $client = new GuzzleHttp\Client();
-            $client->post(
-                env('DISCORD_INQUIRY_URL'),
-                ['json' => ['content' => $discord_content]]
-            );
+//            $discord_content = "**[".$user['preferred_username']."]**\n".$inquiry_text;
+//            $client = new GuzzleHttp\Client();
+//            $client->post(
+//                env('DISCORD_INQUIRY_URL'),
+//                ['json' => ['content' => $discord_content]]
+//            );
 
-            // 問い合わせデータ保存
+            // 問い合わせデータ保存 (将来的に問い合わせ管理システムで利用する目的)
             DB::table('inquiry')->insert([
                 'name' => $user['preferred_username'],
                 'inquiry_text' => $inquiry_text,
@@ -145,6 +146,25 @@ class inquiryFormController extends Controller
                 'delete_flg'   => 0,
                 'created_at'   => Carbon::now(),
                 'updated_at'   => Carbon::now(),
+            ]);
+
+            // Redmine連携
+            $client = new Redmine\Client(env('REDMINE_URL'), env('REDMINE_KEY'));
+
+            // チケット起票
+            $client->issue->create([
+                'project_id'  => env('INQUIRY_FORM_PROJECT_ID'),
+                'tracker_id'  => env('INQUIRY_FORM_TRACKER_ID'),
+                'status_id'   => env('INQUIRY_FORM_STATUS_ID'),
+                'priority_id' => env('INQUIRY_FORM_PRIORITY_ID'),
+                'subject'     => '[' . $user['preferred_username'] . '] ' . mb_strimwidth($inquiry_text, 0, 40),
+                'custom_fields' => [
+                    ['id' => 1, 'value' => $reply_type . ':' . $contact_id],    // 連絡先
+                    ['id' => 2, 'value' => $user['preferred_username']]         // MCID
+                ],
+                'description' => $inquiry_text,
+//                'cf_1'        => $reply_type . ':' . $contact_id,
+//                'cf_2'        => $user['preferred_username'],
             ]);
 
             // 二重投稿防止のcookieを生成
