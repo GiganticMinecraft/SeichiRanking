@@ -18,6 +18,8 @@
     <script src="{{asset('/js/base/jquery-3.1.1.min.js')}}"></script>
     <script src="{{asset('/js/form.js')}}"></script>
 
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
     {{-- ページ独自JSの組み込み --}}
     @if(!empty($assetJs))
         @foreach($assetJs as $js)
