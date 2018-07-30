@@ -122,6 +122,10 @@ return [
         'reply_type'   => __('label.reply_type'),
         'inquiry_text' => __('label.inquiry_text'),
 
+        // 建築コンペ
+        'title' => '建築テーマ',
+
+
     ],
 
 ];
