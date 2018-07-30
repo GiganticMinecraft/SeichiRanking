@@ -11,9 +11,6 @@
 |
 */
 
-/**
- * サイト表示
- */
 // TOP
 Route::get('/', 'RankingController@index');
 Route::get('/ranking/{mode}', 'RankingController@index');
@@ -34,26 +31,17 @@ Route::get('/thanks', 'PagesController@thanks');
 // プレイヤー詳細
 Route::get('/player/{player}', 'PlayerController@index');
 
+// 建築コンペ投票ページ
+Route::get('/buildCompetition', 'BuildCompetitionController@index');
+Route::post('/buildCompetition/submit', 'BuildCompetitionController@submit');
+
+// 建築コンペ応募ページ
+//Route::get('/buildCompetition/apply', 'BuildCompetitionController@apply');
+//Route::post('/buildCompetition/apply/submit', 'BuildCompetitionController@applySubmit');
+
 // JMSログイン・ログアウト
 Route::get('login/{provider}',          'Auth\SocialAccountController@redirectToProvider');
 Route::get('login/{provider}/callback', 'Auth\SocialAccountController@handleProviderCallback');
 Route::get('logout/{provider}',         'Auth\SocialAccountController@logout');
-
-/**
- * 管理用ページ
- */
-// TOP
-Route::get('/admin', 'AdminController@index');
-
-// お問い合わせ管理
-//Route::get('/admin/inquiry', 'AdminController@inquiry');
-//Route::get('/admin/inquiry/detail', 'AdminController@inquiry_detail');
-//Route::post('/admin/inquiry/submit', 'AdminController@inquiry_submit');
-
-// アカウント管理
-Route::get('/admin/account', 'AdminController@account');
-// ログイン/ログアウト
-Route::get('/admin/login', 'AdminController@login');
-Route::get('/admin/logout', 'AdminController@logout');
 
 Auth::routes();
