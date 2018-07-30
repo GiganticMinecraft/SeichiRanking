@@ -164,6 +164,21 @@ class BuildCompetitionController extends Controller
 
     public function submit(Request $request)
     {
+        $this->model = new FormModel();
+
+        try {
+            // ユーザ情報を取得
+            $this->jms_user_info = $this->model->jms_login_auth()->getUser();
+        }
+            // 未ログインの場合、例外としてキャッチする
+        catch (\Exception $e) {
+            // セッションに戻り先URLをセット
+            session(['callback_url' => '/buildCompetition']);
+
+            \Log::debug(print_r($e->getMessage(), 1));
+            return redirect()->to('/login/jms');
+        }
+
         // TODO: 全テーマ投票済みであれば、Indexに戻す
         if (false) {
         }
