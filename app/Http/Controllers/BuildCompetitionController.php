@@ -63,6 +63,7 @@ class BuildCompetitionController extends Controller
                     ->where('build_competition_vote.uuid', '=', $this->jms_user_info['uuid']);
             })
             ->orderBy('build_competition_apply.theme_division_id')
+            ->orderBy('partition_no')
             ->get();
 
         // 整形する
