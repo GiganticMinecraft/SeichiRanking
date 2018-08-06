@@ -8,18 +8,13 @@ use App\Http\Models\FormModel;
 use App\BuildCompetitionThemeDivision;
 use App\BuildCompetitionApply;
 use App\BuildCompetitionVote;
+use App\Rules\TwitterIdCheck;
+use Validator;
 
 class BuildCompetitionController extends Controller
 {
     protected $model;
     protected $jms_user_info;
-
-    /**
-     * BuildCompetitionController constructor.
-     */
-    public function __construct()
-    {
-    }
 
     public function index()
     {
@@ -47,7 +42,9 @@ class BuildCompetitionController extends Controller
                 'build_competition_apply.theme_division_id',
                 'glyphicon',
                 'theme_division_name',
+                'title',
                 'apply_comment',
+                'img_path',
                 'partition_no',
                 'build_competition_vote_id',
                 'build_competition_vote_apply_id'
@@ -92,6 +89,21 @@ class BuildCompetitionController extends Controller
 
     public function apply(Request $request)
     {
+        $this->model = new FormModel();
+
+        try {
+            // ユーザ情報を取得
+            $this->jms_user_info = $this->model->jms_login_auth()->getUser();
+        }
+            // 未ログインの場合、例外としてキャッチする
+        catch (\Exception $e) {
+            // セッションに戻り先URLをセット
+            session(['callback_url' => '/buildCompetition/apply']);
+
+            \Log::debug(print_r($e->getMessage(), 1));
+            return redirect()->to('/login/jms');
+        }
+
         // 建築テーマの取得
         $themes = \DB::table('build_competition_theme_division')
             ->where('build_competition_group', config('buildcompetition.build_competition_count'))->get();
@@ -110,34 +122,92 @@ class BuildCompetitionController extends Controller
                 'user'          => $this->jms_user_info,
                 'themes'        => $themes,
                 'my_apply_data' => $my_apply_data,
-                'assetJs' => $assetJs,          // 独自定義JS
+                'assetJs'       => $assetJs,          // 独自定義JS
             ]
         );
     }
 
     public function applySubmit(Request $request)
     {
+        $this->model = new FormModel();
+
+        try {
+            // ユーザ情報を取得
+            $this->jms_user_info = $this->model->jms_login_auth()->getUser();
+        }
+            // 未ログインの場合、例外としてキャッチする
+        catch (\Exception $e) {
+            // セッションに戻り先URLをセット
+            session(['callback_url' => '/buildCompetition']);
+
+            \Log::debug(print_r($e->getMessage(), 1));
+            return redirect()->to('/login/jms');
+        }
+
         // パラメータ取得
         $params = $request->all();
         \Log::debug('$params -> '.print_r($params, 1));
 
-        // バリデーションチェック
-        $this->validate($request, [
-            'build_competition_group'    => 'required',
-            'theme'  => 'required',
-            'title' => 'required',
-            'contact_id' => 'required',
-            'reply_type' => 'required',
-            'apply_comment' => 'required',
-        ]);
+        $validate_rule = [];
+
+        // 返信タイプのセット
+        if ($params['reply_type'] == 'twitter') {
+            $contact_id_label = 'Twitter ID';
+
+            $validate_rule = [
+                'build_competition_group'    => 'required',
+                'theme'  => 'required',
+                'title' => 'required',
+                'reply_type'   => 'required|in:twitter,discord',
+                'contact_id'   => ['required', new TwitterIdCheck],
+                'apply_comment' => 'required',
+            ];
+        }
+        elseif ($params['reply_type'] == 'discord') {
+            $contact_id_label = 'Discord ID';
+
+            $validate_rule = [
+                'build_competition_group'    => 'required',
+                'theme'  => 'required',
+                'title' => 'required',
+                'reply_type'   => 'required|in:twitter,discord',
+                'contact_id'   => 'required',
+                'apply_comment' => 'required',
+            ];
+        }
+        else {
+            $contact_id_label = 'ID';
+        }
+
+        // バリデーションエラー時のメッセージをセット
+        $messages = [
+            'reply_type.in'         => '連絡先の値が不正です。',
+            'contact_id.required'   => $contact_id_label.'は必須項目です。',
+            'contact_id.discordid'  => 'Discord IDは 末尾に「#数字」を入力してください。(例:user_name#1234)',
+            'contact_id.twitter'    => '入力したTwitter IDは存在しません。',
+        ];
+
+        // バリデーション処理
+        Validator::make($request->all(), $validate_rule, $messages)->validate();
 
         // 既存データチェック
         $apply_check = BuildCompetitionApply::where('uuid', $this->jms_user_info['uuid'])
             ->where('theme_division_id', $params['theme'])
             ->where('build_competition_group', $params['build_competition_group'])->first();
 
-        // データがなければ投票
+        // データがなければ応募
         if (count($apply_check) === 0){
+            // 画像保存
+            $path= '';
+            if ($request->hasFile('img')) {
+                $path = $request->file('img')->storeAs(
+                    'build_competition/'.config('buildcompetition.build_competition_count').$this->jms_user_info['uuid'],
+                    $request->file('img')->getClientOriginalName(),
+                    'public'
+                );
+                \Log::debug(__LINE__.'$path ----> '.print_r($path, 1));
+            }
+
             \DB::table('build_competition_apply')->insert([
                     'build_competition_group' => $params['build_competition_group'],
                     'theme_division_id' => $params['theme'],
@@ -147,10 +217,12 @@ class BuildCompetitionController extends Controller
                     'mcid' => $this->jms_user_info['preferred_username'],
                     'contact_means' => $params['reply_type'],
                     'contact_id' => $params['contact_id'],
+                    'img_path' => $path,
                     'created_at' => Carbon::now(),
                     'updated_at' => Carbon::now(),
                 ]
             );
+
         }
         else {
             // テーマ名取得
@@ -160,7 +232,11 @@ class BuildCompetitionController extends Controller
         }
 
         // 完了画面へ遷移
-        return redirect('/thanks')->with('message', '建築コンペのご応募、ありがとうございました。');
+        return redirect('/buildCompetition/thanks')
+            ->with([
+                'message'      => '建築コンペのご応募、ありがとうございました。',
+                'redirect_url' => 'buildCompetition'
+            ]);
     }
 
     public function submit(Request $request)
@@ -218,8 +294,14 @@ class BuildCompetitionController extends Controller
             }
 
             // 投稿完了画面へ遷移
-            return redirect('/thanks')->with('message', '建築コンペの投票、ありがとうございました。');
+            return redirect('/buildCompetition/thanks')->with('message', '建築コンペの投票、ありがとうございました。');
         }
     }
+
+    public function thanks()
+    {
+        return view('build_competition.thanks');
+    }
+
 
 }

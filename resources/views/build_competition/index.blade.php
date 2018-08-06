@@ -33,20 +33,29 @@
                 <table class="table table-bordered">
                     <thead>
                     <tr>
-                        <th>候補者</th>
-                        <th>アピールポイント</th>
-                        <th>区画No</th>
+                        <th class="text-center">候補者</th>
+                        <th class="text-center">画像</th>
+                        <th class="text-center" style="min-width: 150px;">作品名</th>
+                        <th class="text-center">アピールポイント</th>
+                        <th class="text-center" style="width:80px;">区画No</th>
                     </tr>
                     </thead>
                     <tbody>
                     @foreach($data['apply_data'] as $val)
                         <tr>
-                            <td>
+                            <td style="vertical-align: middle;">
                                 <div class="radio">
                                     <label>
                                         <input type="radio" name="{{$val->theme_division_id}}" @if($val->build_competition_vote_id) disabled @endif @if($val->build_competition_apply_id === $val->build_competition_vote_apply_id) checked @endif value="{{$val->build_competition_apply_id}}">{{$val->mcid}}
                                     </label>
                                 </div>
+                            </td>
+
+                            <td style="vertical-align: middle; width:100px; height: 100px">
+                                <img width="250px" style="max-height: 200px" src="{{asset('storage/'.$val->img_path)}}" />
+                            </td>
+                            <td style="vertical-align: middle;">
+                                {{$val->title}}
                             </td>
 
                             <td style="vertical-align: middle;">
