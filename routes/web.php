@@ -36,8 +36,9 @@ Route::get('/buildCompetition', 'BuildCompetitionController@index');
 Route::post('/buildCompetition/submit', 'BuildCompetitionController@submit');
 
 // 建築コンペ応募ページ
-//Route::get('/buildCompetition/apply', 'BuildCompetitionController@apply');
-//Route::post('/buildCompetition/apply/submit', 'BuildCompetitionController@applySubmit');
+Route::get('/buildCompetition/apply', 'BuildCompetitionController@apply');
+Route::post('/buildCompetition/apply/submit', 'BuildCompetitionController@applySubmit');
+Route::get('/buildCompetition/thanks', 'BuildCompetitionController@thanks');
 
 // JMSログイン・ログアウト
 Route::get('login/{provider}',          'Auth\SocialAccountController@redirectToProvider');

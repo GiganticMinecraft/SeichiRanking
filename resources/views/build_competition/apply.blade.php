@@ -33,7 +33,7 @@
     <div>
         <p class="text-danger">※：必須項目</p>
 
-        <form method="post" action="/buildCompetition/apply/submit" id="form" class="form-horizontal">
+        <form method="post" action="/buildCompetition/apply/submit" id="form" class="form-horizontal" enctype="multipart/form-data">
             {{ csrf_field() }}
             <input type="hidden" name="build_competition_group" value="{{Config::get('buildcompetition.build_competition_count')}}" />
 
@@ -88,7 +88,7 @@
                     <div class="input-group">
                         <label class="input-group-btn">
                         <span class="btn btn-info">
-                         ファイル選択<input type="file" style="display:none" name="image">
+                         ファイル選択<input type="file" style="display:none" name="img" id="img">
                         </span>
                         </label>
                         <input type="text" class="form-control" readonly="">
@@ -96,7 +96,6 @@
                     <span>※ 1枚のみ投稿可能です</span>
                 </div>
             </div>
-
 
             <div class="form-group">
                 <div class="col-sm-offset-2 col-sm-10">
