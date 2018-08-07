@@ -21,7 +21,10 @@
     @endif
 
 
-    <p>1つの応募テーマにつき、1票入れることができます。</p>
+    <ul>
+        <li>1つの応募テーマにつき、1票入れることができます。</li>
+        <li>画像をクリックすると、拡大表示されます。</li>
+    </ul>
 
     <form method="post" action="/buildCompetition/submit" id="form">
         <div class="form-group">
