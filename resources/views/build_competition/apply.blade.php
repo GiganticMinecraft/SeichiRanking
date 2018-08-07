@@ -29,7 +29,6 @@
         </div>
     @endif
 
-
     <div>
         <p class="text-danger">※：必須項目</p>
 
@@ -71,7 +70,7 @@
                     <span class="text-danger">※</span>
                 </label>
                 <div class="col-sm-10">
-                    <input type="text" name="contact_id" class="form-control" id="contact_id" value="{!! Input::old('contact_id') !!}" placeholder="Discord ID（#の数字もつけてください）">
+                    <input type="text" name="contact_id" class="form-control" id="contact_id" value="{!! Input::old('contact_id') !!}" placeholder="Discord ID（#の数字も付けてください）">
                 </div>
             </div>
 
