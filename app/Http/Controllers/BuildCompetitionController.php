@@ -161,6 +161,7 @@ class BuildCompetitionController extends Controller
                 'reply_type'   => 'required|in:twitter,discord',
                 'contact_id'   => ['required', new TwitterIdCheck],
                 'apply_comment' => 'required',
+                'img' => 'max:10240|mimes:jpeg,gif,png',
             ];
         }
         elseif ($params['reply_type'] == 'discord') {
@@ -173,6 +174,7 @@ class BuildCompetitionController extends Controller
                 'reply_type'   => 'required|in:twitter,discord',
                 'contact_id'   => 'required',
                 'apply_comment' => 'required',
+                'img' => 'max:10240|mimes:jpeg,gif,png',
             ];
         }
         else {
