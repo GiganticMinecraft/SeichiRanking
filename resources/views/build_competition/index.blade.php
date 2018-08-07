@@ -30,14 +30,14 @@
             @foreach($apply_data as $app_key => $data)
                 <h2><span class="glyphicon {{$data['glyphicon']}}"></span> {{ $data['theme_division_name'] }}</h2>
 
-                <table class="table table-bordered">
+                <table class="table table-bordered" style="border-collapse: collapse;">
                     <thead>
                     <tr>
-                        <th class="text-center">候補者</th>
-                        <th class="text-center">画像</th>
-                        <th class="text-center" style="min-width: 150px;">作品名</th>
-                        <th class="text-center">アピールポイント</th>
-                        <th class="text-center" style="width:80px;">区画No</th>
+                        <th class="text-center col-xs-3 col-ms-3 col-md-4 col-lg-4">候補者</th>
+                        <th class="text-center col-xs-3 col-ms-3 col-md-3 col-lg-4">画像</th>
+                        <th class="text-center col-xs-1 col-ms-1 col-md-1 col-lg-1">作品名</th>
+                        <th class="text-center col-xs-3 col-ms-3 col-md-3 col-lg-4">アピールポイント</th>
+                        <th class="text-center col-xs-2 col-ms-2 col-md-2 col-lg-2">区画No</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -52,7 +52,7 @@
                             </td>
 
                             <td style="vertical-align: middle; width:100px; height: 100px">
-                                <img width="250px" style="max-height: 200px" src="{{asset('storage/'.$val->img_path)}}" />
+                                <img style="width: 100%; max-height:500px" src="{{asset('storage/'.$val->img_path)}}" />
                             </td>
                             <td style="vertical-align: middle;">
                                 {{$val->title}}
