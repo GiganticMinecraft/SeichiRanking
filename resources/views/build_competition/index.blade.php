@@ -53,7 +53,26 @@
 
                             <td style="vertical-align: middle; width:100px; height: 100px">
                                 @empty(!$val->img_path)
-                                    <img style="width: 100%; max-height:300px" src="{{asset('storage/'.$val->img_path)}}" />
+                                    <a href="#" data-toggle="modal" data-target="#modal_{{$val->build_competition_apply_id}}">
+                                        <img style="width: 100%; max-height:300px" src="{{asset('storage/'.$val->img_path)}}" />
+                                    </a>
+
+                                    <div class="modal fade" id="modal_{{$val->build_competition_apply_id}}">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                                    <h4 class="modal-title">{{$val->title}}＠{{$val->mcid}}</h4>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <img style="width: 100%; height: 100%;"src="{{asset('storage/'.$val->img_path)}}" />
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-primary" data-dismiss="modal">閉じる</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
                                 @endempty
                             </td>
                             <td style="vertical-align: middle;">
