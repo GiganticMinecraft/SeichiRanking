@@ -46,7 +46,7 @@
                     <tbody>
                     @foreach($data['apply_data'] as $val)
                         <tr>
-                            <td style="vertical-align: middle;">
+                            <td style="vertical-align: middle; word-break : break-all;">
                                 <div class="radio">
                                     <label>
                                         <input type="radio" name="{{$val->theme_division_id}}" @if($val->build_competition_vote_id) disabled @endif @if($val->build_competition_apply_id === $val->build_competition_vote_apply_id) checked @endif value="{{$val->build_competition_apply_id}}">{{$val->mcid}}
