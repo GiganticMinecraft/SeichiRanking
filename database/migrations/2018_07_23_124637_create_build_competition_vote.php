@@ -14,11 +14,11 @@ class CreateBuildCompetitionVote extends Migration
     public function up()
     {
         Schema::create('build_competition_vote', function (Blueprint $table) {
-            $table->increments('build_competition_vote_id')->comment('建築コンペ投票ID');
+            $table->increments('id')->comment('建築コンペ投票ID');
             $table->integer('build_competition_vote_apply_id')->unsigned()->comment('建築コンペ投票応募ID');
-            $table->foreign('build_competition_vote_apply_id')->references('build_competition_apply_id')->on('build_competition_apply');
+            $table->foreign('build_competition_vote_apply_id')->references('id')->on('build_competition_apply');
             $table->integer('theme_division_id')->unsigned()->comment('テーマ種別');
-            $table->foreign('theme_division_id')->references('theme_division_id')->on('build_competition_theme_division');
+            $table->foreign('theme_division_id')->references('id')->on('build_competition_theme_division');
             $table->string('uuid')->comment('uuid');
             $table->string('mcid')->comment('mcid');
             $table->timestamps();

@@ -14,8 +14,9 @@ class CreateBuildCompetitionThemeDivision extends Migration
     public function up()
     {
         Schema::create('build_competition_theme_division', function (Blueprint $table) {
-            $table->increments('theme_division_id')->comment('建築コンペテーマID');
-            $table->integer('build_competition_group')->comment('建築コンペ区分');
+            $table->increments('id')->comment('建築コンペテーマID');
+            $table->integer('build_competition_manage_id')->comment('建築コンペ開催回ID');
+            $table->foreign('build_competition_manage_id')->references('id')->on('build_competition_manage')->name('bc_theme_division_bc_manage_id_foreign');
             $table->string('theme_division_name')->comment('テーマ種別');
             $table->string('glyphicon')->nullable()->comment('グラフアイコン');
             $table->timestamps();
