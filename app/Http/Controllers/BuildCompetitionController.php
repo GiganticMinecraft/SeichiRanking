@@ -35,28 +35,28 @@ class BuildCompetitionController extends Controller
 
         // 応募者情報
         $apply_data = \DB::table('build_competition_apply')
-            ->select(
-                'build_competition_apply_id',
+            ->select([
+                \DB::raw('build_competition_apply.id AS build_competition_apply_id'),
                 'build_competition_apply.mcid',
                 'contact_means',
-                'build_competition_apply.theme_division_id',
+                \DB::raw('build_competition_apply.id AS theme_division_id'),
                 'glyphicon',
                 'theme_division_name',
                 'title',
                 'apply_comment',
                 'img_path',
                 'partition_no',
-                'build_competition_vote_id',
+                \DB::raw('build_competition_vote.id AS build_competition_vote_id'),
                 'build_competition_vote_apply_id'
-            )
+            ])
             ->join(
                 'build_competition_theme_division',
                 'build_competition_apply.theme_division_id',
                 '=',
-                'build_competition_theme_division.theme_division_id'
+                'build_competition_theme_division.id'
             )
             ->leftJoin('build_competition_vote', function ($join) {
-                $join->on('build_competition_theme_division.theme_division_id', '=', 'build_competition_vote.theme_division_id')
+                $join->on('build_competition_theme_division.id', '=', 'build_competition_vote.theme_division_id')
                     ->where('build_competition_vote.uuid', '=', $this->jms_user_info['uuid']);
             })
             ->orderBy('build_competition_apply.theme_division_id')
@@ -104,9 +104,16 @@ class BuildCompetitionController extends Controller
             return redirect()->to('/login/jms');
         }
 
+        // 開催有無のチェック
+        $presence = $this->checkPresence($request->get('id'));
+        if (empty($presence)) {
+            abort(404);
+        }
+        \Log::debug(print_r($presence, 1));
+
         // 建築テーマの取得
         $themes = \DB::table('build_competition_theme_division')
-            ->where('build_competition_group', config('buildcompetition.build_competition_count'))->get();
+            ->where('build_competition_manage_id', $request->get('id'))->get();
 
         $my_apply_data = BuildCompetitionApply::where('uuid', $this->jms_user_info['uuid'])->get();
 
@@ -122,6 +129,8 @@ class BuildCompetitionController extends Controller
                 'user'          => $this->jms_user_info,
                 'themes'        => $themes,
                 'my_apply_data' => $my_apply_data,
+                'manage_id'     => $request->get('id'),
+                'presence'      => $presence,
                 'assetJs'       => $assetJs,          // 独自定義JS
             ]
         );
@@ -155,7 +164,7 @@ class BuildCompetitionController extends Controller
             $contact_id_label = 'Twitter ID';
 
             $validate_rule = [
-                'build_competition_group'    => 'required',
+                'build_competition_manage_id'    => 'required',
                 'theme'  => 'required',
                 'title' => 'required',
                 'reply_type'   => 'required|in:twitter,discord',
@@ -168,7 +177,7 @@ class BuildCompetitionController extends Controller
             $contact_id_label = 'Discord ID';
 
             $validate_rule = [
-                'build_competition_group'    => 'required',
+                'build_competition_manage_id'    => 'required',
                 'theme'  => 'required',
                 'title' => 'required',
                 'reply_type'   => 'required|in:twitter,discord',
@@ -194,8 +203,8 @@ class BuildCompetitionController extends Controller
 
         // 既存データチェック
         $apply_check = BuildCompetitionApply::where('uuid', $this->jms_user_info['uuid'])
-            ->where('theme_division_id', $params['theme'])
-            ->where('build_competition_group', $params['build_competition_group'])->first();
+            ->where('id', $params['theme'])
+            ->where('build_competition_manage_id', $params['build_competition_manage_id'])->first();
 
         // データがなければ応募
         if (count($apply_check) === 0){
@@ -211,7 +220,7 @@ class BuildCompetitionController extends Controller
             }
 
             \DB::table('build_competition_apply')->insert([
-                    'build_competition_group' => $params['build_competition_group'],
+                    'build_competition_manage_id' => $params['build_competition_manage_id'],
                     'theme_division_id' => $params['theme'],
                     'title' => $params['title'],
                     'apply_comment' => $params['apply_comment'],
@@ -228,7 +237,7 @@ class BuildCompetitionController extends Controller
         }
         else {
             // テーマ名取得
-            $theme = BuildCompetitionThemeDivision::where('theme_division_id', $params['theme'])->first();
+            $theme = BuildCompetitionThemeDivision::where('id', $params['theme'])->first();
             // 応募画面へ
             return redirect('/buildCompetition/apply')->with('message', $theme->theme_division_name.'は、既に応募済みです。');
         }
@@ -305,5 +314,11 @@ class BuildCompetitionController extends Controller
         return view('build_competition.thanks');
     }
 
+    public function checkPresence($id)
+    {
+        return \DB::table('build_competition_manage')
+            ->where('id', $id)
+            ->first();
+    }
 
 }

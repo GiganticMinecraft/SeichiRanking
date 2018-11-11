@@ -182,7 +182,7 @@ return [
         App\Providers\ValidatorServiceProvider::class,
 
         Thujohn\Twitter\TwitterServiceProvider::class,
-
+        Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider::class,
     ],
 
     /*
