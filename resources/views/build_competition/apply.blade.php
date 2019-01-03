@@ -13,7 +13,7 @@
 
 <div class="container">
 
-    <h1>第{{Config::get('buildcompetition.build_competition_count')}}回 建築コンペ応募ページ</h1>
+    <h1>第{{$manage_id}}回 {{$presence->build_competition_manage_name}}応募ページ</h1>
 
     @if (Session::has('message'))
         <div class="alert alert-danger">{!! nl2br(e(Session::get('message'))) !!}</div>
@@ -34,14 +34,14 @@
 
         <form method="post" action="/buildCompetition/apply/submit" id="form" class="form-horizontal" enctype="multipart/form-data">
             {{ csrf_field() }}
-            <input type="hidden" name="build_competition_group" value="{{Config::get('buildcompetition.build_competition_count')}}" />
+            <input type="hidden" name="build_competition_manage_id" value="{{$manage_id}}" />
 
             <div class="form-group">
-                <label for="theme" class="col-sm-2 control-label">建築テーマ <span class="text-danger">※</span></label>
+                <label for="theme" class="col-sm-2 control-label">テーマ <span class="text-danger">※</span></label>
                 <div class="col-sm-10">
                     <select class="form-control" id="theme" name="theme">
                         @foreach($themes as $data)
-                            <option value="{{$data->theme_division_id}}">{{$data->theme_division_name}}</option>
+                            <option value="{{$data->id}}">{{$data->theme_division_name}}</option>
                         @endforeach
                     </select>
                 </div>
@@ -102,8 +102,6 @@
                 </div>
             </div>
         </form>
-
-
     </div>
 </div>
 
