@@ -98,8 +98,6 @@ class CountDailyRanking extends Command
                 }
 
                 if ($diff_break > 0 | $diff_build > 0 | $diff_vote > 0) {
-                    logger('update');
-
                     // カウント用テーブルのデータ更新
                     $today_data->break_count+= $diff_break;
                     $today_data->build_count+= $diff_build;
