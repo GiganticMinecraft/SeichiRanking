@@ -57,8 +57,7 @@ class CountDailyRanking extends Command
     {
         foreach ($target_data as $player_data) {
             // カウント用テーブルのデータ有無を確認
-            $today_data = DailyRankingTable::where('name', $player_data->name)
-                ->where('uuid', $player_data->uuid)
+            $today_data = DailyRankingTable::where('uuid', $player_data->uuid)
                 ->where('count_date', Carbon::now()->format('Y-m-d'))->first();
 
             if (empty($today_data)) {
