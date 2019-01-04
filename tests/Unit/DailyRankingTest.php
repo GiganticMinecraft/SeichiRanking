@@ -31,7 +31,7 @@ class DailyRankingTest extends TestCase
         $this->assertDatabaseMissing('daily_ranking_table',
             [
                 'name' => 'test_user',
-                'uuid' => '75f6e1bc-1a06-4470-a67b-2654ea4bf0c2',
+                'uuid' => '75f6e1bc-1a06-4470-a67b-265999999999',
             ]
         );
 
@@ -51,7 +51,7 @@ class DailyRankingTest extends TestCase
             'daily_ranking_table',
             [
                 'name' => 'test_user',
-                'uuid' => '75f6e1bc-1a06-4470-a67b-2654ea4bf0c2',
+                'uuid' => '75f6e1bc-1a06-4470-a67b-265999999999',
                 'break_count' => 0,
                 'build_count' => 0,
                 'vote_count'  => 0,
@@ -79,7 +79,7 @@ class DailyRankingTest extends TestCase
             'daily_ranking_table',
             [
                 'name' => 'test_user',
-                'uuid' => '75f6e1bc-1a06-4470-a67b-2654ea4bf0c2',
+                'uuid' => '75f6e1bc-1a06-4470-a67b-265999999999',
                 'break_count' => 10,
                 'build_count' => 10,
                 'vote_count'  => 1,
