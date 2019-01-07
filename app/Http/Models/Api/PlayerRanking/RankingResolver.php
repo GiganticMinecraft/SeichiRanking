@@ -70,9 +70,16 @@ EOT
             ->orderBy('rank', 'ASC')
             ->orderBy('name');
 
+        // デイリーランキングの場合
         if ($table === 'daily_ranking_table') {
+            // 最終ログイン日時を取得
             $query->leftJoin('playerdata', DB::raw('playerdata.uuid collate utf8_general_ci'), '=', 'daily_ranking_table.uuid');
+
+            // 当日データに絞り込み
+            $query->where('daily_ranking_table.count_date', date('Y-m-d'));
         }
+
+        logger('getRankingQuery -> '.$query->toSql());
 
         return $query;
     }
