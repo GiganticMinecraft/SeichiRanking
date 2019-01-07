@@ -61,7 +61,7 @@ class CountDailyRanking extends Command
                 ->where('count_date', Carbon::now()->format('Y-m-d'))->first();
 
             if (empty($today_data)) {
-                // カウント用テーブルにデータ登録
+                // カウント用テーブルに比較用の初期データを登録
                 $daily_ranking_table = new DailyRankingTable();
                 $daily_ranking_table->count_date = Carbon::now();
                 $daily_ranking_table->name = $player_data->name;
@@ -69,41 +69,21 @@ class CountDailyRanking extends Command
                 $daily_ranking_table->previous_break_count = $player_data->totalbreaknum;
                 $daily_ranking_table->previous_build_count = $player_data->build_count;
                 $daily_ranking_table->previous_vote_count = $player_data->p_vote;
+                $daily_ranking_table->previous_playtick_count = $player_data->playtick;
                 $daily_ranking_table->save();
             } else {
-                // カウント用テーブルから、更新分の差分データを計算
-
                 // 整地量
-                if ($today_data->break_count === 0) {
-                    // 初回
-                    $diff_break = $player_data->totalbreaknum - $today_data->previous_break_count;
-                } else {
-                    $diff_break = $player_data->totalbreaknum - $today_data->break_count;
-                }
+                $diff_break = $player_data->totalbreaknum - $today_data->previous_break_count;
+                $today_data->break_count+= $diff_break;
 
                 // 建築量
-                if ($today_data->build_count === 0) {
-                    // 初回
-                    $diff_build = $player_data->build_count - $today_data->previous_build_count;
-                } else {
-                    $diff_build = $player_data->build_count - $today_data->build_count;
-                }
+                $diff_build = $player_data->build_count - $today_data->previous_build_count;
+                $today_data->build_count+= $diff_build;
 
                 // 投票数
-                if ($today_data->vote_count === 0) {
-                    // 初回
-                    $diff_vote = $player_data->p_vote - $today_data->previous_vote_count;
-                } else {
-                    $diff_vote = $player_data->p_vote - $today_data->vote_count;
-                }
+                $today_data->vote_count= $player_data->p_vote;
 
-                if ($diff_break > 0 | $diff_build > 0 | $diff_vote > 0) {
-                    // カウント用テーブルのデータ更新
-                    $today_data->break_count+= $diff_break;
-                    $today_data->build_count+= $diff_build;
-                    $today_data->vote_count+= $diff_vote;
-                    $today_data->save();
-                }
+                $today_data->save();
             }
         }
     }
