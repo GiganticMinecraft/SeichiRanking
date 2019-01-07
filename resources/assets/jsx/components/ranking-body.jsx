@@ -73,7 +73,7 @@ const WrappedPagination = observer(({ store }) =>
 
 const RankingTable = observer(({ store }) => {
     // TODO 期間ランキングのAPIが実装され次第このブロックを消すこと
-    if (store.duration !== "total") {
+    if (store.duration === "weekly" || store.duration === "monthly" || store.duration === "yearly") {
         return <div>※ 近日公開予定</div>;
     }
 
