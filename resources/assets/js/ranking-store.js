@@ -46,7 +46,7 @@ class RankingStore {
      */
     @action async _updateRankingData() {
         const ranking_offset = this.item_per_page * (this.page - 1);
-        const response = await RankingApi.getRanking(this.type, ranking_offset, this.item_per_page);
+        const response = await RankingApi.getRanking(this.type, ranking_offset, this.item_per_page, this.duration);
         this.ranking = await response.json();
     }
 
