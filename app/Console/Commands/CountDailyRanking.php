@@ -74,11 +74,11 @@ class CountDailyRanking extends Command
             } else {
                 // 整地量
                 $diff_break = $player_data->totalbreaknum - $today_data->previous_break_count;
-                $today_data->break_count+= $diff_break;
+                $today_data->break_count= $diff_break;
 
                 // 建築量
                 $diff_build = $player_data->build_count - $today_data->previous_build_count;
-                $today_data->build_count+= $diff_build;
+                $today_data->build_count= $diff_build;
 
                 // 投票数
                 $today_data->vote_count= $player_data->p_vote;
