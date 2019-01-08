@@ -41,6 +41,12 @@ class CountDailyRanking extends Command
     {
         logger('>>>>  デイリーランキングバッチ：処理開始 >>>>');
 
+        // 1日前のデータがあれば、レコードを削除する
+        $yester_day_cnt = DailyRankingTable::where('count_date', Carbon::now()->subDay())->count();
+        if ($yester_day_cnt > 0) {
+            \DB::table('daily_ranking_table')->where('count_date', Carbon::now()->subDay())->delete();
+        }
+
         // 24時間以内にログインしたユーザのデータを取得する
         $target_data = PlayerData::where('lastquit', '>', Carbon::yesterday())->get();
         logger('処理対象件数：'.count($target_data));
