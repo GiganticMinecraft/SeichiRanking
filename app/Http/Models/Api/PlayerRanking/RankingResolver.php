@@ -134,9 +134,15 @@ EOT;
     {
         $table = $this->getRankTable();
 
-        return DB::table($table)
+        $query = DB::table($table)
             ->select('uuid')
-            ->where($this->getRankComparator(), '>', 0)
-            ->count();
+            ->where($this->getRankComparator(), '>', 0);
+
+        if ($table === 'daily_ranking_table') {
+            // 当日データに絞り込み
+            $query->where('daily_ranking_table.count_date', date('Y-m-d'));
+        }
+
+        return $query->count();
     }
 }
