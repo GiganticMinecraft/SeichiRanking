@@ -56,14 +56,26 @@ abstract class RankingResolver
         $table = $this->getRankTable();
 //        logger('$table -> '.print_r($table, 1));
 
-        // ref. http://blog.phalusamil.com/entry/2015/09/23/094536
-        $query = DB::table(DB::raw(<<<EOT
+        // デイリーランキングの場合
+        if ($table === 'daily_ranking_table') {
+            $sql = <<<EOT
+(SELECT $comparator, @rank AS rank, cnt, @rank := @rank + cnt FROM (SELECT @rank := 1) AS Dummy,
+(SELECT $comparator, count(*) AS cnt FROM $table WHERE $table.count_date = CURDATE() GROUP BY $comparator ORDER BY $comparator DESC) AS GroupBy
+) AS Ranking
+JOIN $table ON $table.$comparator = Ranking.$comparator
+EOT;
+        } else {
+            $sql = <<<EOT
 (SELECT $comparator, @rank AS rank, cnt, @rank := @rank + cnt FROM (SELECT @rank := 1) AS Dummy,
 (SELECT $comparator, count(*) AS cnt FROM $table GROUP BY $comparator ORDER BY $comparator DESC) AS GroupBy
 ) AS Ranking
 JOIN $table ON $table.$comparator = Ranking.$comparator
-EOT
-        ))
+EOT;
+        }
+
+
+        // ref. http://blog.phalusamil.com/entry/2015/09/23/094536
+        $query = DB::table(DB::raw($sql))
             // rankがなぜか文字列で取得されていたのでSIGNEDにキャスト
             ->selectRaw("$table.name, $table.uuid, CAST(rank AS SIGNED) as rank, $table.$comparator as data, playerdata.lastquit as lastquit")
             ->where("$table.$comparator", '>', 0)
