@@ -160,7 +160,8 @@ class inquiryFormController extends Controller
                 'subject'     => '[' . $user['preferred_username'] . '] ' . mb_strimwidth($inquiry_text, 0, 40),
                 'custom_fields' => [
                     ['id' => 1, 'value' => $reply_type . ':' . $contact_id],    // 連絡先
-                    ['id' => 2, 'value' => $user['preferred_username']]         // MCID
+                    ['id' => 2, 'value' => $user['preferred_username']],        // MCID
+                    ['id' => 9, 'value' => $user['uuid']],                      // uuid
                 ],
                 'description' => $inquiry_text,
 //                'cf_1'        => $reply_type . ':' . $contact_id,
