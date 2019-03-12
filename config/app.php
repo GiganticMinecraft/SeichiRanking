@@ -171,6 +171,7 @@ return [
         /*
          * Application Service Providers...
          */
+        Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider::class,
         App\Providers\AppServiceProvider::class,
         App\Providers\AuthServiceProvider::class,
         // App\Providers\BroadcastServiceProvider::class,
@@ -182,7 +183,7 @@ return [
         App\Providers\ValidatorServiceProvider::class,
 
         Thujohn\Twitter\TwitterServiceProvider::class,
-
+        Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider::class,
     ],
 
     /*

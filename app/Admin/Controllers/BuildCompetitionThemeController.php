@@ -73,7 +73,7 @@ class BuildCompetitionThemeController extends Controller
 
             $grid->id('テーマID')->sortable();
             $grid->build_competition_manage_id('開催回')->sortable();
-            $grid->theme_division_name('テーマ種別')->sortable();
+            $grid->theme_division_name('テーマ名')->sortable();
             $grid->glyphicon('グラフアイコン')->sortable();
             $grid->created_at('作成日')->sortable();
             $grid->updated_at('更新日')->sortable();
@@ -86,7 +86,7 @@ class BuildCompetitionThemeController extends Controller
                 // Add a column filter
                 $filter->like('id', 'テーマID');
                 $filter->like('build_competition_manage_id', '開催回');
-                $filter->like('theme_division_name', 'テーマ種別');
+                $filter->like('theme_division_name', 'テーマ名');
                 $filter->like('glyphicon', 'グラフアイコン');
                 $filter->like('created_at', '作成日');
                 $filter->like('updated_at', '更新日');
@@ -104,7 +104,7 @@ class BuildCompetitionThemeController extends Controller
     {
         return Admin::form(BuildCompetitionThemeDivision::class, function (Form $form) {
             $form->text('build_competition_manage_id', '建築コンペ開催回');
-            $form->text('theme_division_name', 'テーマ種別');
+            $form->text('theme_division_name', 'テーマ名');
             $form->text('glyphicon', 'グラフアイコン');
         });
     }

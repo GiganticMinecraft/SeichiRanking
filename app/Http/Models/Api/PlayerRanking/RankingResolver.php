@@ -10,6 +10,8 @@ abstract class RankingResolver
 {
     abstract function getRankComparator();
 
+    abstract function getRankTable();
+
     abstract function getRankingType();
 
     /**
@@ -44,25 +46,54 @@ abstract class RankingResolver
 
     /**
      * ランキング全体を取得するためのクエリを取得する
-     * @return Builder
+     * @return Builder $query
      */
     private function getRankingQuery()
     {
         $comparator = $this->getRankComparator();
+//        logger('$comparator -> '.print_r($comparator, 1));
+
+        $table = $this->getRankTable();
+//        logger('$table -> '.print_r($table, 1));
+
+        // デイリーランキングの場合
+        if ($table === 'daily_ranking_table') {
+            $sql = <<<EOT
+(SELECT $comparator, @rank AS rank, cnt, @rank := @rank + cnt FROM (SELECT @rank := 1) AS Dummy,
+(SELECT $comparator, count(*) AS cnt FROM $table WHERE $table.count_date = CURDATE() GROUP BY $comparator ORDER BY $comparator DESC) AS GroupBy
+) AS Ranking
+JOIN $table ON $table.$comparator = Ranking.$comparator
+EOT;
+        } else {
+            $sql = <<<EOT
+(SELECT $comparator, @rank AS rank, cnt, @rank := @rank + cnt FROM (SELECT @rank := 1) AS Dummy,
+(SELECT $comparator, count(*) AS cnt FROM $table GROUP BY $comparator ORDER BY $comparator DESC) AS GroupBy
+) AS Ranking
+JOIN $table ON $table.$comparator = Ranking.$comparator
+EOT;
+        }
+
 
         // ref. http://blog.phalusamil.com/entry/2015/09/23/094536
-        return DB::table(DB::raw(<<<EOT
-(SELECT $comparator, @rank AS rank, cnt, @rank := @rank + cnt FROM (SELECT @rank := 1) AS Dummy,
-(SELECT $comparator, count(*) AS cnt FROM playerdata GROUP BY $comparator ORDER BY $comparator DESC) AS GroupBy
-) AS Ranking
-JOIN playerdata ON playerdata.$comparator = Ranking.$comparator
-EOT
-        ))
+        $query = DB::table(DB::raw($sql))
             // rankがなぜか文字列で取得されていたのでSIGNEDにキャスト
-            ->selectRaw("name, uuid, CAST(rank AS SIGNED) as rank, playerdata.$comparator as data, playerdata.lastquit as lastquit")
-            ->where("playerdata.$comparator", '>', 0)
+            ->selectRaw("$table.name, $table.uuid, CAST(rank AS SIGNED) as rank, $table.$comparator as data, playerdata.lastquit as lastquit")
+            ->where("$table.$comparator", '>', 0)
             ->orderBy('rank', 'ASC')
             ->orderBy('name');
+
+        // デイリーランキングの場合
+        if ($table === 'daily_ranking_table') {
+            // 最終ログイン日時を取得
+            $query->leftJoin('playerdata', DB::raw('playerdata.uuid collate utf8_general_ci'), '=', 'daily_ranking_table.uuid');
+
+            // 当日データに絞り込み
+            $query->where('daily_ranking_table.count_date', date('Y-m-d'));
+        }
+
+        logger('getRankingQuery -> '.$query->toSql());
+
+        return $query;
     }
 
     /**
@@ -101,9 +132,17 @@ EOT
      */
     public function getPlayerCount()
     {
-        return DB::table('playerdata')
+        $table = $this->getRankTable();
+
+        $query = DB::table($table)
             ->select('uuid')
-            ->where($this->getRankComparator(), '>', 0)
-            ->count();
+            ->where($this->getRankComparator(), '>', 0);
+
+        if ($table === 'daily_ranking_table') {
+            // 当日データに絞り込み
+            $query->where('daily_ranking_table.count_date', date('Y-m-d'));
+        }
+
+        return $query->count();
     }
 }
