@@ -8,7 +8,7 @@ RUN rpm -Uvh http://rpms.famillecollet.com/enterprise/remi-release-7.rpm
 RUN yum --enablerepo=remi-php71 install php php-devel php-gd php-xml php-mbstring php-opcache php-mcrypt php-mysqlnd -y
 
 # Install zip & unzip
-RUN yum install -y zip unzip git
+RUN yum install -y zip unzip git mysql
 
 # Install composer
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
