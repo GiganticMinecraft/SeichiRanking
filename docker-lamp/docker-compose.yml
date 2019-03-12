@@ -1,0 +1,23 @@
+version: '2'
+services:
+  # mysql
+  db01:
+    image: mysql:5.6
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: seichiassist
+
+  # web
+  web01:
+    build: ./web
+    image: web:24
+    ports:
+      - "80:80"
+    links:
+      - "db01:db01"
+    volumes:
+      - ../:/var/www/SeichiRanking
+      - ./var/logs:/var/log/httpd
+      - ./files/apache_conf/00_virtualhost.conf:/etc/httpd/conf.d/00_virtualhost.conf
