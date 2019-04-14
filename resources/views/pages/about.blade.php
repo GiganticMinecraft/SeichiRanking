@@ -33,6 +33,22 @@
             </ul>
 
         </ul>
+        
+        <hr>
+        
+        <h3>プライバシーポリシー</h3>
+
+        <br>
+
+        <ul>
+
+            <li>
+                本サイトではではアクセス状況の収集および解析の為に Cookie及び Google Analytics を使用しています。
+                収集した情報はサービス向上の目的のみに利用されます。データ収集の仕組みについては<a href="https://www.google.com/intl/ja/policies/privacy/partners/" target="_blank">こちら</a>をご覧ください。
+                閲覧を続けることにより本情報の収集に同意したものとみなします。
+            </li>
+
+        </ul>
 
     </div>
 
