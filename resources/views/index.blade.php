@@ -30,7 +30,7 @@
                         </a>
                         <ul class="dropdown-menu" role="menu">
                             <li><a href="/about">このページについて</a></li>
-                            <li><a href="http://seichi.click/" target="_blank">公式Wiki</a></li>
+                            <li><a href="https://www.seichi.network/gigantic" target="_blank">公式ホームページ</a></li>
                         </ul>
                     </li>
 
