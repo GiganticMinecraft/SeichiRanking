@@ -13,7 +13,7 @@ use Session;
 class SocialAccountController extends Controller
 {
     /**
-     * Redirect the user to the GitHub authentication page.
+     * Redirect the user to the minecraft.jp authentication page.
      *
      * @return Response
      */
