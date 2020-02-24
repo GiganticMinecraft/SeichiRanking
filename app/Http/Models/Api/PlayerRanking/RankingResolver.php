@@ -64,6 +64,9 @@ abstract class RankingResolver
 ) AS Ranking
 JOIN $table ON $table.$comparator = Ranking.$comparator
 EOT;
+        // ウィークリーランキングの場合
+        } else if ($table === 'weekly_ranking_table') {
+            //TODO 書く
         } else {
             $sql = <<<EOT
 (SELECT $comparator, @rank AS rank, cnt, @rank := @rank + cnt FROM (SELECT @rank := 1) AS Dummy,
@@ -89,6 +92,10 @@ EOT;
 
             // 当日データに絞り込み
             $query->where('daily_ranking_table.count_date', date('Y-m-d'));
+
+        // ウィークリーランキングの場合
+        } else if ($table === 'weekly_ranking_table') {
+            //TODO 書く
         }
 
         logger('getRankingQuery -> '.$query->toSql());
@@ -138,9 +145,14 @@ EOT;
             ->select('uuid')
             ->where($this->getRankComparator(), '>', 0);
 
+        // デイリーランキングの場合
         if ($table === 'daily_ranking_table') {
             // 当日データに絞り込み
             $query->where('daily_ranking_table.count_date', date('Y-m-d'));
+
+        // ウィークリーランキングの場合
+        } else if ($table === 'weekly_ranking_table') {
+            //TODO 書く
         }
 
         return $query->count();

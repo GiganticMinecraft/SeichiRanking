@@ -10,6 +10,9 @@ class PlaytimeRankingResolver extends RankingResolver
     const DAILY_TABLE_TARGET = 'daily_ranking_table';
     const DAILY_COMPARE_TARGET = 'playtick_count';  // TODO 実装わすれ
 
+    const WEEKLY_TABLE_TARGET = 'weekly_ranking_table';
+    const WEEKLY_COMPARE_TARGET = 'playtick_count';  // TODO 実装わすれ
+
     const RANKING_TYPE = 'playtime';
 
     protected function toPlayerDataObject($playtick)
@@ -37,6 +40,9 @@ class PlaytimeRankingResolver extends RankingResolver
         if (request('duration') === 'daily') {
             // デイリー
             return self::DAILY_TABLE_TARGET;
+        } else if (request('duration') === 'weekly') {
+            // ウィークリー
+            return self::WEEKLY_COMPARE_TARGET;
         } else {
             // 総合
             return self::TOTAL_TABLE_TARGET;
@@ -52,6 +58,9 @@ class PlaytimeRankingResolver extends RankingResolver
         if (request('duration') === 'daily') {
             // デイリー
             return self::DAILY_COMPARE_TARGET;
+        } else if (request('duration') === 'weekly') {
+            // ウィークリー
+            return self::WEEKLY_COMPARE_TARGET;
         } else {
             // 総合
             return self::TOTAL_COMPARE_TARGET;

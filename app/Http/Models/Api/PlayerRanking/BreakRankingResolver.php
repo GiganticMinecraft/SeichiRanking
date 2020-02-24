@@ -10,6 +10,9 @@ class BreakRankingResolver extends RankingResolver
     const DAILY_TABLE_TARGET = 'daily_ranking_table';
     const DAILY_COMPARE_TARGET = 'break_count';
 
+    const WEEKLY_TABLE_TARGET = 'weekly_ranking_table';
+    const WEEKLY_COMPARE_TARGET = 'break_count';
+
     const RANKING_TYPE = 'break';
 
     /**
