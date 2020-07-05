@@ -30,10 +30,10 @@ class CountRankingCommand extends Command
     {
         parent::__construct();
         $this->rankings = [
-            "break" => new CountDailyRanking(),
-            "build" => new CountWeeklyRanking(),
-            "playtime" => new CountMonthlyRanking(),
-            "vote" => new CountYearlyRanking()
+            "daily" => new CountDailyRanking(),
+            "weekly" => new CountWeeklyRanking(),
+            "monthly" => new CountMonthlyRanking(),
+            "yearly" => new CountYearlyRanking()
         ];
     }
 
