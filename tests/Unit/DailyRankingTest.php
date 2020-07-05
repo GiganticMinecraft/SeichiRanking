@@ -2,7 +2,7 @@
 
 namespace Tests\Unit;
 
-use App\Console\Commands\CountRanking;
+use App\Console\Commands\CountRankingCommand;
 use App\DailyRankingTable;
 use App\PlayerData;
 use Tests\TestCase;
@@ -24,7 +24,7 @@ class DailyRankingTest extends TestCase
         logger($player_data);
 
         // バッチ実行①
-        $batch = new CountRanking();
+        $batch = new CountRankingCommand();
         $batch->handle();
 
         // 24時間以内にログインしていないため、ヒットしないこと

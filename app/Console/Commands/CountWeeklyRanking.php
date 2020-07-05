@@ -6,7 +6,7 @@ use App\WeeklyRankingTable;
 use App\PlayerData;
 use Carbon\Carbon;
 
-class CountWeeklyRanking
+class CountWeeklyRanking extends CountRanking
 {
     /**
      * Execute the console command.
@@ -41,30 +41,9 @@ class CountWeeklyRanking
             if (empty($week_data)) {
                 // カウント用テーブルに比較用の初期データを登録
                 $weekly_ranking_table = new WeeklyRankingTable();
-                $weekly_ranking_table->count_date = Carbon::now();   // datetime
-                $weekly_ranking_table->name = $player_data->name;    // varchar(30)
-                $weekly_ranking_table->uuid = $player_data->uuid;    // varchar(128)
-                $weekly_ranking_table->previous_break_count = $player_data->totalbreaknum;   // bigint(20)
-                $weekly_ranking_table->previous_build_count = $player_data->build_count;     // int(11)
-                $weekly_ranking_table->previous_vote_count = $player_data->p_vote;           // int(11)
-                $weekly_ranking_table->previous_playtick_count = $player_data->playtick;     // int(11)
-                $weekly_ranking_table->save();
+                parent::savePreviousData($weekly_ranking_table, $player_data);
             } else {
-                // 整地量
-                $diff_break = $player_data->totalbreaknum - $week_data->previous_break_count;
-                $week_data->break_count= $diff_break;
-
-                // 建築量
-                $diff_build = $player_data->build_count - $week_data->previous_build_count;
-                $week_data->build_count= $diff_build;
-
-                $diff_tick = $player_data->playtick - $week_data->previous_playtick_count;
-                $week_data->playtick_count = $diff_tick;
-
-                // 投票数
-                $week_data->vote_count= $player_data->p_vote;
-
-                $week_data->save();
+                parent::saveDiffData($week_data, $player_data);
             }
         }
     }

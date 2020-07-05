@@ -2,56 +2,37 @@
 
 namespace App\Console\Commands;
 
-use Illuminate\Console\Command;
+use Carbon\Carbon;
 
-class CountRanking extends Command
+abstract class CountRanking
 {
-    /**
-     * The name and signature of the console command.
-     *
-     * @var string
-     */
-    protected $signature = 'ranking:count {type=daily : 期間を指定}';
+    abstract public function handle();
 
-    /**
-     * The console command description.
-     *
-     * @var string
-     */
-    protected $description = 'Web整地ランキングのカウント用バッチ';
-
-    /**
-     * Create a new command instance.
-     *
-     * @return void
-     */
-    public function __construct()
-    {
-        parent::__construct();
+    protected function savePreviousData($table, $player_data){
+        $table->count_date = Carbon::now();   // datetime
+        $table->name = $player_data->name;    // varchar(30)
+        $table->uuid = $player_data->uuid;    // varchar(128)
+        $table->previous_break_count = $player_data->totalbreaknum;   // bigint(20)
+        $table->previous_build_count = $player_data->build_count;     // int(11)
+        $table->previous_vote_count = $player_data->p_vote;           // int(11)
+        $table->previous_playtick_count = $player_data->playtick;     // int(11)
+        $table->save();
     }
 
-    /**
-     * Execute the console command.
-     *
-     */
-    public function handle()
-    {
-        $type = $this->argument('type');
+    protected function saveDiffData($ranking_data, $player_data){
+        $diff_break = $player_data->totalbreaknum - $ranking_data->previous_break_count;
+        $ranking_data->break_count= $diff_break;
 
-        switch ($type) {
-            case 'daily':
-                (new CountDailyRanking())->handle();
-                break;
-            case 'weekly':
-                (new CountWeeklyRanking())->handle();
-                break;
-            case 'monthly':
-                (new CountMonthlyRanking())->handle();
-                break;
-            case 'yearly':
-                (new CountYearlyRanking())->handle();
-                break;
-            default:
-        }
+        // 建築量
+        $diff_build = $player_data->build_count - $ranking_data->previous_build_count;
+        $ranking_data->build_count= $diff_build;
+
+        $diff_tick = $player_data->playtick - $ranking_data->previous_playtick_count;
+        $ranking_data->playtick_count = $diff_tick;
+
+        // 投票数
+        $ranking_data->vote_count= $player_data->p_vote;
+
+        $ranking_data->save();
     }
 }

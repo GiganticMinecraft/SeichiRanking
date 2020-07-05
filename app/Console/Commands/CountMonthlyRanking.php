@@ -6,7 +6,7 @@ use App\MonthlyRankingTable;
 use App\PlayerData;
 use Carbon\Carbon;
 
-class CountMonthlyRanking
+class CountMonthlyRanking extends CountRanking
 {
     /**
      * Execute the console command.
@@ -39,30 +39,9 @@ class CountMonthlyRanking
             if (empty($month_data)) {
                 // カウント用テーブルに比較用の初期データを登録
                 $monthly_ranking_table = new MonthlyRankingTable();
-                $monthly_ranking_table->count_date = Carbon::now();   // datetime
-                $monthly_ranking_table->name = $player_data->name;    // varchar(30)
-                $monthly_ranking_table->uuid = $player_data->uuid;    // varchar(128)
-                $monthly_ranking_table->previous_break_count = $player_data->totalbreaknum;   // bigint(20)
-                $monthly_ranking_table->previous_build_count = $player_data->build_count;     // int(11)
-                $monthly_ranking_table->previous_vote_count = $player_data->p_vote;           // int(11)
-                $monthly_ranking_table->previous_playtick_count = $player_data->playtick;     // int(11)
-                $monthly_ranking_table->save();
+                parent::savePreviousData($monthly_ranking_table, $player_data);
             } else {
-                // 整地量
-                $diff_break = $player_data->totalbreaknum - $month_data->previous_break_count;
-                $month_data->break_count= $diff_break;
-
-                // 建築量
-                $diff_build = $player_data->build_count - $month_data->previous_build_count;
-                $month_data->build_count= $diff_build;
-
-                $diff_tick = $player_data->playtick - $month_data->previous_playtick_count;
-                $month_data->playtick_count = $diff_tick;
-
-                // 投票数
-                $month_data->vote_count= $player_data->p_vote;
-
-                $month_data->save();
+                parent::saveDiffData($month_data, $player_data);
             }
         }
     }
