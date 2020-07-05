@@ -37,6 +37,7 @@ class CountMonthlyRanking extends Command
         foreach ($target_data as $player_data) {
             // カウント用テーブルのデータ有無を確認
             $month_data = MonthlyRankingTable::where('uuid', $player_data->uuid)
+                ->whereYear('count_date', Carbon::now()->year)
                 ->whereMonth('count_date', Carbon::now()->month)->first();
 
             if (empty($month_data)) {
