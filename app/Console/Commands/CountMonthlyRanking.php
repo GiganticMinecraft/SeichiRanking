@@ -20,8 +20,8 @@ class CountMonthlyRanking extends Command
     {
         logger('>>>>  マンスリーランキングバッチ：処理開始 >>>>');
 
-        // 今月にログインしたユーザのデータを取得する
-        $target_data = PlayerData::whereMonth('lastquit', Carbon::now()->month)->get();
+        // 24時間以内にログインしたユーザのデータを取得する
+        $target_data = PlayerData::where('lastquit', '>', Carbon::yesterday())->get();
         logger('処理対象件数：' . count($target_data));
         $this->countRanking($target_data);
 

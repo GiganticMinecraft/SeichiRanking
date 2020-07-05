@@ -18,10 +18,8 @@ class CountWeeklyRanking extends Command
     {
         logger('>>>>  ウィークリーランキングバッチ：処理開始 >>>>');
 
-        Carbon::setWeekStartsAt(Carbon::SUNDAY);
-        Carbon::setWeekEndsAt(Carbon::SATURDAY);
-        // 今週ログインしたユーザのデータを取得する
-        $target_data = PlayerData::wherebetween('lastquit', [Carbon::now()->startOfWeek(), Carbon::now()->endOfWeek()])->get();
+        // 24時間以内にログインしたユーザのデータを取得する
+        $target_data = PlayerData::where('lastquit', '>', Carbon::yesterday())->get();
         logger('処理対象件数：' . count($target_data));
         $this->countRanking($target_data);
 
