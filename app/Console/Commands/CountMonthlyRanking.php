@@ -36,10 +36,10 @@ class CountMonthlyRanking extends Command
     {
         foreach ($target_data as $player_data) {
             // カウント用テーブルのデータ有無を確認
-            $today_data = MonthlyRankingTable::where('uuid', $player_data->uuid)
+            $month_data = MonthlyRankingTable::where('uuid', $player_data->uuid)
                 ->whereMonth('count_date', Carbon::now()->month)->first();
 
-            if (empty($today_data)) {
+            if (empty($month_data)) {
                 // カウント用テーブルに比較用の初期データを登録
                 $monthly_ranking_table = new MonthlyRankingTable();
                 $monthly_ranking_table->count_date = Carbon::now();   // datetime
@@ -52,20 +52,20 @@ class CountMonthlyRanking extends Command
                 $monthly_ranking_table->save();
             } else {
                 // 整地量
-                $diff_break = $player_data->totalbreaknum - $today_data->previous_break_count;
-                $today_data->break_count= $diff_break;
+                $diff_break = $player_data->totalbreaknum - $month_data->previous_break_count;
+                $month_data->break_count= $diff_break;
 
                 // 建築量
-                $diff_build = $player_data->build_count - $today_data->previous_build_count;
-                $today_data->build_count= $diff_build;
+                $diff_build = $player_data->build_count - $month_data->previous_build_count;
+                $month_data->build_count= $diff_build;
 
-                $diff_tick = $player_data->playtick - $today_data->previous_playtick_count;
-                $today_data->playtick_count = $diff_tick;
+                $diff_tick = $player_data->playtick - $month_data->previous_playtick_count;
+                $month_data->playtick_count = $diff_tick;
 
                 // 投票数
-                $today_data->vote_count= $player_data->p_vote;
+                $month_data->vote_count= $player_data->p_vote;
 
-                $today_data->save();
+                $month_data->save();
             }
         }
     }

@@ -86,6 +86,14 @@ EOT;
 JOIN $table ON $table.$comparator = Ranking.$comparator
 EOT;
                 break;
+            case 'yearly_ranking_table':
+                $sql = <<<EOT
+(SELECT $comparator, @rank AS rank, cnt, @rank := @rank + cnt FROM (SELECT @rank := 1) AS Dummy,
+(SELECT $comparator, count(*) AS cnt FROM $table WHERE DATE_FORMAT($table.count_date, '%Y') = DATE_FORMAT(NOW(), '%Y') GROUP BY $comparator ORDER BY $comparator DESC) AS GroupBy
+) AS Ranking
+JOIN $table ON $table.$comparator = Ranking.$comparator
+EOT;
+                break;
             default:
                 $sql = <<<EOT
 (SELECT $comparator, @rank AS rank, cnt, @rank := @rank + cnt FROM (SELECT @rank := 1) AS Dummy,
@@ -96,9 +104,6 @@ EOT;
                 break;
         }
 
-        logger('getRankingQuery -> '.$sql);
-
-
         // ref. http://blog.phalusamil.com/entry/2015/09/23/094536
         $query = DB::table(DB::raw($sql))
             // rankがなぜか文字列で取得されていたのでSIGNEDにキャスト
@@ -107,13 +112,10 @@ EOT;
             ->orderBy('rank', 'ASC')
             ->orderBy('name');
 
-
-        // デイリーランキングの場合
-
-
         if ($table !== 'playerdata') {
             // 最終ログイン日時を取得
             $query->leftJoin('playerdata', DB::raw('playerdata.uuid collate utf8_general_ci'), '=', "$table.uuid");
+
             switch ($table)
             {
                 case 'daily_ranking_table':
@@ -126,6 +128,9 @@ EOT;
                     break;
                 case 'monthly_ranking_table':
                     $query->whereMonth("$table.count_date", Carbon::now()->month);
+                    break;
+                case 'yearly_ranking_table':
+                    $query->whereYear("$table.count_date", Carbon::now()->year);
                     break;
             }
         }
@@ -188,6 +193,9 @@ EOT;
                 break;
             case 'monthly_ranking_table':
                 $query->whereMonth("$table.count_date", Carbon::now()->month);
+                break;
+            case 'yearly_ranking_table':
+                $query->whereYear("$table.count_date", Carbon::now()->year);
                 break;
         }
 

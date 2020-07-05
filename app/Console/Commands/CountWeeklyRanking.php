@@ -37,10 +37,10 @@ class CountWeeklyRanking extends Command
             Carbon::setWeekStartsAt(Carbon::SUNDAY);
             Carbon::setWeekEndsAt(Carbon::SATURDAY);
 
-            $today_data = WeeklyRankingTable::where('uuid', $player_data->uuid)
+            $week_data = WeeklyRankingTable::where('uuid', $player_data->uuid)
                 ->wherebetween('count_date', [Carbon::now()->startOfWeek(), Carbon::now()->endOfWeek()])->first();
 
-            if (empty($today_data)) {
+            if (empty($week_data)) {
                 // カウント用テーブルに比較用の初期データを登録
                 $weekly_ranking_table = new WeeklyRankingTable();
                 $weekly_ranking_table->count_date = Carbon::now();   // datetime
@@ -53,20 +53,20 @@ class CountWeeklyRanking extends Command
                 $weekly_ranking_table->save();
             } else {
                 // 整地量
-                $diff_break = $player_data->totalbreaknum - $today_data->previous_break_count;
-                $today_data->break_count= $diff_break;
+                $diff_break = $player_data->totalbreaknum - $week_data->previous_break_count;
+                $week_data->break_count= $diff_break;
 
                 // 建築量
-                $diff_build = $player_data->build_count - $today_data->previous_build_count;
-                $today_data->build_count= $diff_build;
+                $diff_build = $player_data->build_count - $week_data->previous_build_count;
+                $week_data->build_count= $diff_build;
 
-                $diff_tick = $player_data->playtick - $today_data->previous_playtick_count;
-                $today_data->playtick_count = $diff_tick;
+                $diff_tick = $player_data->playtick - $week_data->previous_playtick_count;
+                $week_data->playtick_count = $diff_tick;
 
                 // 投票数
-                $today_data->vote_count= $player_data->p_vote;
+                $week_data->vote_count= $player_data->p_vote;
 
-                $today_data->save();
+                $week_data->save();
             }
         }
     }

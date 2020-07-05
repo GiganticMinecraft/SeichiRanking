@@ -1,0 +1,68 @@
+<?php
+
+namespace App\Console\Commands;
+
+use App\YearlyRankingTable;
+use App\PlayerData;
+use Carbon\Carbon;
+
+class CountYearlyRanking
+{
+    /**
+     * Execute the console command.
+     *
+     */
+    public function handle()
+    {
+        logger('>>>>  イヤリーランキングバッチ：処理開始 >>>>');
+
+        // 24時間以内にログインしたユーザのデータを取得する
+        $target_data = PlayerData::where('lastquit', '>', Carbon::yesterday())->get();
+        logger('処理対象件数：'.count($target_data));
+        $this->countRanking($target_data);
+
+        logger('<<<<  イヤリーランキングバッチ：処理終了 <<<<');
+    }
+
+    /**
+     * ランキングデータのカウント＋保存
+     * @param $target_data
+     */
+    private function countRanking($target_data)
+    {
+        foreach ($target_data as $player_data) {
+            // カウント用テーブルのデータ有無を確認
+            $year_data = YearlyRankingTable::where('uuid', $player_data->uuid)
+                ->whereyear('count_date', Carbon::now()->year)->first();
+
+            if (empty($year_data)) {
+                // カウント用テーブルに比較用の初期データを登録
+                $yearly_ranking_table = new YearlyRankingTable();
+                $yearly_ranking_table->count_date = Carbon::now();   // datetime
+                $yearly_ranking_table->name = $player_data->name;    // varchar(30)
+                $yearly_ranking_table->uuid = $player_data->uuid;    // varchar(128)
+                $yearly_ranking_table->previous_break_count = $player_data->totalbreaknum;   // bigint(20)
+                $yearly_ranking_table->previous_build_count = $player_data->build_count;     // int(11)
+                $yearly_ranking_table->previous_vote_count = $player_data->p_vote;           // int(11)
+                $yearly_ranking_table->previous_playtick_count = $player_data->playtick;     // int(11)
+                $yearly_ranking_table->save();
+            } else {
+                // 整地量
+                $diff_break = $player_data->totalbreaknum - $year_data->previous_break_count;
+                $year_data->break_count= $diff_break;
+
+                // 建築量
+                $diff_build = $player_data->build_count - $year_data->previous_build_count;
+                $year_data->build_count= $diff_build;
+
+                $diff_tick = $player_data->playtick - $year_data->previous_playtick_count;
+                $year_data->playtick_count = $diff_tick;
+
+                // 投票数
+                $year_data->vote_count= $player_data->p_vote;
+
+                $year_data->save();
+            }
+        }
+    }
+}

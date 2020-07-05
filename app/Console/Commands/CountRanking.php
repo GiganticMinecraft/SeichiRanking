@@ -48,8 +48,9 @@ class CountRanking extends Command
             case 'monthly':
                 (new CountMonthlyRanking())->handle();
                 break;
-            //case 'yearly':
-            //  break;
+            case 'yearly':
+                (new CountYearlyRanking())->handle();
+                break;
             default:
         }
     }

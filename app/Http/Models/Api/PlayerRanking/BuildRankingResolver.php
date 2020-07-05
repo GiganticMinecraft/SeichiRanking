@@ -9,6 +9,7 @@ class BuildRankingResolver extends RankingResolver
     const DAILY_TABLE_TARGET = 'daily_ranking_table';
     const WEEKLY_TABLE_TARGET = 'weekly_ranking_table';
     const MONTHLY_TABLE_TARGET = 'monthly_ranking_table';
+    const YEARLY_TABLE_TARGET = 'yearly_ranking_table';
 
     const COMPARE_TARGET = 'build_count';
 
@@ -28,6 +29,8 @@ class BuildRankingResolver extends RankingResolver
                 return self::WEEKLY_TABLE_TARGET;
             case 'monthly':
                 return self::MONTHLY_TABLE_TARGET;
+            case 'yearly':
+                return self::YEARLY_TABLE_TARGET;
             default:
                 return self::TOTAL_TABLE_TARGET;
         }
