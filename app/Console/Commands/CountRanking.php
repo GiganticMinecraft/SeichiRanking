@@ -8,15 +8,15 @@ abstract class CountRanking
 {
     abstract public function handle();
 
-    protected function savePreviousData($table, $player_data){
-        $table->count_date = Carbon::now();   // datetime
-        $table->name = $player_data->name;    // varchar(30)
-        $table->uuid = $player_data->uuid;    // varchar(128)
-        $table->previous_break_count = $player_data->totalbreaknum;   // bigint(20)
-        $table->previous_build_count = $player_data->build_count;     // int(11)
-        $table->previous_vote_count = $player_data->p_vote;           // int(11)
-        $table->previous_playtick_count = $player_data->playtick;     // int(11)
-        $table->save();
+    protected function savePreviousData($ranking_table, $player_data){
+        $ranking_table->count_date = Carbon::now();   // datetime
+        $ranking_table->name = $player_data->name;    // varchar(30)
+        $ranking_table->uuid = $player_data->uuid;    // varchar(128)
+        $ranking_table->previous_break_count = $player_data->totalbreaknum;   // bigint(20)
+        $ranking_table->previous_build_count = $player_data->build_count;     // int(11)
+        $ranking_table->previous_vote_count = $player_data->p_vote;           // int(11)
+        $ranking_table->previous_playtick_count = $player_data->playtick;     // int(11)
+        $ranking_table->save();
     }
 
     protected function saveDiffData($ranking_data, $player_data){

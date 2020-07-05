@@ -20,6 +20,7 @@ class CountRankingCommand extends Command
      */
     protected $description = 'Web整地ランキングのカウント用バッチ';
 
+    private $rankings;
     /**
      * Create a new command instance.
      *
@@ -28,6 +29,12 @@ class CountRankingCommand extends Command
     public function __construct()
     {
         parent::__construct();
+        $this->rankings = [
+            "break" => new CountDailyRanking(),
+            "build" => new CountWeeklyRanking(),
+            "playtime" => new CountMonthlyRanking(),
+            "vote" => new CountYearlyRanking()
+        ];
     }
 
     /**
@@ -37,21 +44,6 @@ class CountRankingCommand extends Command
     public function handle()
     {
         $type = $this->argument('type');
-
-        switch ($type) {
-            case 'daily':
-                (new CountDailyRanking())->handle();
-                break;
-            case 'weekly':
-                (new CountWeeklyRanking())->handle();
-                break;
-            case 'monthly':
-                (new CountMonthlyRanking())->handle();
-                break;
-            case 'yearly':
-                (new CountYearlyRanking())->handle();
-                break;
-            default:
-        }
+        $this->rankings[$type]->handle();
     }
 }
