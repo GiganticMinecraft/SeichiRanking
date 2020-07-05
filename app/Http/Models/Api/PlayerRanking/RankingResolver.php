@@ -60,8 +60,7 @@ abstract class RankingResolver
         // デイリーランキングの場合
 
             // 最終ログイン日時を取得
-        switch ($table)
-        {
+        switch ($table) {
             case 'daily_ranking_table':
                 $sql = <<<EOT
 (SELECT $comparator, @rank AS rank, cnt, @rank := @rank + cnt FROM (SELECT @rank := 1) AS Dummy,
@@ -116,8 +115,7 @@ EOT;
             // 最終ログイン日時を取得
             $query->leftJoin('playerdata', DB::raw('playerdata.uuid collate utf8_general_ci'), '=', "$table.uuid");
 
-            switch ($table)
-            {
+            switch ($table) {
                 case 'daily_ranking_table':
                     $query->where("$table.count_date", date('Y-m-d'));
                     break;
@@ -200,8 +198,6 @@ EOT;
                 $query->whereYear("$table.count_date", Carbon::now()->year);
                 break;
         }
-
-
         return $query->count();
     }
 }

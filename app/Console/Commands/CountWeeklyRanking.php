@@ -1,14 +1,12 @@
 <?php
 
-
 namespace App\Console\Commands;
 
 use App\WeeklyRankingTable;
 use App\PlayerData;
 use Carbon\Carbon;
-use Illuminate\Console\Command;
 
-class CountWeeklyRanking extends Command
+class CountWeeklyRanking
 {
     /**
      * Execute the console command.

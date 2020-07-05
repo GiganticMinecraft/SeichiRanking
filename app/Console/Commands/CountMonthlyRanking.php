@@ -1,16 +1,12 @@
 <?php
 
-
 namespace App\Console\Commands;
-
 
 use App\MonthlyRankingTable;
 use App\PlayerData;
 use Carbon\Carbon;
 
-use Illuminate\Console\Command;
-
-class CountMonthlyRanking extends Command
+class CountMonthlyRanking
 {
     /**
      * Execute the console command.
