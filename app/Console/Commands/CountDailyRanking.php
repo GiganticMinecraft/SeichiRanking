@@ -5,34 +5,9 @@ namespace App\Console\Commands;
 use App\DailyRankingTable;
 use App\PlayerData;
 use Carbon\Carbon;
-use Illuminate\Console\Command;
 
-class CountDailyRanking extends Command
+class CountDailyRanking
 {
-    /**
-     * The name and signature of the console command.
-     *
-     * @var string
-     */
-    protected $signature = 'ranking:count {type=daily}';
-
-    /**
-     * The console command description.
-     *
-     * @var string
-     */
-    protected $description = 'Web整地ランキングのカウント用バッチ';
-
-    /**
-     * Create a new command instance.
-     *
-     * @return void
-     */
-    public function __construct()
-    {
-        parent::__construct();
-    }
-
     /**
      * Execute the console command.
      *
@@ -63,13 +38,13 @@ class CountDailyRanking extends Command
             if (empty($today_data)) {
                 // カウント用テーブルに比較用の初期データを登録
                 $daily_ranking_table = new DailyRankingTable();
-                $daily_ranking_table->count_date = Carbon::now();
-                $daily_ranking_table->name = $player_data->name;
-                $daily_ranking_table->uuid = $player_data->uuid;
-                $daily_ranking_table->previous_break_count = $player_data->totalbreaknum;
-                $daily_ranking_table->previous_build_count = $player_data->build_count;
-                $daily_ranking_table->previous_vote_count = $player_data->p_vote;
-                $daily_ranking_table->previous_playtick_count = $player_data->playtick;
+                $daily_ranking_table->count_date = Carbon::now();   // datetime
+                $daily_ranking_table->name = $player_data->name;    // varchar(30)
+                $daily_ranking_table->uuid = $player_data->uuid;    // varchar(128)
+                $daily_ranking_table->previous_break_count = $player_data->totalbreaknum;   // bigint(20)
+                $daily_ranking_table->previous_build_count = $player_data->build_count;     // int(11)
+                $daily_ranking_table->previous_vote_count = $player_data->p_vote;           // int(11)
+                $daily_ranking_table->previous_playtick_count = $player_data->playtick;     // int(11)
                 $daily_ranking_table->save();
             } else {
                 // 整地量
@@ -79,6 +54,9 @@ class CountDailyRanking extends Command
                 // 建築量
                 $diff_build = $player_data->build_count - $today_data->previous_build_count;
                 $today_data->build_count= $diff_build;
+
+                $diff_tick = $player_data->playtick - $today_data->previous_playtick_count;
+                $today_data->playtick_count = $diff_tick;
 
                 // 投票数
                 $today_data->vote_count= $player_data->p_vote;
