@@ -32,13 +32,18 @@ class CountMonthlyRanking extends CountRanking
     {
         foreach ($target_data as $player_data) {
             // カウント用テーブルのデータ有無を確認
+            $player = MonthlyRankingTable::where('uuid', $player_data->uuid)->first();
+            // 期間内のデータが存在するかを確認
             $month_data = MonthlyRankingTable::where('uuid', $player_data->uuid)
                 ->whereYear('count_date', Carbon::now()->year)
                 ->whereMonth('count_date', Carbon::now()->month)->first();
 
-            if (empty($month_data)) {
+            if (empty($player)) {
                 // カウント用テーブルに比較用の初期データを登録
                 parent::registerInitialData(new MonthlyRankingTable(), $player_data);
+            } else if (empty($month_data)){
+                // 比較用の初期データを更新
+                parent::registerInitialData($player, $player_data);
             } else {
                 // 初期データとの差分を記録
                 parent::registerDiffData($month_data, $player_data);

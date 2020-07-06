@@ -82,7 +82,7 @@ CREATE TABLE `daily_ranking_table` (
  `previous_build_count` bigint(20) NOT NULL,
  `previous_playtick_count` bigint(20) NOT NULL,
  `previous_vote_count` int(11) NOT NULL,
- `deleted_at` timestamp,
+ `deleted_at` timestamp default NULL,
  `created_at` datetime NOT NULL,
  `updated_at` datetime NOT NULL,
  UNIQUE KEY `id` (`id`)

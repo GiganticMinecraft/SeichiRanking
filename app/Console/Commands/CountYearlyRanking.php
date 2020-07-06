@@ -32,12 +32,17 @@ class CountYearlyRanking extends CountRanking
     {
         foreach ($target_data as $player_data) {
             // カウント用テーブルのデータ有無を確認
+            $player = YearlyRankingTable::where('uuid', $player_data->uuid)->first();
+            // 期間内のデータが存在するかを確認
             $year_data = YearlyRankingTable::where('uuid', $player_data->uuid)
                 ->whereyear('count_date', Carbon::now()->year)->first();
 
-            if (empty($year_data)) {
+            if (empty($player)) {
                 // カウント用テーブルに比較用の初期データを登録
                 parent::registerInitialData(new YearlyRankingTable(), $player_data);
+            } else if (empty($year_data)){
+                // 比較用の初期データを更新
+                parent::registerInitialData($player, $player_data);
             } else {
                 // 初期データとの差分を記録
                 parent::registerDiffData($year_data, $player_data);

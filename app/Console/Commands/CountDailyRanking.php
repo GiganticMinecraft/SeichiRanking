@@ -32,12 +32,17 @@ class CountDailyRanking extends CountRanking
     {
         foreach ($target_data as $player_data) {
             // カウント用テーブルのデータ有無を確認
+            $player = DailyRankingTable::where('uuid', $player_data->uuid)->first();
+            // 期間内のデータが存在するかを確認
             $today_data = DailyRankingTable::where('uuid', $player_data->uuid)
                 ->where('count_date', Carbon::now()->format('Y-m-d'))->first();
 
-            if (empty($today_data)) {
+            if (empty($player)) {
                 // カウント用テーブルに比較用の初期データを登録
                 parent::registerInitialData(new DailyRankingTable(), $player_data);
+            } else if (empty($today_data)){
+                // 比較用の初期データを更新
+                parent::registerInitialData($player, $player_data);
             } else {
                 // 初期データとの差分を記録
                 parent::registerDiffData($today_data, $player_data);

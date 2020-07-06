@@ -31,16 +31,22 @@ class CountWeeklyRanking extends CountRanking
     private function countRanking($target_data)
     {
         foreach ($target_data as $player_data) {
+            // カウント用テーブルのデータ有無を確認
+            $player = WeeklyRankingTable::where('uuid', $player_data->uuid)->first();
+
             Carbon::setWeekStartsAt(Carbon::SUNDAY);    // 週の始まりの曜日設定
             Carbon::setWeekEndsAt(Carbon::SATURDAY);    // 週の終わりの曜日設定
             // Carbon::now()->startOfWeek()で週の始まりの年月日を取得
-            // カウント用テーブルのデータ有無を確認
+            // 期間内のデータが存在するかを確認
             $week_data = WeeklyRankingTable::where('uuid', $player_data->uuid)
                 ->wherebetween('count_date', [Carbon::now()->startOfWeek(), Carbon::now()->endOfWeek()])->first();
 
-            if (empty($week_data)) {
+            if (empty($player)) {
                 // カウント用テーブルに比較用の初期データを登録
                 parent::registerInitialData(new WeeklyRankingTable(), $player_data);
+            } else if (empty($week_data)){
+                // 比較用の初期データを更新
+                parent::registerInitialData($player, $player_data);
             } else {
                 // 初期データとの差分を記録
                 parent::registerDiffData($week_data, $player_data);
