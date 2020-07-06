@@ -34,6 +34,9 @@ abstract class CountRanking
      * @param $player_data: 現在のプレイヤデータ
      */
     protected function registerDiffData($ranking_table, $player_data){
+        // 名前の更新
+        $ranking_table->name = $player_data->name;
+
         // 整地量
         $diff_break = $player_data->totalbreaknum - $ranking_table->previous_break_count;
         $ranking_table->break_count= $diff_break;
