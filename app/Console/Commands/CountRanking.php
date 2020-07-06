@@ -21,6 +21,10 @@ abstract class CountRanking
         $ranking_table->previous_build_count = $player_data->build_count;     // int(11)
         $ranking_table->previous_vote_count = $player_data->p_vote;           // int(11)
         $ranking_table->previous_playtick_count = $player_data->playtick;     // int(11)
+        $ranking_table->break_count = 0;
+        $ranking_table->build_count = 0;
+        $ranking_table->playtick_count = 0;
+        $ranking_table->vote_count = 0;
         $ranking_table->save();
     }
     
