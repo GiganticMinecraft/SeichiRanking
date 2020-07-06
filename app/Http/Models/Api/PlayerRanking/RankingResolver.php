@@ -5,7 +5,6 @@ namespace App\Http\Models\Api\PlayerRanking;
 use Carbon\Carbon;
 use DB;
 use Illuminate\Database\Query\Builder;
-use Log;
 
 abstract class RankingResolver
 {
@@ -45,6 +44,21 @@ abstract class RankingResolver
         ];
     }
 
+    private function getSearchPeriod($table){
+        switch ($table){
+            case "daily_ranking_table":
+                return "$table.count_date = CURDATE()";
+            case "weekly_ranking_table":
+                return "WHERE YEARWEEK($table.count_date) = YEARWEEK(CURDATE())";
+            case "monthly_ranking_table":
+                return "WHERE DATE_FORMAT($table.count_date, '%Y%m') = DATE_FORMAT(NOW(), '%Y%m')";
+            case "yearly_ranking_table":
+                return "WHERE DATE_FORMAT($table.count_date, '%Y') = DATE_FORMAT(NOW(), '%Y')";
+            default:
+                return "";
+        }
+    }
+
     /**
      * ランキング全体を取得するためのクエリを取得する
      * @return Builder $query
@@ -57,51 +71,15 @@ abstract class RankingResolver
         $table = $this->getRankTable();
         logger('$table -> '.print_r($table, 1));
 
-        // デイリーランキングの場合
+        $search_period = $this->getSearchPeriod($table);
 
-            // 最終ログイン日時を取得
-        switch ($table) {
-            case 'daily_ranking_table':
-                $sql = <<<EOT
+        // 最終ログイン日時を取得
+        $sql = <<<EOT
 (SELECT $comparator, @rank AS rank, cnt, @rank := @rank + cnt FROM (SELECT @rank := 1) AS Dummy,
-(SELECT $comparator, count(*) AS cnt FROM $table WHERE $table.count_date = CURDATE() GROUP BY $comparator ORDER BY $comparator DESC) AS GroupBy
+(SELECT $comparator, count(*) AS cnt FROM $table $search_period GROUP BY $comparator ORDER BY $comparator DESC) AS GroupBy
 ) AS Ranking
 JOIN $table ON $table.$comparator = Ranking.$comparator
 EOT;
-                break;
-            case 'weekly_ranking_table':
-                $sql = <<<EOT
-(SELECT $comparator, @rank AS rank, cnt, @rank := @rank + cnt FROM (SELECT @rank := 1) AS Dummy,
-(SELECT $comparator, count(*) AS cnt FROM $table WHERE YEARWEEK($table.count_date) = YEARWEEK(CURDATE()) GROUP BY $comparator ORDER BY $comparator DESC) AS GroupBy
-) AS Ranking
-JOIN $table ON $table.$comparator = Ranking.$comparator
-EOT;
-                break;
-            case 'monthly_ranking_table':
-                $sql = <<<EOT
-(SELECT $comparator, @rank AS rank, cnt, @rank := @rank + cnt FROM (SELECT @rank := 1) AS Dummy,
-(SELECT $comparator, count(*) AS cnt FROM $table WHERE DATE_FORMAT($table.count_date, '%Y%m') = DATE_FORMAT(NOW(), '%Y%m') GROUP BY $comparator ORDER BY $comparator DESC) AS GroupBy
-) AS Ranking
-JOIN $table ON $table.$comparator = Ranking.$comparator
-EOT;
-                break;
-            case 'yearly_ranking_table':
-                $sql = <<<EOT
-(SELECT $comparator, @rank AS rank, cnt, @rank := @rank + cnt FROM (SELECT @rank := 1) AS Dummy,
-(SELECT $comparator, count(*) AS cnt FROM $table WHERE DATE_FORMAT($table.count_date, '%Y') = DATE_FORMAT(NOW(), '%Y') GROUP BY $comparator ORDER BY $comparator DESC) AS GroupBy
-) AS Ranking
-JOIN $table ON $table.$comparator = Ranking.$comparator
-EOT;
-                break;
-            default:
-                $sql = <<<EOT
-(SELECT $comparator, @rank AS rank, cnt, @rank := @rank + cnt FROM (SELECT @rank := 1) AS Dummy,
-(SELECT $comparator, count(*) AS cnt FROM $table GROUP BY $comparator ORDER BY $comparator DESC) AS GroupBy
-) AS Ranking
-JOIN $table ON $table.$comparator = Ranking.$comparator
-EOT;
-                break;
-        }
 
         // ref. http://blog.phalusamil.com/entry/2015/09/23/094536
         $query = DB::table(DB::raw($sql))
