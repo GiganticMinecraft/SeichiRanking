@@ -16,7 +16,7 @@ class CountYearlyRanking extends CountRanking
     {
         logger('>>>>  イヤリーランキングバッチ：処理開始 >>>>');
 
-        // 24時間以内にログインしたユーザのデータを取得する
+        // 24時間以内にログインしたユーザを更新対象にする
         $target_data = PlayerData::where('lastquit', '>', Carbon::yesterday())->get();
         logger('処理対象件数：'.count($target_data));
         $this->countRanking($target_data);
@@ -37,10 +37,10 @@ class CountYearlyRanking extends CountRanking
 
             if (empty($year_data)) {
                 // カウント用テーブルに比較用の初期データを登録
-                $yearly_ranking_table = new YearlyRankingTable();
-                parent::savePreviousData($yearly_ranking_table, $player_data);
+                parent::registerInitialData(new YearlyRankingTable(), $player_data);
             } else {
-                parent::saveDiffData($year_data, $player_data);
+                // 初期データとの差分を記録
+                parent::registerDiffData($year_data, $player_data);
             }
         }
     }

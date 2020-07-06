@@ -16,7 +16,7 @@ class CountDailyRanking extends CountRanking
     {
         logger('>>>>  デイリーランキングバッチ：処理開始 >>>>');
 
-        // 24時間以内にログインしたユーザのデータを取得する
+        // 24時間以内にログインしたユーザを更新対象にする
         $target_data = PlayerData::where('lastquit', '>', Carbon::yesterday())->get();
         logger('処理対象件数：'.count($target_data));
         $this->countRanking($target_data);
@@ -37,11 +37,10 @@ class CountDailyRanking extends CountRanking
 
             if (empty($today_data)) {
                 // カウント用テーブルに比較用の初期データを登録
-                $daily_ranking_table = new DailyRankingTable();
-                parent::savePreviousData($daily_ranking_table, $player_data);
+                parent::registerInitialData(new DailyRankingTable(), $player_data);
             } else {
-                // 整地量
-                parent::saveDiffData($today_data, $player_data);
+                // 初期データとの差分を記録
+                parent::registerDiffData($today_data, $player_data);
             }
         }
     }

@@ -11,14 +11,14 @@ class CountRankingCommand extends Command
      *
      * @var string
      */
-    protected $signature = 'ranking:count {type=daily : 期間を指定}';
+    protected $signature = 'ranking:count {type=all : カウントするランキング}';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Web整地ランキングのカウント用バッチ';
+    protected $description = 'Web整地ランキングの用バッチ';
 
     private $rankings;
     /**
@@ -44,6 +44,14 @@ class CountRankingCommand extends Command
     public function handle()
     {
         $type = $this->argument('type');
-        $this->rankings[$type]->handle();
+        switch ($type){
+            case "all":
+                foreach ($this->rankings as $ranking) {
+                    $ranking->handle();
+                }
+                break;
+            default:
+                $this->rankings[$type]->handle();
+        }
     }
 }
