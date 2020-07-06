@@ -9,7 +9,7 @@ abstract class CountRanking
     abstract public function handle();
 
     /**
-     * 対象ランキングテーブルにカウント用テーブルに比較用の初期データを登録する
+     * 対象ランキングテーブルに比較用の初期データを登録する
      * @param $ranking_table: 対象ランキングテーブル
      * @param $player_data: 現在のプレイヤデータ
      */
