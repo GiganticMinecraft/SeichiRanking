@@ -45,11 +45,13 @@ abstract class CountRanking
         $diff_build = $player_data->build_count - $ranking_table->previous_build_count;
         $ranking_table->build_count= $diff_build;
 
+        // プレイ時間
         $diff_tick = $player_data->playtick - $ranking_table->previous_playtick_count;
         $ranking_table->playtick_count = $diff_tick;
 
         // 投票数
-        $ranking_table->vote_count= $player_data->p_vote;
+        $diff_vote = $player_data->p_vote - $ranking_table->previous_vote_count;
+        $ranking_table->vote_count = $diff_vote;
 
         $ranking_table->save();
     }
