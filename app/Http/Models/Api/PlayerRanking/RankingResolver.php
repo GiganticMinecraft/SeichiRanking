@@ -103,6 +103,7 @@ EOT;
                     $query->wherebetween("$table.count_date", [Carbon::now()->startOfWeek(), Carbon::now()->endOfWeek()]);
                     break;
                 case 'monthly_ranking_table':
+                    $query->whereYear("$table.count_date", Carbon::now()->year);
                     $query->whereMonth("$table.count_date", Carbon::now()->month);
                     break;
                 case 'yearly_ranking_table':
