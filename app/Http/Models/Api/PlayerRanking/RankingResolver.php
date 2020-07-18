@@ -47,7 +47,7 @@ abstract class RankingResolver
     private function getSearchPeriod($table){
         switch ($table){
             case "daily_ranking_table":
-                return "$table.count_date = CURDATE()";
+                return "WHERE $table.count_date = CURDATE()";
             case "weekly_ranking_table":
                 return "WHERE YEARWEEK($table.count_date) = YEARWEEK(CURDATE())";
             case "monthly_ranking_table":
