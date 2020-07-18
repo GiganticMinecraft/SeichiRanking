@@ -13,7 +13,7 @@ const source = require('vinyl-source-stream');
 const buffer = require('vinyl-buffer');
 const uglify = require('gulp-uglify');
 
-gulp.task('browserify', () => {
+gulp.task('browserify', function(done)  {
     browserify('./resources/assets/jsx/ranking.jsx', { debug : false })
         .transform(babelify).bundle()
         .on('error', console.log)
@@ -29,6 +29,7 @@ gulp.task('browserify', () => {
         .pipe(buffer())
         .pipe(uglify())
         .pipe(gulp.dest('./public/js'));
+    done();
 });
 
-gulp.task("default", ['browserify']);
+gulp.task('default', gulp.task('browserify'));

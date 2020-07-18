@@ -2,9 +2,9 @@
 
 namespace App\Http\Models\Api\PlayerRanking;
 
+use Carbon\Carbon;
 use DB;
 use Illuminate\Database\Query\Builder;
-use Log;
 
 abstract class RankingResolver
 {
@@ -44,6 +44,21 @@ abstract class RankingResolver
         ];
     }
 
+    private function getSearchPeriod($table){
+        switch ($table){
+            case "daily_ranking_table":
+                return "$table.count_date = CURDATE()";
+            case "weekly_ranking_table":
+                return "WHERE YEARWEEK($table.count_date) = YEARWEEK(CURDATE())";
+            case "monthly_ranking_table":
+                return "WHERE DATE_FORMAT($table.count_date, '%Y%m') = DATE_FORMAT(NOW(), '%Y%m')";
+            case "yearly_ranking_table":
+                return "WHERE DATE_FORMAT($table.count_date, '%Y') = DATE_FORMAT(NOW(), '%Y')";
+            default:
+                return "";
+        }
+    }
+
     /**
      * ランキング全体を取得するためのクエリを取得する
      * @return Builder $query
@@ -51,28 +66,20 @@ abstract class RankingResolver
     private function getRankingQuery()
     {
         $comparator = $this->getRankComparator();
-//        logger('$comparator -> '.print_r($comparator, 1));
+        logger('$comparator -> '.print_r($comparator, 1));
 
         $table = $this->getRankTable();
-//        logger('$table -> '.print_r($table, 1));
+        logger('$table -> '.print_r($table, 1));
 
-        // デイリーランキングの場合
-        if ($table === 'daily_ranking_table') {
-            $sql = <<<EOT
+        $search_period = $this->getSearchPeriod($table);
+
+        // 最終ログイン日時を取得
+        $sql = <<<EOT
 (SELECT $comparator, @rank AS rank, cnt, @rank := @rank + cnt FROM (SELECT @rank := 1) AS Dummy,
-(SELECT $comparator, count(*) AS cnt FROM $table WHERE $table.count_date = CURDATE() GROUP BY $comparator ORDER BY $comparator DESC) AS GroupBy
+(SELECT $comparator, count(*) AS cnt FROM $table $search_period GROUP BY $comparator ORDER BY $comparator DESC) AS GroupBy
 ) AS Ranking
 JOIN $table ON $table.$comparator = Ranking.$comparator
 EOT;
-        } else {
-            $sql = <<<EOT
-(SELECT $comparator, @rank AS rank, cnt, @rank := @rank + cnt FROM (SELECT @rank := 1) AS Dummy,
-(SELECT $comparator, count(*) AS cnt FROM $table GROUP BY $comparator ORDER BY $comparator DESC) AS GroupBy
-) AS Ranking
-JOIN $table ON $table.$comparator = Ranking.$comparator
-EOT;
-        }
-
 
         // ref. http://blog.phalusamil.com/entry/2015/09/23/094536
         $query = DB::table(DB::raw($sql))
@@ -82,13 +89,27 @@ EOT;
             ->orderBy('rank', 'ASC')
             ->orderBy('name');
 
-        // デイリーランキングの場合
-        if ($table === 'daily_ranking_table') {
+        if ($table !== 'playerdata') {
             // 最終ログイン日時を取得
-            $query->leftJoin('playerdata', DB::raw('playerdata.uuid collate utf8_general_ci'), '=', 'daily_ranking_table.uuid');
+            $query->leftJoin('playerdata', DB::raw('playerdata.uuid collate utf8_general_ci'), '=', "$table.uuid");
 
-            // 当日データに絞り込み
-            $query->where('daily_ranking_table.count_date', date('Y-m-d'));
+            switch ($table) {
+                case 'daily_ranking_table':
+                    $query->where("$table.count_date", date('Y-m-d'));
+                    break;
+                case 'weekly_ranking_table':
+                    Carbon::setWeekStartsAt(Carbon::SUNDAY);
+                    Carbon::setWeekEndsAt(Carbon::SATURDAY);
+                    $query->wherebetween("$table.count_date", [Carbon::now()->startOfWeek(), Carbon::now()->endOfWeek()]);
+                    break;
+                case 'monthly_ranking_table':
+                    $query->whereYear("$table.count_date", Carbon::now()->year);
+                    $query->whereMonth("$table.count_date", Carbon::now()->month);
+                    break;
+                case 'yearly_ranking_table':
+                    $query->whereYear("$table.count_date", Carbon::now()->year);
+                    break;
+            }
         }
 
         logger('getRankingQuery -> '.$query->toSql());
@@ -138,11 +159,23 @@ EOT;
             ->select('uuid')
             ->where($this->getRankComparator(), '>', 0);
 
-        if ($table === 'daily_ranking_table') {
-            // 当日データに絞り込み
-            $query->where('daily_ranking_table.count_date', date('Y-m-d'));
+        switch ($table) {
+            case 'daily_ranking_table':
+                $query->where("$table.count_date", date('Y-m-d'));
+                break;
+            case 'weekly_ranking_table':
+                Carbon::setWeekStartsAt(Carbon::SUNDAY);
+                Carbon::setWeekEndsAt(Carbon::SATURDAY);
+                $query->wherebetween("$table.count_date", [Carbon::now()->startOfWeek(), Carbon::now()->endOfWeek()]);
+                break;
+            case 'monthly_ranking_table':
+                $query->whereYear("$table.count_date", Carbon::now()->year);
+                $query->whereMonth("$table.count_date", Carbon::now()->month);
+                break;
+            case 'yearly_ranking_table':
+                $query->whereYear("$table.count_date", Carbon::now()->year);
+                break;
         }
-
         return $query->count();
     }
 }

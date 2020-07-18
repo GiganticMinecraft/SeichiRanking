@@ -2,11 +2,11 @@
 
 namespace App\Console\Commands;
 
-use App\DailyRankingTable;
+use App\WeeklyRankingTable;
 use App\PlayerData;
 use Carbon\Carbon;
 
-class CountDailyRanking extends CountRanking
+class CountWeeklyRanking extends CountRanking
 {
     /**
      * Execute the console command.
@@ -14,14 +14,14 @@ class CountDailyRanking extends CountRanking
      */
     public function handle()
     {
-        logger('>>>>  デイリーランキングバッチ：処理開始 >>>>');
+        logger('>>>>  ウィークリーランキングバッチ：処理開始 >>>>');
 
         // 24時間以内にログインしたユーザを更新対象にする
         $target_data = PlayerData::where('lastquit', '>', Carbon::yesterday())->get();
-        logger('処理対象件数：'.count($target_data));
+        logger('処理対象件数：' . count($target_data));
         $this->countRanking($target_data);
 
-        logger('<<<<  デイリーランキングバッチ：処理終了 <<<<');
+        logger('<<<<  ウィークリーランキングバッチ：処理終了 <<<<');
     }
 
     /**
@@ -32,20 +32,24 @@ class CountDailyRanking extends CountRanking
     {
         foreach ($target_data as $player_data) {
             // カウント用テーブルのデータ有無を確認
-            $player = DailyRankingTable::where('uuid', $player_data->uuid)->first();
+            $player = WeeklyRankingTable::where('uuid', $player_data->uuid)->first();
+
+            Carbon::setWeekStartsAt(Carbon::SUNDAY);    // 週の始まりの曜日設定
+            Carbon::setWeekEndsAt(Carbon::SATURDAY);    // 週の終わりの曜日設定
+            // Carbon::now()->startOfWeek()で週の始まりの年月日を取得
             // 期間内のデータが存在するかを確認
-            $today_data = DailyRankingTable::where('uuid', $player_data->uuid)
-                ->where('count_date', Carbon::now()->format('Y-m-d'))->first();
+            $week_data = WeeklyRankingTable::where('uuid', $player_data->uuid)
+                ->wherebetween('count_date', [Carbon::now()->startOfWeek(), Carbon::now()->endOfWeek()])->first();
 
             if (empty($player)) {
                 // カウント用テーブルに比較用の初期データを登録
-                parent::registerInitialData(new DailyRankingTable(), $player_data);
-            } else if (empty($today_data)){
+                parent::registerInitialData(new WeeklyRankingTable(), $player_data);
+            } else if (empty($week_data)){
                 // 比較用の初期データを更新
                 parent::registerInitialData($player, $player_data);
             } else {
                 // 初期データとの差分を記録
-                parent::registerDiffData($today_data, $player_data);
+                parent::registerDiffData($week_data, $player_data);
             }
         }
     }

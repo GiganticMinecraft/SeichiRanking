@@ -64,5 +64,44 @@ CREATE TABLE `playerdata` (
  UNIQUE KEY `uuid` (`uuid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-INSERT INTO playerdata (name, uuid, totalbreaknum, build_count, p_vote)
-VALUES ("TestUser", "00000000", 999, 888, 777);
+INSERT INTO playerdata (name, uuid, totalbreaknum, lastquit, build_count, p_vote)
+VALUES ('TestUser1', '000000001', 999, NOW(), 888, 777);
+
+
+DROP TABLE IF EXISTS daily_ranking_table;
+CREATE TABLE `daily_ranking_table` (
+ `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT,
+ `count_date` date NOT NULL,
+ `name` varchar(30) NOT NULL,
+ `uuid` varchar(128) NOT NULL,
+ `break_count` bigint(20) NOT NULL DEFAULT '0',
+ `build_count` bigint(20) NOT NULL DEFAULT '0',
+ `playtick_count` bigint(20) NOT NULL DEFAULT '0',
+ `vote_count` int(11) NOT NULL DEFAULT '0',
+ `previous_break_count` bigint(20) NOT NULL,
+ `previous_build_count` bigint(20) NOT NULL,
+ `previous_playtick_count` bigint(20) NOT NULL,
+ `previous_vote_count` int(11) NOT NULL,
+ `deleted_at` timestamp NULL DEFAULT NULL,
+ `created_at` datetime NOT NULL,
+ `updated_at` datetime NOT NULL,
+ UNIQUE KEY `id` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+INSERT INTO daily_ranking_table (id, count_date, name, uuid, break_count, playtick_count, previous_break_count, updated_at, previous_build_count, previous_vote_count, created_at, previous_playtick_count )
+VALUES (1, NOW(), 'test_user', '000000001', 999, 110, 11, NOW(), 777, 1, NOW(), 50);
+
+DROP TABLE IF EXISTS weekly_ranking_table;
+CREATE TABLE `weekly_ranking_table` LIKE daily_ranking_table;
+
+DROP TABLE IF EXISTS monthly_ranking_table;
+CREATE TABLE `monthly_ranking_table` LIKE daily_ranking_table;
+
+INSERT INTO monthly_ranking_table (id, count_date, name, uuid, break_count, previous_break_count, updated_at, previous_build_count, previous_vote_count, created_at, previous_playtick_count )
+VALUES (1, NOW(), 'TestUser3', '000000003', 999, 11, NOW(), 777, 1, NOW(), 50);
+
+DROP TABLE IF EXISTS yearly_ranking_table;
+CREATE TABLE `yearly_ranking_table` LIKE daily_ranking_table;
+
+INSERT INTO yearly_ranking_table (id, count_date, name, uuid, break_count, previous_break_count, updated_at, previous_build_count, previous_vote_count, created_at, previous_playtick_count )
+VALUES (1, NOW(), 'TestUser4', '000000004', 999, 11, NOW(), 777, 1, NOW(), 50);
