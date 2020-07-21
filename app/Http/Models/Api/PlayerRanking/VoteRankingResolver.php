@@ -43,7 +43,7 @@ class VoteRankingResolver extends RankingResolver
      */
     function getRankComparator()
     {
-        if (request('duration') === 'total') {
+        if (request('duration') === 'total' || blank(request('duration'))) {
             // 総合
             return self::TOTAL_COMPARE_TARGET;
         } else {
