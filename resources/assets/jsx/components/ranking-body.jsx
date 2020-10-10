@@ -35,7 +35,7 @@ const formatRankedData = (json_data, rankingType) => {
  * アバターのURLを取得する
  * @param playerName プレーヤー名
  */
-const getAvatarUrl = playerName => `https://avatar.minecraft.jp/${playerName}/minecraft//m.png`;
+const getAvatarUrl = playerName => `http://cravatar.eu/helmavatar/${playerName}.png`;
 
 const RankingItem = observer(({rank: rankObject}) => {
     const player = rankObject.player;
