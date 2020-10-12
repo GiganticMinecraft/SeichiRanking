@@ -46,13 +46,6 @@
     <hr>
 
     <div>
-        <h3>Compromised Account(不正アカウント検知)によるアクセス拒否を受けた方へ</h3>
-        <p><a href="https://seichi.click/wiki/Compromised_Account判定解除申請手順">こちら</a>のページをご確認ください。</p>
-    </div>
-
-    <hr>
-
-    <div>
         <h3>上の文章をよく読んだ上で、以下にご記入ください。</h3>
 
         <p class="text-danger">※：必須項目</p>
