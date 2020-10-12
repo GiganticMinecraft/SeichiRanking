@@ -19,7 +19,7 @@
 
     <div>
         当フォームより、運営チームに直接お問い合わせ頂けます。<br>
-        不具合報告、迷惑プレイヤーの通報は<a href="https://seichi.click/wiki/お問い合わせ">専用フォーム</a>をご利用ください。
+        不具合報告や迷惑プレイヤーの通報などは<a href="https://www.seichi.network/access">専用フォーム</a>をご利用ください。
 
     <br><br>
 
