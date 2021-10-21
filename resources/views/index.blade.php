@@ -93,8 +93,8 @@
                         <td class="success text-right">{{$server_status[0]['s3'] or 0}}人</td>
                     </tr>
                     <tr>
-                        <td class="danger">建築</td>
-                        <td class="danger text-right">{{$server_status[0]['s8'] or 0}}人</td>
+                        <td class="danger">整地専用</td>
+                        <td class="danger text-right">{{$server_status[0]['s5'] or 0}}人</td>
                     </tr>
                     <tr>
                         <td class="info">公共施設</td>
