@@ -11,13 +11,13 @@
         "encore/laravel-admin": "1.5.*",
         "guzzlehttp/guzzle": "^6.3",
         "kbsali/redmine-api": "^1.5",
-        "laravel/framework": "6.20.26",
+        "laravel/framework": "^6.20.26",
         "laravel/socialite": "^3.0",
         "laravel/tinker": "~1.0",
         "minecraftjp/minecraftjp-php-sdk": "^1.1",
         "nesbot/carbon": "^1.22",
         "thujohn/twitter": "~2.0",
-        "league/flysystem": "1.1.4"
+        "league/flysystem": "^1.1.4"
     },
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.1",
