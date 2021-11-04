@@ -1,5 +1,5 @@
 <?php
-
+  
 use Illuminate\Http\Request;
 
 /*
@@ -15,9 +15,7 @@ use Illuminate\Http\Request;
 
 Route::group(['middleware' => 'throttle:60,1'], function () {
 
-    Route::middleware('auth:api')->get('/user', function (Request $request) {
-        return $request->user();
-    });
+    Route::middleware('auth:api')->get('/user', 'Api\UserController@AuthRouteAPI');
 
     // プレーヤー検索API
     Route::get('/search/player', 'Api\PlayerSearch@get');

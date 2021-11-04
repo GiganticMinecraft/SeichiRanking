@@ -5,4 +5,7 @@
 - PHP 7.0.8
 - Laravel Framework 5.5
 
+## リリース運用メモ
+- masterブランチの更新内容は本番環境側のbash&cronで毎日本番環境に取り込むようにしています。
+
 No License

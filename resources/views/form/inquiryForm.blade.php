@@ -19,7 +19,7 @@
 
     <div>
         当フォームより、運営チームに直接お問い合わせ頂けます。<br>
-        不具合報告、迷惑プレイヤーの通報は<a href="https://seichi.click/wiki/お問い合わせ">専用フォーム</a>をご利用ください。
+        不具合報告や迷惑プレイヤーの通報などは<a href="https://www.seichi.network/access">専用フォーム</a>をご利用ください。
 
     <br><br>
 
@@ -41,13 +41,6 @@
             <li>ワールド名(メインワールド？整地ワールド？第二整地ワールド？…)</li>
             <li>座標(X座標、Y座標、Z座標)</li>
         </ul>
-    </div>
-
-    <hr>
-
-    <div>
-        <h3>Compromised Account(不正アカウント検知)によるアクセス拒否を受けた方へ</h3>
-        <p><a href="https://seichi.click/wiki/Compromised_Account判定解除申請手順">こちら</a>のページをご確認ください。</p>
     </div>
 
     <hr>
