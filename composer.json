@@ -11,7 +11,7 @@
         "guzzlehttp/guzzle": "^6.3",
         "kbsali/redmine-api": "^1.5",
         "laravel/framework": "^6.20.26",
-        "laravel/socialite": "^3.0",
+        "laravel/socialite": "^5.0",
         "laravel/tinker": "~1.0",
         "minecraftjp/minecraftjp-php-sdk": "^1.1",
         "nesbot/carbon": "^2.31",
