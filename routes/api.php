@@ -15,7 +15,7 @@ use Illuminate\Http\Request;
 
 Route::group(['middleware' => 'throttle:60,1'], function () {
 
-    Route::middleware('auth:api')->get('/user', 'Api/UserController@AuthRouteAPI');
+    Route::middleware('auth:api')->get('/user', 'Api\UserController@AuthRouteAPI');
 
     // プレーヤー検索API
     Route::get('/search/player', 'Api\PlayerSearch@get');
