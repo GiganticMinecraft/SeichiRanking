@@ -5,7 +5,7 @@
     "license": "MIT",
     "type": "project",
     "require": {
-        "php": ">=7.0.0",
+        "php": "^7.2.5",
         "barryvdh/laravel-ide-helper": "^2.5",
         "doctrine/dbal": "^2.5",
         "encore/laravel-admin": "1.5.*",
