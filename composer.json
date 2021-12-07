@@ -16,7 +16,10 @@
         "minecraftjp/minecraftjp-php-sdk": "^1.1",
         "nesbot/carbon": "^2.31",
         "thujohn/twitter": "~2.0",
-        "league/flysystem": "^1.1.4"
+        "league/flysystem": "^1.1.4",
+        "ext-json": "*",
+        "ext-mbstring": "*",
+        "ext-gd": "*"
     },
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.1",
