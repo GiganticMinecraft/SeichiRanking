@@ -35,7 +35,7 @@
     "laravel-mix": "^6.0.0-15",
     "mobx": "^3.3.0",
     "mobx-react": "^4.3.2",
-    "react": "^15.6.1",
+    "react": "^17.0.2",
     "react-dom": "^15.6.1",
     "vinyl-source-stream": "^2.0.0"
   }
