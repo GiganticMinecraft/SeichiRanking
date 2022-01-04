@@ -93,9 +93,9 @@ class IdeaFormController extends Controller
                 Log::debug(__FUNCTION__ . ' : login user -> ' . print_r($user, 1));
 
                 // Redmine連携
-                $client = new Redmine\Client(env('REDMINE_URL'), env('REDMINE_KEY'));
+                $client = new Redmine\Client\NativeCurlClient(env('REDMINE_URL'), env('REDMINE_KEY'));
                 // チケット起票
-                $client->issue->create([
+                $client->getApi('issue')->create([
                     'project_id'  => env('IDEA_FORM_PROJECT_ID'),
                     'tracker_id'  => env('IDEA_FORM_TRACKER_ID'),
                     'status_id'   => env('IDEA_FORM_STATUS_ID'),
