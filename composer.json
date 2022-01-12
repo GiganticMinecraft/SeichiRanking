@@ -9,14 +9,17 @@
         "barryvdh/laravel-ide-helper": "^2.5",
         "doctrine/dbal": "^2.5",
         "guzzlehttp/guzzle": "^6.3",
-        "kbsali/redmine-api": "^1.5",
-        "laravel/framework": "^6.20.26",
+        "kbsali/redmine-api": "^2.0",
+        "laravel/framework": "^6.20.42",
         "laravel/socialite": "^5.0",
         "laravel/tinker": "~1.0",
         "minecraftjp/minecraftjp-php-sdk": "^1.1",
         "nesbot/carbon": "^2.31",
         "thujohn/twitter": "~2.0",
-        "league/flysystem": "^1.1.4"
+        "league/flysystem": "^1.1.4",
+        "ext-json": "*",
+        "ext-mbstring": "*",
+        "ext-gd": "*"
     },
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.1",
