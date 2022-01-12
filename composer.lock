@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "7579323abd78c681ac8223aa4aee8558",
+    "content-hash": "60ce14da69b4083077f8c07ce8450c1c",
     "packages": [
         {
             "name": "atymic/tmhoauth",
@@ -6615,9 +6615,6 @@
             "require": {
                 "php": "^7.1 || ^8.0"
             },
-            "replace": {
-                "myclabs/deep-copy": "self.version"
-            },
             "require-dev": {
                 "doctrine/collections": "^1.0",
                 "doctrine/common": "^2.6",
@@ -8061,8 +8058,11 @@
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {
-        "php": "^7.2.5"
+        "php": "^7.2.5",
+        "ext-json": "*",
+        "ext-mbstring": "*",
+        "ext-gd": "*"
     },
     "platform-dev": [],
-    "plugin-api-version": "2.0.0"
+    "plugin-api-version": "2.2.0"
 }
