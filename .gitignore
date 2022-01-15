@@ -1,6 +1,7 @@
 /node_modules
 /public/hot
 /public/storage
+/public/mix-manifest.json
 /storage/*.key
 /vendor
 /.idea
@@ -9,6 +10,7 @@ Homestead.json
 Homestead.yaml
 npm-debug.log
 .env
+.devcontainer/
 
 /public/js/jsx/*
 /public/js/player-search.js
