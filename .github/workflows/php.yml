@@ -14,7 +14,7 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - name: update-alternatives
-      run: sudo update-alternatives php --list
+      run: sudo update-alternatives --list php
     - name: Validate composer.json and composer.lock
       run: composer validate --strict
 
