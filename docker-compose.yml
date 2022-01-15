@@ -24,7 +24,7 @@ services:
     image: nginx:mainline
     volumes:
       - .:/var/www/html
-      - ./docker/nginx/:/etc/nginx/conf.d/
+      - ./docker/config/nginx/:/etc/nginx/conf.d/
     ports:
       - "80:80"
     depends_on:
