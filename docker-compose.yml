@@ -1,0 +1,20 @@
+version: '3'
+services:
+  db01:
+    image: mysql:5.6
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_volume:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: seichiassist
+
+  web01:
+    build: .
+    # image: web:24
+    ports:
+      - "80:80"
+
+volumes:
+  mysql_volume:
