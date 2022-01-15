@@ -17,7 +17,7 @@ jobs:
     # We must ensure use php7, as the software requires.
     # See also: https://github.com/actions/virtual-environments/blob/ubuntu20/20220111.1/images/linux/Ubuntu2004-Readme.md
     - name: Switch to php7
-      run: sudo update-alternatives --config /usr/bin/php7.4
+      run: sudo update-alternatives --set php /usr/bin/php7.4
     - name: Validate composer.json and composer.lock
       run: composer validate --strict
 
