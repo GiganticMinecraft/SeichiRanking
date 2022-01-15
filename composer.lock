@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "75ad649480514830318a7246cfc7f505",
+    "content-hash": "f56e39f5066b238ff409f067bd6fa0a3",
     "packages": [
         {
             "name": "atymic/tmhoauth",
@@ -7967,7 +7967,7 @@
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {
-        "php": "^7.2.5",
+        "php": "^7.4",
         "ext-json": "*",
         "ext-mbstring": "*",
         "ext-gd": "*"
