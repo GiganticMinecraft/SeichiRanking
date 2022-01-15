@@ -21,7 +21,7 @@ $ docker compose exec web01 php artisan migrate
 
 2. 2回目以降は
 
-```
+```bash
 $ docker compose up -d
 $ docker compose exec web01 php artisan migrate
 ```
