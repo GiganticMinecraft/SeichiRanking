@@ -1,4 +1,4 @@
-FROM php:7.3-apache
+FROM php:7.4-apache
 WORKDIR /var/www/html/
 RUN apt-get update && apt-get install libpng-dev libonig-dev libzip-dev zlib1g-dev libxml2-dev openssl -y && \
   apt-get clean && \
