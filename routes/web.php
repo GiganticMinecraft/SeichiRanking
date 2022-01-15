@@ -18,14 +18,6 @@ Route::get('/ranking/{mode}', 'RankingController@index');
 // このページについて
 Route::get('/about', 'PagesController@about');
 
-// アイディア投稿フォーム
-Route::get('/ideaForm', 'Form\IdeaFormController@index');
-Route::post('/ideaForm/submit', 'Form\IdeaFormController@submit');
-
-// お問い合わせフォーム
-Route::get('/inquiryForm', 'Form\inquiryFormController@index');
-Route::post('/inquiryForm/submit', 'Form\InquiryFormController@submit');
-
 Route::get('/thanks', 'PagesController@thanks');
 
 // プレイヤー詳細
