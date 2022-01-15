@@ -5,11 +5,10 @@
     "license": "MIT",
     "type": "project",
     "require": {
-        "php": "^7.2.5",
+        "php": "^7.4",
         "barryvdh/laravel-ide-helper": "^2.5",
         "doctrine/dbal": "^2.5",
         "guzzlehttp/guzzle": "^6.3",
-        "kbsali/redmine-api": "^2.0",
         "laravel/framework": "^6.20.42",
         "laravel/socialite": "^5.0",
         "laravel/tinker": "~1.0",
