@@ -15,6 +15,7 @@ $ cp .env.example .env
 $ docker compose up -d
 $ docker-compose exec web01 php artisan key:generate
 $ docker cp seichiranking-web01-1:/var/www/html/.env .
+$ docker compose up -d --build
 $ docker compose exec web01 php artisan migrate
 ```
 
