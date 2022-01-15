@@ -8,8 +8,19 @@
 
 ## 開発環境の動かし方
 
+1. 最初だけこれをやる
+
 ```bash
 $ cp .env.example .env
+$ docker compose up -d
+$ docker-compose exec web01 php artisan key:generate
+$ docker cp seichiranking-web01-1:/var/www/html/.env .
+$ docker compose exec web01 php artisan migrate
+```
+
+2. 2回目以降は
+
+```
 $ docker compose up -d
 $ docker compose exec web01 php artisan migrate
 ```
