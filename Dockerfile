@@ -1,3 +1,17 @@
+FROM node:14 as node
+FROM php:7.4-apache as front-builder
+# node command
+COPY --from=node /usr/local/bin /usr/local/bin
+# npm command
+COPY --from=node /usr/local/lib /usr/local/lib
+# yarn command
+COPY --from=node /opt /opt
+COPY package* /var/www/html/
+RUN npm ci
+COPY resources /var/www/html/resources
+COPY gulpfile.js .
+RUN npm run gulp
+
 FROM php:7.4-apache
 WORKDIR /var/www/html/
 RUN apt-get update && apt-get install libpng-dev libonig-dev libzip-dev zlib1g-dev libxml2-dev openssl -y && \
@@ -6,10 +20,11 @@ RUN apt-get update && apt-get install libpng-dev libonig-dev libzip-dev zlib1g-d
 RUN docker-php-ext-install pdo_mysql mysqli mbstring gd zip xml mbstring opcache
 COPY ./docker/apache/conf/001-php-vhost.conf /etc/apache2/sites-available/000-default.conf
 
-COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
+COPY --from=composer:2.2 /usr/bin/composer /usr/bin/composer
 ENV COMPOSER_ALLOW_SUPERUSER 1
 ENV COMPOSER_HOME /composer
 ENV PATH $PATH:/composer/vendor/bin
 COPY ./ ./
 RUN chown -R www-data:www-data /var/www/html
 RUN composer install
+COPY --from=front-builder --chown=www-data:www-data /var/www/html/public /var/www/html/public
