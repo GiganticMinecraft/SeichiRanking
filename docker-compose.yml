@@ -17,6 +17,8 @@ services:
     build: .
     depends_on:
         - db
+    environment:
+      LOG_CHANNEL: stdout
 
   web:
     image: nginx:mainline
