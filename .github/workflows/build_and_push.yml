@@ -1,10 +1,14 @@
 name: "SeichiRankingのコンテナイメージをビルド"
 
 on:
-  pull_request:
+  push:
     branches:
-      - master
-    types: [closed]
+    - main
+    paths-ignore:
+      - 'docker-compose.yml'
+      - 'Dockerfile'
+      - 'README.md'
+      - 'docker-compose.yml'
 
 jobs:
   build:
