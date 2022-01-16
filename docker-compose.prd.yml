@@ -13,6 +13,3 @@ services:
       - "80:80"
     depends_on:
         - app
-
-volumes:
-  mysql_volume:
