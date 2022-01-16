@@ -3,6 +3,10 @@ services:
 
   app:
     image: ghcr.io/giganticminecraft/seichi-ranking:master
+    volumes:
+      - .env:/var/www/html/.env
+    depends_on:
+        - db
 
   web:
     image: nginx:mainline
