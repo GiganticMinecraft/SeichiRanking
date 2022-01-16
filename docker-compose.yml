@@ -15,10 +15,10 @@ services:
 
   app:
     build: .
+    volumes:
+      - .env:/var/www/html/.env
     depends_on:
         - db
-    environment:
-      LOG_CHANNEL: stdout
 
   web:
     image: nginx:mainline
