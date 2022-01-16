@@ -1,17 +1,17 @@
 version: '3'
 services:
+  web:
+    image: nginx:mainline
+    volumes:
+      - .:/var/www/html
+      - ./docker/config/nginx/default.conf:/etc/nginx/conf.d/default.conf
+      - ./docker/config/nginx/nginx.conf:/etc/nginx/nginx.conf
+    ports:
+      - "80:80"
+    depends_on:
+        - app
 
   app:
     image: ghcr.io/giganticminecraft/seichi-ranking:master
     volumes:
       - .env:/var/www/html/.env
-
-  web:
-    image: nginx:mainline
-    volumes:
-      - .:/var/www/html
-      - ./docker/config/nginx/:/etc/nginx/conf.d/
-    ports:
-      - "80:80"
-    depends_on:
-        - app
