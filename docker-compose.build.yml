@@ -1,0 +1,8 @@
+version: '3'
+services:
+  front-build:
+    image: node:14
+    volumes:
+      - .:/var/www/html
+    working_dir: /var/www/html
+    command: bash -c "npm install && npm install -g gulp && npm run gulp"

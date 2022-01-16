@@ -36,7 +36,25 @@ $ docker compose exec app php artisan migrate
 
 http://localhost/ でつながる
 
+## 本番の動かし方
+
+1. envがなければ開発環境と同じように作る
+
+2. 最新のコミットをpullしてフロントエンドのビルドをする
+
+```bash
+$ git pull
+$ docker-compose -f docker-compose.build.yml up
+```
+
+3. アプリケーションを立ち上げて、DBマイグレーション
+
+```bash
+$ docker compose -f docker-compose.prd.yml up -d --build
+$ docker compose -f docker-compose.prd.yml up exec app php artisan migrate
+```
+
 ## リリース運用メモ
-- masterブランチの更新内容は本番環境側のbash&cronで毎日本番環境に取り込むようにしています。
+- ~~masterブランチの更新内容は本番環境側のbash&cronで毎日本番環境に取り込むようにしています。~~ サーバー移管に伴い自動化はTODO（将来的にはcompose-cdに寄せるかKubernetesに移し替えたい）
 
 No License
