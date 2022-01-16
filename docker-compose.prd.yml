@@ -2,7 +2,7 @@ version: '3'
 services:
 
   app:
-    image: docker pull ghcr.io/giganticminecraft/seichi-ranking:master
+    image: ghcr.io/giganticminecraft/seichi-ranking:master
 
   web:
     image: nginx:mainline
