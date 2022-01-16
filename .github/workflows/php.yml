@@ -3,6 +3,7 @@ name: PHP Composer
 on:
   push:
     branches: [ develop ]
+    paths-ignore:
       - '.github/workflows/*'
       - 'docker/*'
       - 'Dockerfile'
