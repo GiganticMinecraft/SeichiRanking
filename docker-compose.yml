@@ -1,6 +1,6 @@
 version: '3'
 services:
-  db01:
+  db:
     image: mariadb:10.6.5
     ports:
       - "3306:3306"
@@ -13,11 +13,22 @@ services:
       MYSQL_DATABASE: seichiassist
       TZ: Asia/Tokyo
 
-  web01:
+  app:
     build: .
-    # image: web:24
+    depends_on:
+        - db
+    environment:
+      LOG_CHANNEL: stdout
+
+  web:
+    image: nginx:mainline
+    volumes:
+      - .:/var/www/html
+      - ./docker/config/nginx/:/etc/nginx/conf.d/
     ports:
       - "80:80"
+    depends_on:
+        - app
 
 volumes:
   mysql_volume:
