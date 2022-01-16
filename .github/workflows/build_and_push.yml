@@ -5,11 +5,9 @@ on:
     branches:
     - main
     paths-ignore:
-      - '.git'
       - 'docker-compose.yml'
       - 'Dockerfile'
       - 'README.md'
-      - 'node_modules'
       - 'docker-compose.yml'
 
 jobs:
