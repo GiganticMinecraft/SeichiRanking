@@ -13,25 +13,25 @@
 ```bash
 $ cp .env.example .env
 $ docker compose up -d
-$ docker-compose exec web php artisan key:generate
+$ docker-compose exec app php artisan key:generate
 $ docker compose up -d --build # .envの中身が書き換わったので明示的にビルドし直し
-$ docker compose exec web php artisan migrate
+$ docker compose exec app php artisan migrate
 ```
 
 2. 2回目以降は
 
 ```bash
-$ docker compose up -d
-$ docker compose exec web01 php artisan migrate
+$ docker compose up -d --build 
+$ docker compose exec app php artisan migrate
 ```
 
 3. 困ったときは
 
 ```bash
-$ docker-compose exec web php artisan config:cache
-$ docker-compose exec web php artisan config:clear
-$ docker-compose exec web composer dump-autoload -o
-$ docker compose exec web php artisan migrate
+$ docker-compose exec app php artisan config:cache
+$ docker-compose exec app php artisan config:clear
+$ docker-compose exec app composer dump-autoload -o
+$ docker compose exec app php artisan migrate
 ```
 
 http://localhost/ でつながる

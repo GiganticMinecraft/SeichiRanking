@@ -1,11 +1,5 @@
 version: '3'
 services:
-
-  app:
-    image: ghcr.io/giganticminecraft/seichi-ranking:master
-    volumes:
-      - .env:/var/www/html/.env
-
   web:
     image: nginx:mainline
     volumes:
@@ -15,3 +9,8 @@ services:
       - "80:80"
     depends_on:
         - app
+
+  app:
+    image: ghcr.io/giganticminecraft/seichi-ranking:master
+    volumes:
+      - .env:/var/www/html/.env
