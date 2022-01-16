@@ -10,6 +10,7 @@ jobs:
   build:
     runs-on: ubuntu-latest
     env:
+      USER_NAME: giganticminecraft
       IMAGE_NAME: seichi-ranking
     steps:
     - uses: actions/checkout@v2
@@ -20,12 +21,12 @@ jobs:
       name: Login to GitHub Container Registry
       with:
         registry: ghcr.io
-        username: ${{ github.repository_owner }}
+        username: giganticminecraft
         password: ${{ secrets.GITHUB_TOKEN  }}
     - name: Build and push
       uses: docker/build-push-action@v2
       with:
         push: true
         tags: |
-          ghcr.io/${{ github.repository_owner }}/${{ env.IMAGE_NAME }}:latest
-          ghcr.io/${{ github.repository_owner }}/${{ env.IMAGE_NAME }}:${{ github.ref }}
+          ghcr.io/${{ env.USER_NAME }}/${{ env.IMAGE_NAME }}:latest
+          ghcr.io/${{ env.USER_NAME }}/${{ env.IMAGE_NAME }}:${{ github.ref }}
