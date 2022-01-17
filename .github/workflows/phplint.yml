@@ -19,7 +19,7 @@ on:
       - 'docker-compose.prd.yml'
 
 jobs:
-  build:
+  phplint:
 
     runs-on: ubuntu-latest
 
