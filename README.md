@@ -56,5 +56,3 @@ $ docker compose -f docker-compose.prd.yml up exec app php artisan migrate
 
 ## リリース運用メモ
 - ~~masterブランチの更新内容は本番環境側のbash&cronで毎日本番環境に取り込むようにしています。~~ サーバー移管に伴い自動化はTODO（将来的にはcompose-cdに寄せるかKubernetesに移し替えたい）
-
-No License
