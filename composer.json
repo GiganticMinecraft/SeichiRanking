@@ -2,7 +2,7 @@
     "name": "giganticminecraft/seichiranking",
     "description": "A ranking site that runs on https://gigantic-ranking.seichi.click",
     "keywords": [],
-    "license": "proprietary",
+    "license": "MIT",
     "type": "project",
     "require": {
         "php": "^7.4",
