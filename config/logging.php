@@ -78,6 +78,7 @@ return [
             'with' => [
                 'stream' => 'php://stdout',
             ],
+            'level' =>  env('APP_LOG_LEVEL'),
         ],
 
         'stderr' => [

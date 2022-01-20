@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "f56e39f5066b238ff409f067bd6fa0a3",
+    "content-hash": "456a90b4ba8868513a240e5ebd503bba",
     "packages": [
         {
             "name": "atymic/tmhoauth",
