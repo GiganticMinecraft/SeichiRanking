@@ -5,6 +5,7 @@
 - PHP 7.4
 - Laravel Framework 6.20
 - Docker Compose
+- 整地鯖開発環境のデータベース (SeichiAssistリポジトリ参照)
 
 ## 開発環境の動かし方
 
@@ -50,6 +51,7 @@ $ docker-compose -f docker-compose.build.yml up
 3. アプリケーションを立ち上げて、DBマイグレーション
 
 ```bash
+$ docker pull ghcr.io/giganticminecraft/seichi-ranking:master
 $ docker compose -f docker-compose.prd.yml up -d --build
 $ docker compose -f docker-compose.prd.yml up exec app php artisan migrate
 ```
