@@ -9,26 +9,13 @@ services:
     ports:
       - "80:80"
     depends_on:
-        - app
+      - app
+    environment:
+      - TZ=Asia/Tokyo
 
   app:
     build: .
     volumes:
       - .env:/var/www/html/.env
-    depends_on:
-        - db
-
-  db:
-    image: mariadb:10.6.5
-    ports:
-      - "3306:3306"
-    volumes:
-      - mysql_volume:/var/lib/mysql
-      - ./docker/config/mysql:/etc/mysql/conf.d
-    restart: always
     environment:
-      MYSQL_ROOT_PASSWORD: root
-      MYSQL_DATABASE: seichiassist
-      TZ: Asia/Tokyo
-volumes:
-  mysql_volume:
+      - TZ=Asia/Tokyo

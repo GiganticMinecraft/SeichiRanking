@@ -5,6 +5,7 @@
 - PHP 7.4
 - Laravel Framework 6.20
 - Docker Compose
+- 整地鯖開発環境のデータベース (SeichiAssistリポジトリ参照)
 
 ## 開発環境の動かし方
 
@@ -50,11 +51,10 @@ $ docker-compose -f docker-compose.build.yml up
 3. アプリケーションを立ち上げて、DBマイグレーション
 
 ```bash
+$ docker pull ghcr.io/giganticminecraft/seichi-ranking:master
 $ docker compose -f docker-compose.prd.yml up -d --build
 $ docker compose -f docker-compose.prd.yml up exec app php artisan migrate
 ```
 
 ## リリース運用メモ
 - ~~masterブランチの更新内容は本番環境側のbash&cronで毎日本番環境に取り込むようにしています。~~ サーバー移管に伴い自動化はTODO（将来的にはcompose-cdに寄せるかKubernetesに移し替えたい）
-
-No License
