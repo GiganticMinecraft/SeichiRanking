@@ -20,7 +20,7 @@ class DailyRankingTest extends TestCase
     {
 
         // テスト用データの作成
-        $player_data = factory(PlayerData::class)->create();
+        $player_data = PlayerData::factory()->create();
         logger($player_data);
 
         // バッチ実行①

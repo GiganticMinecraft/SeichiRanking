@@ -24,8 +24,7 @@ ENV COMPOSER_ALLOW_SUPERUSER 1
 ENV COMPOSER_HOME /composer
 ENV PATH $PATH:/composer/vendor/bin
 WORKDIR /var/www/html
-COPY ./ ./
-RUN chown -R www-data:www-data /var/www/html
+COPY --chown=www-data:www-data ./ ./
 RUN composer install
 COPY --from=front-builder --chown=www-data:www-data /var/www/html/ /var/www/html/
 
