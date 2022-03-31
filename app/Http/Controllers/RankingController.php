@@ -18,7 +18,6 @@ class RankingController extends Controller
         // viewをセット
         return view(
             'index', [
-                'server_status'    => $server_status,       // サーバ接続人数の情報
                 'assetJs'          => [                     // ページ独自のJSアセット
                     '/js/player-search.js',
                     '/js/jsx/ranking.js'
