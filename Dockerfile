@@ -1,5 +1,5 @@
-FROM node:16 as node
-FROM php:8.0-fpm as front-builder
+FROM node:14 as node
+FROM php:7.4-fpm as front-builder
 # node command
 COPY --from=node /usr/local/bin /usr/local/bin
 # npm command
@@ -12,7 +12,7 @@ COPY resources /var/www/html/resources
 COPY gulpfile.js .
 RUN npm run gulp
 
-FROM php:8.0-fpm
+FROM php:7.4-fpm
 RUN apt-get update && apt-get install libpng-dev libonig-dev libzip-dev zlib1g-dev libxml2-dev openssl -y && \
   apt-get clean && \
   rm -rf /var/lib/apt/lists/
