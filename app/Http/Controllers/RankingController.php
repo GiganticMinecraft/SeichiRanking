@@ -10,9 +10,6 @@ class RankingController extends Controller
      */
     public function index()
     {
-        // サーバーステータスの取得
-        $server_status = $this->get_server_status();
-
         // ページ独自CSSの設定
         $assetCss = [
 //            asset('/css/index.css')
@@ -21,7 +18,6 @@ class RankingController extends Controller
         // viewをセット
         return view(
             'index', [
-                'server_status'    => $server_status,       // サーバ接続人数の情報
                 'assetJs'          => [                     // ページ独自のJSアセット
                     '/js/player-search.js',
                     '/js/jsx/ranking.js'
