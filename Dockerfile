@@ -19,7 +19,7 @@ RUN apt-get update && apt-get install libpng-dev libonig-dev libzip-dev zlib1g-d
 RUN docker-php-ext-install pdo_mysql mysqli mbstring gd zip xml mbstring opcache
 COPY ./docker/php/php.ini /usr/local/etc/php
 
-COPY --from=composer:2.2 /usr/bin/composer /usr/bin/composer
+COPY --from=composer:2.3 /usr/bin/composer /usr/bin/composer
 ENV COMPOSER_ALLOW_SUPERUSER 1
 ENV COMPOSER_HOME /composer
 ENV PATH $PATH:/composer/vendor/bin
