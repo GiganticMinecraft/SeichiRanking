@@ -10,9 +10,6 @@ class RankingController extends Controller
      */
     public function index()
     {
-        // サーバーステータスの取得
-        $server_status = $this->get_server_status();
-
         // ページ独自CSSの設定
         $assetCss = [
 //            asset('/css/index.css')

@@ -8,10 +8,7 @@ class PagesController extends Controller
 {
 
     public function __construct()
-    {
-        // サーバーステータスの取得
-        $this->server_status = $this->get_server_status();
-    }
+    {}
 
     /**
      * このページについて
