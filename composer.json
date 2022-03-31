@@ -6,26 +6,27 @@
     "type": "project",
     "require": {
         "php": "^7.4",
+        "ext-gd": "*",
+        "ext-json": "*",
+        "ext-mbstring": "*",
         "barryvdh/laravel-ide-helper": "^2.5",
         "doctrine/dbal": "^2.5",
         "guzzlehttp/guzzle": "^6.3",
-        "laravel/framework": "^6.20.42",
+        "laravel/framework": "^7.0",
         "laravel/socialite": "^5.0",
-        "laravel/tinker": "~1.0",
+        "laravel/tinker": "^2.0",
+        "laravel/ui": "^2.0",
+        "league/flysystem": "^1.1.4",
         "minecraftjp/minecraftjp-php-sdk": "^1.1",
         "nesbot/carbon": "^2.31",
-        "thujohn/twitter": "~2.0",
-        "league/flysystem": "^1.1.4",
-        "ext-json": "*",
-        "ext-mbstring": "*",
-        "ext-gd": "*"
+        "thujohn/twitter": "~2.0"
     },
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.1",
         "filp/whoops": "~2.0",
         "fzaninotto/faker": "~1.4",
         "mockery/mockery": "0.9.*",
-        "phpunit/phpunit": "~6.0"
+        "phpunit/phpunit": "^8.5"
     },
     "autoload": {
         "classmap": [
