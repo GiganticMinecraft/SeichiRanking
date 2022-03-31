@@ -5,21 +5,21 @@
     "license": "MIT",
     "type": "project",
     "require": {
-        "php": "^7.4||^8.0",
+        "php": "^8.0",
         "ext-gd": "*",
         "ext-json": "*",
         "ext-mbstring": "*",
         "barryvdh/laravel-ide-helper": "^2.5",
         "doctrine/dbal": "^2.5",
         "guzzlehttp/guzzle": "^7.0.1",
-        "laravel/framework": "^8.0",
+        "laravel/framework": "^9.0",
         "laravel/socialite": "^5.0",
         "laravel/tinker": "^2.0",
         "laravel/ui": "^3.0",
-        "league/flysystem": "^1.1.4",
+        "league/flysystem": "^3.0",
         "minecraftjp/minecraftjp-php-sdk": "^1.1",
         "nesbot/carbon": "^2.31",
-        "thujohn/twitter": "~2.0"
+        "atymic/twitter": "~3.0"
     },
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.1",
