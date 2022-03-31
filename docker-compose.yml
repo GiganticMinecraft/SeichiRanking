@@ -15,7 +15,5 @@ services:
 
   app:
     build: .
-    volumes:
-      - .env:/var/www/html/.env
-    environment:
-      - TZ=Asia/Tokyo
+    env_file:
+      - .env
