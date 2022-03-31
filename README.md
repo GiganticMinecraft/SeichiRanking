@@ -2,8 +2,8 @@
 整地鯖のランキング
 
 ## 動作環境
-- PHP 7.4
-- Laravel Framework 6.20
+- PHP 8.1
+- Laravel Framework 9
 - Docker Compose
 - 整地鯖開発環境のデータベース (SeichiAssistリポジトリ参照)
 
