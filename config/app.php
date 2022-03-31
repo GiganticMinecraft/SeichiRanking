@@ -182,7 +182,7 @@ return [
 
         App\Providers\ValidatorServiceProvider::class,
 
-        Thujohn\Twitter\TwitterServiceProvider::class,
+        Atymic\Twitter\ServiceProvider\LaravelServiceProvider::class,
         Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider::class,
     ],
 
