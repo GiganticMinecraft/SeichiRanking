@@ -26,10 +26,10 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     # It seems that GitHub-hosted runner has multiple php versions.
-    # We must ensure use php7, as the software requires.
+    # We must ensure use php8, as the software requires.
     # See also: https://github.com/actions/virtual-environments/blob/ubuntu20/20220111.1/images/linux/Ubuntu2004-Readme.md
-    - name: Switch to php7
-      run: sudo update-alternatives --set php /usr/bin/php7.4
+    - name: Switch to php8
+      run: sudo update-alternatives --set php /usr/bin/php8.0
     - name: Validate composer.json and composer.lock
       run: composer validate --strict
 
@@ -45,7 +45,7 @@ jobs:
     - name: Install dependencies
       run: composer install --prefer-dist --no-progress
     - name: Run phplint
-      uses: overtrue/phplint@7.4
+      uses: overtrue/phplint@8.0
       with:
         path: .
         options: --exclude=vendor
